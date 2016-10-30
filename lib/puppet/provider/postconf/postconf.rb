@@ -20,7 +20,9 @@ Puppet::Type.type(:postconf).provide(:postconf) do
   def self.prefetch(resources)
     pc = instances
     resources.keys.each do |name|
-      resources[name].provider = provider
+      if provider = pc.find { |pc| pc.name == name }
+        resources[name].provider = provider
+      end
     end
   end
 
