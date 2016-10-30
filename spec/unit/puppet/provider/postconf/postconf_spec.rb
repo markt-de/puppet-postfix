@@ -27,6 +27,7 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
     'inet_protocols = ipv4',
     'mailbox_size_limit = 0',
     'mydestination = $myhostname, berlin.durchmesser.ch, localhost.durchmesser.ch, localhost',
+    'relayhost =',
   ]}
 
   before do

@@ -7,7 +7,7 @@ Puppet::Type.type(:postconf).provide(:postconf) do
 
     pc_output.split("\n").collect do |line|
 
-      key, value = line.split(' = ', 2)
+      key, value = line.split(/ *= */, 2)
 
       new(
         :name   => key,

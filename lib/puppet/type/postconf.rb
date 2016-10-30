@@ -14,7 +14,7 @@ Puppet::Type.newtype(:postconf) do
     desc "The postconf parameter which should be set."
 
     validate do |value|
-      unless value =~ /^[a-z0-9]+(?:_[a-z0-9]+)*$/
+      unless value =~ /^[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*$/
         raise ArgumentError, "Invalid value %s is not a valid postconf parameter name" % value
       end
     end
@@ -22,8 +22,6 @@ Puppet::Type.newtype(:postconf) do
 
   newproperty(:value) do
     desc "The value the postconf parameter should be set to."
-
-    defaultto :undef
   end
 
   newparam(:config_dir) do
@@ -31,7 +29,7 @@ Puppet::Type.newtype(:postconf) do
   end
 
   validate do
-    if self[:value] == :undef and self[:ensure] != :absent
+    if self[:ensure] == :present and self[:value] == nil
       self.fail 'Value is a required property.'
     end
   end

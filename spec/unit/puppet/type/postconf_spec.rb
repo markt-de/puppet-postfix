@@ -43,7 +43,7 @@ describe Puppet::Type::type(:postconf) do
     end
 
     describe 'insane looking parameter' do
-      [ '2bounce_notice_recipient', 'myhostname', 'virtual_transport' ].each do |value|
+      [ '2bounce_notice_recipient', 'myhostname', 'virtual_transport', 'smtp_tls_CApath' ].each do |value|
         it 'should accept sane looking parameter names' do
           expect { described_class.new({
             :name   => value,
@@ -74,6 +74,7 @@ describe Puppet::Type::type(:postconf) do
     it 'should be a required property' do
       expect {  described_class.new({
         :name   => pc_parameter,
+        :ensure => :present,
       })}.to raise_error(Puppet::Error, /required/)
     end
 
