@@ -1,0 +1,14 @@
+{
+  "name": "jiuka-postfix",
+  "version": "0.0.1",
+  "author": "Marius Rieder",
+  "summary": "Configure the postfix mailserver",
+  "license": "Apache-2.0",
+  "source": "https://github.com/jiuka/puppet-postfix",
+  "project_page": "https://github.com/jiuka/puppet-postfix",
+  "issues_url": "https://github.com/jiuka/puppet-postfix/issues",
+  "dependencies": [
+  ],
+  "data_provider": null
+}
+
