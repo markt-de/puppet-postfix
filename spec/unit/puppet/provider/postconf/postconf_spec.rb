@@ -18,6 +18,10 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
     resource.provider
   end
 
+  let(:postmulti_n) {[
+    '-               -               y         /etc/postfix',
+  ]}
+
   let(:postconf_n) {[
     'alias_database = hash:/etc/aliases',
     'alias_maps = hash:/etc/aliases',
@@ -31,7 +35,8 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
   ]}
 
   before do
-    described_class.stubs(:postconf).with('-n').returns(postconf_n.join("\n"))
+    described_class.stubs(:postmulti_cmd).with('-l').returns(postmulti_n.join("\n"))
+    described_class.stubs(:postconf_cmd).with('-n').returns(postconf_n.join("\n"))
   end
   
 	describe 'instances' do
@@ -39,7 +44,7 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
 			expect(described_class).to respond_to :instances
 		end
 
-    it 'sould prefetch the values' do
+    it 'should prefetch the values' do
       expect(described_class.instances.size).to eq(postconf_n.size)
     end
 	end
@@ -52,15 +57,63 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
 
   describe 'when creating a postconf resource' do
     it 'should call postconf to set the value' do
-      provider.expects(:postconf).with('myhostname=foo.bar')
+      provider.expects(:postconf_cmd).with('myhostname=foo.bar')
       provider.create
     end
   end
 
   describe 'when deleting a postconf resource' do
     it 'should call postconf to unset the parameter' do
-      provider.expects(:postconf).with('-X', 'myhostname')
+      provider.expects(:postconf_cmd).with('-X', 'myhostname')
       provider.destroy
+    end
+  end
+
+  context 'multiple postfix instances' do
+    let(:params) {
+      {
+        title:      'myhostname',
+        value:      'foo.bar',
+        config_dir: '/etc/postfix-foobar',
+        provider:   described_class.name
+      }
+    }
+
+    let(:postmulti_n) {[
+      '-               -               y         /etc/postfix',
+      'postfix-foobar  -               n         /etc/postfix-foobar',
+    ]}
+
+    let(:postconf_foobar_n) {[
+      'alias_database = hash:/etc/aliases',
+      'alias_maps = hash:/etc/aliases',
+      'append_dot_mydomain = no',
+    ]}
+
+    before do
+      described_class.stubs(:postmulti_cmd).with('-l').returns(postmulti_n.join("\n"))
+      described_class.stubs(:postconf_cmd).with('-n', '-c', '/etc/postfix-foobar').returns(postconf_foobar_n.join("\n"))
+      described_class.stubs(:postconf_cmd).with('-n').returns(postconf_n.join("\n"))
+    end
+
+    describe 'instances' do
+      it 'should prefetch the values from both instances' do
+        expect(described_class.instances.size).to eq(postconf_n.size + postconf_foobar_n.size)
+      end
+    end
+
+    describe 'when creating a postconf resource' do
+      it 'should call postconf to set the value' do
+        provider.expects(:postconf_cmd).with('-c', '/etc/postfix-foobar', 'myhostname=foo.bar')
+        provider.create
+      end
+    end
+
+    describe 'when deleting a postconf resource' do
+      it 'should call postconf to unset the parameter' do
+        provider.expects(:postconf_cmd).with('-c', '/etc/postfix-foobar', '-X', 'myhostname')
+        provider.destroy
+      end
     end
   end
 

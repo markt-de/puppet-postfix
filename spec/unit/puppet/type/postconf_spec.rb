@@ -87,8 +87,8 @@ describe Puppet::Type::type(:postconf) do
   end
 
   describe '=> config_dir' do
-    it 'should be a param' do
-      expect(described_class.attrtype(:config_dir)).to eq(:param)
+    it 'should be a property' do
+      expect(described_class.attrtype(:config_dir)).to eq(:property)
     end
   end
 
