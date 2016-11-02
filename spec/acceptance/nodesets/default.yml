@@ -1,0 +1,8 @@
+---
+HOSTS:
+  ubuntu1404-64:
+    hypervisor: vagrant
+    platform: ubuntu-14.04-amd64
+    box: puppetlabs/ubuntu-14.04-64-nocm
+CONFIG:
+  type: foss
