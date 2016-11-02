@@ -36,10 +36,19 @@ Puppet::Type.type(:postconf).provide(:postconf) do
   end
 
   def self.prefetch(resources)
-    pc = instances
+    hash = {}
     resources.values.each do |resource|
-      if provider = pc.find { |pc| pc.parameter == resource[:parameter] and pc.config_dir == resource[:config_dir] }
-        resource.provider = provider
+      unless hash.has_key?(resource[:config_dir] || 'DEFAULT')
+        hash[resource[:config_dir] || 'DEFAULT'] = postconf_hash(resource[:config_dir])
+      end
+
+      if hash[resource[:config_dir] || 'DEFAULT'].has_key?(resource[:parameter])
+        resource.provider = new(
+          parameter:  resource[:parameter],
+          ensure:     :present,
+          value:      hash[resource[:config_dir] || 'DEFAULT'][resource[:parameter]],
+          config_dir: resource[:config_dir] || nil
+        )
       end
     end
   end
@@ -60,6 +69,15 @@ Puppet::Type.type(:postconf).provide(:postconf) do
 
   mk_resource_methods
 
+  def value
+    @property_hash[:value]
+  end
+
+  def value=(value)
+    @property_hash[:value] = value
+    create
+  end
+
   private
 
   def postconf(*args)
@@ -75,6 +93,21 @@ Puppet::Type.type(:postconf).provide(:postconf) do
       line = line.split(/ +/, 4)
       i[line[0]] = line[3]
       i
+    end
+  end
+
+  def self.postconf_hash(path=nil)
+    opts = ['-n']
+    if path
+      opts += ['-c', path]
+    end
+
+    pc_output = postconf_cmd(*opts).encode('UTF-8', 'binary', :invalid => :replace, :undef => :replace, :replace => '')
+
+    pc_output.split("\n").inject({}) do |hash, line|
+      parameter, value = line.split(/ *= */, 2)
+      hash[parameter] = value
+      hash
     end
   end
 
