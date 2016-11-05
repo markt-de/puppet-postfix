@@ -1,5 +1,4 @@
 require 'beaker-rspec'
-require 'pry'
 
 # Install Puppet on all hosts
 install_puppet_on(hosts)
