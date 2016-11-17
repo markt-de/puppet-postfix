@@ -10,6 +10,9 @@ group :test do
   gem 'puppetlabs_spec_helper', '>= 1.2.1'
   gem 'rspec-puppet'
   gem 'rspec-puppet-facts', :require => false
+end
+
+group :system_tests do
   gem 'beaker-rspec'
 end
 
