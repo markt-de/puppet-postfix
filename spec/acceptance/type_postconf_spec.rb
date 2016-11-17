@@ -10,8 +10,7 @@ describe 'type postconf' do
   }
 
   it 'should run without errors' do
-    result = apply_manifest(manifest, :catch_failures => true)
-    expect(@result.exit_code).to eq 2
+    apply_manifest(manifest, :catch_failures => true)
   end
 
   it 'should set the myhostname value' do
@@ -22,8 +21,32 @@ describe 'type postconf' do
   end
 
   it 'should run a second time without changes' do
-    result = apply_manifest(manifest, catch_changes: true)
-    expect(@result.exit_code).to eq 0
+    apply_manifest(manifest, catch_changes: true)
+  end
+
+  describe 'use a array as value' do
+    let(:manifest) {
+      <<-EOS
+        postconf { 'authorized_flush_users':
+          value => ['foo', 'bar'],
+        }
+      EOS
+    }
+
+    it 'should run without errors' do
+      apply_manifest(manifest, :catch_failures => true)
+    end
+
+    it 'should set the myhostname value' do
+      apply_manifest(manifest, :catch_failures => true)
+      shell('postconf authorized_flush_users') do |r|
+         expect(r.stdout).to match(/authorized_flush_users += +foo[, ]+bar/)
+      end
+    end
+
+    it 'should run a second time without changes' do
+     apply_manifest(manifest, catch_changes: true)
+    end
   end
 
   describe 'use a different config directory' do
@@ -44,20 +67,18 @@ describe 'type postconf' do
     }
 
     it 'should run without errors' do
-      result = apply_manifest(manifest, :catch_failures => true)
-      expect(@result.exit_code).to eq 2
+      apply_manifest(manifest, :catch_failures => true)
     end
-  
+
     it 'should set the myhostname value' do
       apply_manifest(manifest, :catch_failures => true)
       shell('postconf -c /tmp/postfix-foo myhostname') do |r|
          expect(r.stdout).to match(/myhostname += +foo.bar/)
       end
     end
-  
+
     it 'should run a second time without changes' do
-      result = apply_manifest(manifest, :catch_failures => true)
-      expect(@result.exit_code).to eq 0
+      apply_manifest(manifest, :catch_failures => true)
     end
 
   end
