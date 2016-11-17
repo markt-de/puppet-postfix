@@ -70,6 +70,38 @@ describe Puppet::Type::type(:postconf) do
       expect(described_class.attrtype(:value)).to eq(:property)
     end
 
+    it 'should accept a string' do
+      expect {  described_class.new({
+        name:  pc_parameter,
+        value: 'string',
+      })}.to_not raise_error
+    end
+
+    it 'should accept a array of strings' do
+      expect {  described_class.new({
+        name:  pc_parameter,
+        value: ['string', 'foo', 'bar'],
+      })}.to_not raise_error
+    end
+
+    it 'should accept a number' do
+      expect {  described_class.new({
+        name:  pc_parameter,
+        value: 42,
+      })}.to_not raise_error
+    end
+
+    [
+      {},
+      ['foo', {}],
+    ].each do |value|
+      it 'should reject "#{value}"' do
+        expect {  described_class.new({
+          name:  pc_parameter,
+          value: value,
+        })}.to raise_error(Puppet::Error, /Invalid value/)
+      end
+    end
 
     it 'should be a required property' do
       expect {  described_class.new({

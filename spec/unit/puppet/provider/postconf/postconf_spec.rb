@@ -2,10 +2,13 @@ require 'spec_helper'
 
 describe Puppet::Type.type(:postconf).provider(:postconf) do
 
+  let(:param_name) { 'myhostname' }
+  let(:param_value) { 'foo.bar' }
+
   let(:params) {
     {
-      title:    'myhostname',
-      value:    'foo.bar',
+      title:    param_name,
+      value:    param_value,
       provider: described_class.name
     }
   }
@@ -26,6 +29,7 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
     'alias_database = hash:/etc/aliases',
     'alias_maps = hash:/etc/aliases',
     'append_dot_mydomain = no',
+    'myhostname = foo.bar',
     'biff = no',
     'inet_interfaces = all',
     'inet_protocols = ipv4',
@@ -53,6 +57,29 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
 		it 'should have a prefetch method' do
 			expect(described_class).to respond_to :prefetch
 		end
+
+    it 'should correctly prefetch string values.' do
+      described_class.prefetch({param_name => resource})
+      expect(resource.provider.value).to eq(param_value)
+    end
+
+    context 'unset parameter' do
+      let(:param_name) { 'myfoobar' }
+
+      it 'should not prefetch a value' do
+        described_class.prefetch({param_name => resource})
+        expect(resource.provider.value).to eq(nil)
+      end
+    end
+
+    context 'array parameter' do
+      let(:param_value) { ['foo', 'bar'] }
+
+      it 'should prefetch a array value' do
+        described_class.prefetch({param_name => resource})
+        expect(resource.provider.value).to eq(['foo.bar'])
+      end
+    end
 	end
 
   describe 'when creating a postconf resource' do
@@ -66,6 +93,23 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
     it 'should call postconf to unset the parameter' do
       provider.expects(:postconf_cmd).with('-X', 'myhostname')
       provider.destroy
+    end
+  end
+
+  context 'array values' do
+    let(:params) {
+      {
+        title:    'myhostname',
+        value:    ['foo', 'bar'],
+        provider: described_class.name
+      }
+    }
+
+    describe 'when creating a postconf resource' do
+      it 'should call postconf to set the value' do
+        provider.expects(:postconf_cmd).with('myhostname=foo, bar')
+        provider.create
+      end
     end
   end
 

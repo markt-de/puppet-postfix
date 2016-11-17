@@ -20,8 +20,30 @@ Puppet::Type.newtype(:postconf) do
     end
   end
 
-  newproperty(:value) do
+  newproperty(:value, :array_matching => :all) do
     desc "The value the postconf parameter should be set to."
+
+    def insync?(is)
+      self.is_to_s(is) == self.should_to_s(@should)
+    end
+
+    def is_to_s(currentvalue)
+      [currentvalue].flatten.join(', ')
+    end
+
+    def should_to_s(newvalue)
+      [newvalue].flatten.join(', ')
+    end
+
+    validate do |value|
+      if value.is_a? String
+        return
+      elsif value.is_a? Numeric
+        return
+      else
+        raise ArgumentError, 'Invalid value %s is not a valid postconf value'
+      end
+    end
   end
 
   newproperty(:config_dir) do

@@ -43,10 +43,14 @@ Puppet::Type.type(:postconf).provide(:postconf) do
       end
 
       if hash[resource[:config_dir] || 'DEFAULT'].has_key?(resource[:parameter])
+        value = hash[resource[:config_dir] || 'DEFAULT'][resource[:parameter]]
+        unless resource[:value].size == 1
+          value = value.split(/', +/)
+        end
         resource.provider = new(
           parameter:  resource[:parameter],
           ensure:     :present,
-          value:      hash[resource[:config_dir] || 'DEFAULT'][resource[:parameter]],
+          value:      value,
           config_dir: resource[:config_dir] || nil
         )
       end
@@ -58,7 +62,7 @@ Puppet::Type.type(:postconf).provide(:postconf) do
   end
 
   def create
-    postconf("#{resource[:parameter]}=#{resource[:value]}")
+    postconf("#{resource[:parameter]}=#{resource[:value].join(', ')}")
     @property_hash[:ensure] = :present
   end
 
