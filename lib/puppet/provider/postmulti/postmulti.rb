@@ -1,33 +1,27 @@
 Puppet::Type.type(:postmulti).provide(:postmulti) do
-
-  commands :postmulti_cmd => 'postmulti'
+  commands postmulti_cmd: 'postmulti'
 
   def self.instances
-
-    postfix_instances.collect do |instance,opts|
-
+    postfix_instances.map do |instance, opts|
       next if instance == '-'
 
       new(
-        :name       => instance,
-        :group      => opts[:group],
-        :ensure     => opts[:active] == 'y' ? :active : :inactive,
+        name: instance,
+        group: opts[:group],
+        ensure: opts[:active] == 'y' ? :active : :inactive
       )
-
     end.compact
-
   end
 
   def self.prefetch(resources)
     pm = postfix_instances
     resources.values.each do |resource|
-      if pm.has_key?(resource[:name])
-        resource.provider = new(
-          name:   resource[:name],
-          group:  pm[resource[:name]][:group],
-          ensure: pm[resource[:name]][:active] == 'y' ? :active : :inactive,
-        )
-      end
+      next unless pm.key?(resource[:name])
+      resource.provider = new(
+        name:   resource[:name],
+        group:  pm[resource[:name]][:group],
+        ensure: pm[resource[:name]][:active] == 'y' ? :active : :inactive
+      )
     end
   end
 
@@ -36,10 +30,10 @@ Puppet::Type.type(:postmulti).provide(:postmulti) do
   end
 
   def create
-    unless resource[:group]
-      postmulti_cmd('-e', 'create', '-I', resource[:name])
-    else
+    if resource[:group]
       postmulti_cmd('-e', 'create', '-I', resource[:name], '-G', resource[:group])
+    else
+      postmulti_cmd('-e', 'create', '-I', resource[:name])
     end
     @property_hash[:ensure] = :inactive
   end
@@ -68,37 +62,34 @@ Puppet::Type.type(:postmulti).provide(:postmulti) do
   end
 
   def group=(name)
-    @property_hash[:group]=name
+    @property_hash[:group] = name
     postmulti_cmd('-e', 'assign', '-i', resource[:name], '-G', name)
   end
 
   private
 
   def self.postfix_instances
-    postmulti_cmd('-l').split("\n").inject({}) do |i, line|
-      line = line.split(/ +/, 4)
+    postmulti_cmd('-l').split("\n").each_with_object({}) do |line, i|
+      line = line.split(%r{ +}, 4)
       i[line[0]] = {
         group: line[1],
         active: line[2],
-        path: line[3],
+        path: line[3]
       }
       i
     end
   end
 
-  def self.postconf_hash(path=nil)
+  def self.postconf_hash(path = nil)
     opts = ['-n']
-    if path
-      opts += ['-c', path]
-    end
+    opts += ['-c', path] if path
 
-    pc_output = postconf_cmd(*opts).encode('UTF-8', 'binary', :invalid => :replace, :undef => :replace, :replace => '')
+    pc_output = postconf_cmd(*opts).encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
 
-    pc_output.split("\n").inject({}) do |hash, line|
-      parameter, value = line.split(/ *= */, 2)
+    pc_output.split("\n").each_with_object({}) do |line, hash|
+      parameter, value = line.split(%r{ *= *}, 2)
       hash[parameter] = value
       hash
     end
   end
-
 end

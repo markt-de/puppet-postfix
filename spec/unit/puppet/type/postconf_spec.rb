@@ -1,127 +1,123 @@
 require 'spec_helper'
 require 'puppet'
 
-describe Puppet::Type::type(:postconf) do
-
+describe Puppet::Type.type(:postconf) do
   let(:pc_parameter) { 'myhostname' }
   let(:pc_value) { 'foo.bar' }
 
   describe '=> ensure' do
-    [ :present, :absent ].each do |value|
+    [:present, :absent].each do |value|
       it "should support #{value} as a value to ensure" do
-        expect { described_class.new({
-          :name   => pc_parameter,
-          :ensure => value,
-          :value  => pc_value,
-        })}.to_not raise_error
+        expect do
+          described_class.new(name: pc_parameter,
+                              ensure: value,
+                              value: pc_value)
+        end.not_to raise_error
       end
     end
 
-    it 'should not support other values' do
-      expect {  described_class.new({
-        :name   => pc_parameter,
-        :ensure => pc_value,
-        :value  => pc_value,
-      })}.to raise_error(Puppet::Error, /Invalid value/)
+    it 'does not support other values' do
+      expect do
+        described_class.new(name: pc_parameter,
+                            ensure: pc_value,
+                            value: pc_value)
+      end.to raise_error(Puppet::Error, %r{Invalid value})
     end
 
-    it 'should default to present' do
-      expect( described_class.new({
-        :name   => pc_parameter,
-        :value  => pc_value,
-      })[:ensure]).to eq :present
+    it 'defaults to present' do
+      expect(described_class.new(name: pc_parameter,
+                                 value: pc_value)[:ensure]).to eq :present
     end
   end
 
   describe '=> parameter' do
-    it 'should be a param' do
+    it 'is a param' do
       expect(described_class.attrtype(:parameter)).to eq(:param)
     end
 
-    it 'should be the namevar' do
+    it 'is the namevar' do
       expect(described_class.key_attributes).to eq([:parameter])
     end
 
     describe 'insane looking parameter' do
-      [ '2bounce_notice_recipient', 'myhostname', 'virtual_transport', 'smtp_tls_CApath' ].each do |value|
-        it 'should accept sane looking parameter names' do
-          expect { described_class.new({
-            :name   => value,
-            :value  => pc_value,
-          })}.to_not raise_error
+      %w(2bounce_notice_recipient myhostname virtual_transport smtp_tls_CApath).each do |value|
+        it 'accepts sane looking parameter names' do
+          expect do
+            described_class.new(name: value,
+                                value: pc_value)
+          end.not_to raise_error
         end
       end
     end
 
     describe 'insane looking parameter' do
-      [ '2bounce__recipient', '2bounce_notice_', '_notice_recipient' ].each do |value|
+      %w(2bounce__recipient 2bounce_notice_ _notice_recipient).each do |value|
         it "should reject #{value} as value to parameter" do
-          expect { described_class.new({
-            :name   => value,
-            :value  => pc_value,
-          })}.to raise_error(Puppet::Error, /Invalid value/)
+          expect do
+            described_class.new(name: value,
+                                value: pc_value)
+          end.to raise_error(Puppet::Error, %r{Invalid value})
         end
       end
     end
   end
 
   describe '=> value' do
-    it 'should be a property' do
+    it 'is a property' do
       expect(described_class.attrtype(:value)).to eq(:property)
     end
 
-    it 'should accept a string' do
-      expect {  described_class.new({
-        name:  pc_parameter,
-        value: 'string',
-      })}.to_not raise_error
+    it 'accepts a string' do
+      expect do
+        described_class.new(name:  pc_parameter,
+                            value: 'string')
+      end.not_to raise_error
     end
 
-    it 'should accept a array of strings' do
-      expect {  described_class.new({
-        name:  pc_parameter,
-        value: ['string', 'foo', 'bar'],
-      })}.to_not raise_error
+    it 'accepts a array of strings' do
+      expect do
+        described_class.new(name:  pc_parameter,
+                            value: %w(string foo bar))
+      end.not_to raise_error
     end
 
-    it 'should accept a number' do
-      expect {  described_class.new({
-        name:  pc_parameter,
-        value: 42,
-      })}.to_not raise_error
+    it 'accepts a number' do
+      expect do
+        described_class.new(name:  pc_parameter,
+                            value: 42)
+      end.not_to raise_error
     end
 
     [
       {},
-      ['foo', {}],
+      ['foo', {}]
     ].each do |value|
-      it 'should reject "#{value}"' do
-        expect {  described_class.new({
-          name:  pc_parameter,
-          value: value,
-        })}.to raise_error(Puppet::Error, /Invalid value/)
+      it 'rejects "#{value}"' do
+        expect do
+          described_class.new(name:  pc_parameter,
+                              value: value)
+        end.to raise_error(Puppet::Error, %r{Invalid value})
       end
     end
 
-    it 'should be a required property' do
-      expect {  described_class.new({
-        :name   => pc_parameter,
-        :ensure => :present,
-      })}.to raise_error(Puppet::Error, /required/)
+    it 'is a required property' do
+      expect do
+        described_class.new(name: pc_parameter,
+                            ensure: :present)
+      end.to raise_error(Puppet::Error, %r{required})
     end
 
-    it 'should be a ignored on ensure => absent' do
-      expect {  described_class.new({
-        :name   => pc_parameter,
-        :ensure => :absent,
-      })}.to_not raise_error
+    it 'is a ignored on ensure => absent' do
+      expect do
+        described_class.new(name: pc_parameter,
+                            ensure: :absent)
+      end.not_to raise_error
     end
   end
 
   describe '=> config_dir' do
-    it 'should be a property' do
+    it 'is a property' do
       expect(described_class.attrtype(:config_dir)).to eq(:property)
     end
   end
-
 end

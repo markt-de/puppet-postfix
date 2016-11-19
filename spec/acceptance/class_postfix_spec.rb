@@ -1,19 +1,19 @@
 require 'spec_helper_acceptance'
 
 describe 'class ::postfix' do
-  let(:manifest) {
+  let(:manifest) do
     <<-EOS
       include postfix
     EOS
-  }
+  end
 
-  it 'should run without errors' do
-    result = apply_manifest(manifest, :catch_failures => true)
+  it 'runs without errors' do
+    result = apply_manifest(manifest, catch_failures: true)
     expect(@result.exit_code).to eq 2
   end
 
-  it 'should run a second time without changes' do
-    result = apply_manifest(manifest, :catch_failures => true)
+  it 'runs a second time without changes' do
+    result = apply_manifest(manifest, catch_failures: true)
     expect(@result.exit_code).to eq 0
   end
 

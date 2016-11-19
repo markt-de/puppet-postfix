@@ -1,26 +1,25 @@
 require 'spec_helper_acceptance'
 
 describe 'type multi' do
-  let(:manifest) {
+  let(:manifest) do
     <<-EOS
       postmulti { 'postfix-foo':
         group => 'bar'
       }
     EOS
-  }
-
-  it 'should run without errors' do
-    apply_manifest(manifest, :catch_failures => true)
   end
 
-  it 'should create the instance' do
+  it 'runs without errors' do
+    apply_manifest(manifest, catch_failures: true)
+  end
+
+  it 'creates the instance' do
     shell('postmulti -l') do |r|
-       expect(r.stdout).to match(/^postfix-foo/)
+      expect(r.stdout).to match(%r{^postfix-foo})
     end
   end
 
-  it 'should run a second time without changes' do
+  it 'runs a second time without changes' do
     apply_manifest(manifest, catch_changes: true)
   end
-
 end

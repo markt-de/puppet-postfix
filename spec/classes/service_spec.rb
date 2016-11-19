@@ -7,7 +7,7 @@ describe 'postfix' do
     end
 
     context 'w/o service management' do
-      let(:params) { {service_manage: false} }
+      let(:params) { { service_manage: false } }
 
       it { is_expected.not_to contain_service('postfix') }
     end
