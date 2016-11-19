@@ -67,6 +67,7 @@ describe Puppet::Type.type(:postmulti).provider(:postmulti) do
 
   describe 'when activating a postconf resource' do
     it 'calls postmulti to activate the instance' do
+      provider.stubs(:postmulti_cmd).with('-e', 'create', '-I', 'postfix-foo')
       provider.expects(:postmulti_cmd).with('-e', 'enable', '-i', 'postfix-foo')
       provider.activate
     end
@@ -74,6 +75,7 @@ describe Puppet::Type.type(:postmulti).provider(:postmulti) do
 
   describe 'when deactivating a postconf resource' do
     it 'calls postmulti to activate the instance' do
+      provider.stubs(:postmulti_cmd).with('-e', 'create', '-I', 'postfix-foo')
       provider.expects(:postmulti_cmd).with('-e', 'disable', '-i', 'postfix-foo')
       provider.deactivate
     end
