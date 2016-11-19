@@ -104,7 +104,7 @@ describe Puppet::Type.type(:postconf) do
       expect do
         described_class.new(name: pc_parameter,
                             ensure: :present)
-      end.to raise_error(Puppet::Error, %r{required})
+      end.to raise_error(RuntimeError, %r{required})
     end
 
     it 'is a ignored on ensure => absent' do
