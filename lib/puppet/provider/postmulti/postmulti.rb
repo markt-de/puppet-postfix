@@ -39,13 +39,13 @@ Puppet::Type.type(:postmulti).provide(:postmulti) do
   end
 
   def activate
-    create unless @property_hash[:ensure] = :inactive
+    create unless @property_hash[:ensure] == :inactive
     postmulti_cmd('-e', 'enable', '-i', resource[:name])
     @property_hash[:ensure] = :active
   end
 
   def deactivate
-    create unless @property_hash[:ensure] = :active
+    create unless @property_hash[:ensure] == :active
     postmulti_cmd('-e', 'disable', '-i', resource[:name])
     @property_hash[:ensure] = :inactive
   end

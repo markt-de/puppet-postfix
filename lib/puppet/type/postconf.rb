@@ -15,7 +15,9 @@ Puppet::Type.newtype(:postconf) do
 
     validate do |value|
       unless value =~ %r{(^|:)[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*$}
-        raise ArgumentError, 'Invalid value %s is not a valid postconf parameter name' % value
+        raise ArgumentError,
+              format('Invalid value %s is not a valid postconf parameter name',
+                     value)
       end
     end
   end
@@ -27,22 +29,20 @@ Puppet::Type.newtype(:postconf) do
       is_to_s(is) == should_to_s(@should)
     end
 
+    # rubocop:disable Style/PredicateName
     def is_to_s(currentvalue)
       [currentvalue].flatten.join(', ')
     end
+    # rubocop:enable Style/PredicateName
 
     def should_to_s(newvalue)
       [newvalue].flatten.join(', ')
     end
 
     validate do |value|
-      if value.is_a? String
-        return
-      elsif value.is_a? Numeric
-        return
-      else
-        raise ArgumentError, 'Invalid value %s is not a valid postconf value'
-      end
+      return if value.is_a?(String) || value.is_a?(Numeric)
+
+      raise ArgumentError, 'Invalid value %s is not a valid postconf value'
     end
   end
 

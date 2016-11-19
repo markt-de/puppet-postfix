@@ -41,7 +41,9 @@ Puppet::Type.newtype(:postmulti) do
     desc "Name of the postmulti instance. Must must start with 'postfix-'"
     validate do |value|
       unless value =~ %r{^postfix\-}
-        raise ArgumentError, "Invalid name: %s. New instance name must start with 'postfix-'" % value
+        raise ArgumentError,
+              format('Invalid name: %s. ' \
+                     'New instance name must start with "postfix-"', value)
       end
     end
   end
@@ -55,9 +57,9 @@ Puppet::Type.newtype(:postmulti) do
   end
 
   def create
-    if (@parameters[:ensure] || newattr(:ensure)).retrieve == :absent
-      provider.create
-    end
+    return unless (@parameters[:ensure] || newattr(:ensure)).retrieve == :absent
+
+    provider.create
   end
 
   def activate

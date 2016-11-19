@@ -8,13 +8,11 @@ describe 'class ::postfix' do
   end
 
   it 'runs without errors' do
-    result = apply_manifest(manifest, catch_failures: true)
-    expect(@result.exit_code).to eq 2
+    apply_manifest(manifest, catch_failures: true)
   end
 
   it 'runs a second time without changes' do
-    result = apply_manifest(manifest, catch_failures: true)
-    expect(@result.exit_code).to eq 0
+    apply_manifest(manifest, catch_failures: true)
   end
 
   describe package('postfix') do
