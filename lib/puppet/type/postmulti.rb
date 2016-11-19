@@ -1,10 +1,10 @@
 Puppet::Type.newtype(:postmulti) do
-  @doc = %q{Manage postfix instances.
+  @doc = "Manage postfix instances.
 
     Example:
 
         postmulti { 'postfix-out': }
-  }
+  "
 
   ensurable do
     newvalue(:active) do
@@ -25,15 +25,11 @@ Puppet::Type.newtype(:postmulti) do
     aliasvalue(:present, :active)
 
     defaultto do
-      if @resource.managed?
-        :active
-      else
-        nil
-      end
+      :active if @resource.managed?
     end
 
     def retrieve
-      if prov = @resource.provider and prov.respond_to?(:ensure)
+      if (prov = @resource.provider) && prov.respond_to?(:ensure)
         prov.ensure
       else
         :absent
@@ -41,17 +37,19 @@ Puppet::Type.newtype(:postmulti) do
     end
   end
 
-  newparam(:name, :namevar => true) do
+  newparam(:name, namevar: true) do
     desc "Name of the postmulti instance. Must must start with 'postfix-'"
     validate do |value|
-      unless value =~ /^postfix\-/
-        raise ArgumentError, "Invalid name: %s. New instance name must start with 'postfix-'" % value
+      unless value =~ %r{^postfix\-}
+        raise ArgumentError,
+              format('Invalid name: %s. ' \
+                     'New instance name must start with "postfix-"', value)
       end
     end
   end
 
   newproperty(:group) do
-    desc "Name of the instance group."
+    desc 'Name of the instance group.'
   end
 
   validate do
@@ -59,9 +57,9 @@ Puppet::Type.newtype(:postmulti) do
   end
 
   def create
-    if (@parameters[:ensure] || newattr(:ensure)).retrieve == :absent
-      provider.create
-    end
+    return unless (@parameters[:ensure] || newattr(:ensure)).retrieve == :absent
+
+    provider.create
   end
 
   def activate
@@ -73,5 +71,4 @@ Puppet::Type.newtype(:postmulti) do
     create
     provider.activate
   end
-
 end
