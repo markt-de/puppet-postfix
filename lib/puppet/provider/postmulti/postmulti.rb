@@ -79,17 +79,4 @@ Puppet::Type.type(:postmulti).provide(:postmulti) do
       i
     end
   end
-
-  def self.postconf_hash(path = nil)
-    opts = ['-n']
-    opts += ['-c', path] if path
-
-    pc_output = postconf_cmd(*opts).encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
-
-    pc_output.split("\n").each_with_object({}) do |line, hash|
-      parameter, value = line.split(%r{ *= *}, 2)
-      hash[parameter] = value
-      hash
-    end
-  end
 end
