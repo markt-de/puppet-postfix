@@ -12,6 +12,8 @@ group :test do
   gem 'metadata-json-lint'
   gem 'rubocop-rspec', '~> 1.6', require: false if RUBY_VERSION >= '2.3.0'
   gem 'json_pure', '<= 2.0.1', require: false if RUBY_VERSION < '2.0.0'
+  gem 'coveralls', require: false if RUBY_VERSION >= '2.0.0'
+  gem 'simplecov-console', require: false if RUBY_VERSION >= '2.0.0'
 end
 
 group :system_tests do
