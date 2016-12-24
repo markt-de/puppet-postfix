@@ -113,6 +113,38 @@ describe Puppet::Type.type(:postconf) do
                             ensure: :absent)
       end.not_to raise_error
     end
+
+    describe '.should_to_s' do
+      subject { described_class.new(name: pc_parameter, value: pc_value).property(:value) }
+
+      it 'resurns a sting as is' do
+        expect(subject.should_to_s('foo')).to eq('foo')
+      end
+
+      it 'resurns a singel string array as string' do
+        expect(subject.should_to_s(['foo'])).to eq('foo')
+      end
+
+      it 'resurns a string array as comma joined string' do
+        expect(subject.should_to_s(%w(foo bar))).to eq('foo, bar')
+      end
+    end
+
+    describe '.is_to_s' do
+      subject { described_class.new(name: pc_parameter, value: pc_value).property(:value) }
+
+      it 'resurns a sting as is' do
+        expect(subject.is_to_s('foo')).to eq('foo')
+      end
+
+      it 'resurns a singel string array as string' do
+        expect(subject.is_to_s(['foo'])).to eq('foo')
+      end
+
+      it 'resurns a string array as comma joined string' do
+        expect(subject.is_to_s(%w(foo bar))).to eq('foo, bar')
+      end
+    end
   end
 
   describe '=> config_dir' do

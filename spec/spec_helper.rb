@@ -13,6 +13,7 @@ unless RUBY_VERSION =~ %r{^1.9}
   ]
   SimpleCov.start do
     add_filter '/spec'
+    add_filter '.bundle'
   end
 end
 

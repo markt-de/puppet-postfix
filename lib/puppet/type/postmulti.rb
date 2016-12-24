@@ -69,6 +69,6 @@ Puppet::Type.newtype(:postmulti) do
 
   def deactivate
     create
-    provider.activate
+    provider.deactivate
   end
 end
