@@ -7,8 +7,18 @@
   "source": "https://github.com/jiuka/puppet-postfix",
   "project_page": "https://github.com/jiuka/puppet-postfix",
   "issues_url": "https://github.com/jiuka/puppet-postfix/issues",
+  "tags": ["postfix", "postconf"],
+  "operatingsystem_support": [
+    {
+      "operatingsystem":"RedHat",
+      "operatingsystemrelease":[ "7.0" ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [ "16.04", "14.04" ]
+    }
+ ],
   "dependencies": [
   ],
   "data_provider": null
 }
-
