@@ -2,10 +2,15 @@ require 'spec_helper'
 require 'puppet'
 
 describe Puppet::Type.type(:postconf_master) do
-  let(:pcm_service) { 'sumbission' }
+  subject do
+    described_class.new(title: pcm_name,
+                        command: pcm_service)
+  end
+
+  let(:pcm_service) { 'submission' }
   let(:pcm_type) { :inet }
   let(:pcm_name) { "#{pcm_service}/#{pcm_type}" }
-  let(:pcm_line) { "#{pcm_service} #{pcm_type} - - y - - #{pcm_service}" }
+  let(:pcm_line) { "#{pcm_service} #{pcm_type} - - - - - #{pcm_service}" }
 
   describe 'service =>' do
     it 'accepts common service names' do
@@ -61,7 +66,19 @@ describe Puppet::Type.type(:postconf_master) do
     end
 
     it 'defaults to undef' do
-      expect(described_class.new(title: pcm_name)[:private]).to eq :undef
+      expect(described_class.new(title: pcm_name)[:private]).to eq '-'
+    end
+
+    [:true, :y].each do |priv|
+      it "#{priv} returns y" do
+        expect(described_class.new(title: pcm_name, private: priv)[:private]).to eq 'y'
+      end
+    end
+
+    [:false, :n].each do |priv|
+      it "#{priv} returns n" do
+        expect(described_class.new(title: pcm_name, private: priv)[:private]).to eq 'n'
+      end
     end
   end
 
@@ -81,7 +98,19 @@ describe Puppet::Type.type(:postconf_master) do
     end
 
     it 'defaults to undef' do
-      expect(described_class.new(title: pcm_name)[:unprivileged]).to eq :undef
+      expect(described_class.new(title: pcm_name)[:unprivileged]).to eq '-'
+    end
+
+    [:true, :y].each do |priv|
+      it "#{priv} returns y" do
+        expect(described_class.new(title: pcm_name, unprivileged: priv)[:unprivileged]).to eq 'y'
+      end
+    end
+
+    [:false, :n].each do |priv|
+      it "#{priv} returns n" do
+        expect(described_class.new(title: pcm_name, unprivileged: priv)[:unprivileged]).to eq 'n'
+      end
     end
   end
 
@@ -101,7 +130,19 @@ describe Puppet::Type.type(:postconf_master) do
     end
 
     it 'defaults to undef' do
-      expect(described_class.new(title: pcm_name)[:chroot]).to eq :undef
+      expect(described_class.new(title: pcm_name)[:chroot]).to eq '-'
+    end
+
+    [:true, :y].each do |chroot|
+      it "#{chroot} returns y" do
+        expect(described_class.new(title: pcm_name, chroot: chroot)[:chroot]).to eq 'y'
+      end
+    end
+
+    [:false, :n].each do |chroot|
+      it "#{chroot} returns n" do
+        expect(described_class.new(title: pcm_name, chroot: chroot)[:chroot]).to eq 'n'
+      end
     end
   end
 
@@ -121,7 +162,7 @@ describe Puppet::Type.type(:postconf_master) do
     end
 
     it 'defaults to undef' do
-      expect(described_class.new(title: pcm_name)[:wakeup]).to eq :undef
+      expect(described_class.new(title: pcm_name)[:wakeup]).to eq '-'
     end
   end
 
@@ -141,7 +182,7 @@ describe Puppet::Type.type(:postconf_master) do
     end
 
     it 'defaults to undef' do
-      expect(described_class.new(title: pcm_name)[:process_limit]).to eq :undef
+      expect(described_class.new(title: pcm_name)[:process_limit]).to eq '-'
     end
   end
 
@@ -168,6 +209,12 @@ describe Puppet::Type.type(:postconf_master) do
       expect do
         described_class.new(title: pcm_name, ensure: :absent)
       end.not_to raise_error
+    end
+  end
+
+  describe '.full_line' do
+    it 'returns the full line syntax as in master.cf' do
+      expect(subject.full_line).to eq 'submission inet - - - - - submission'
     end
   end
 end

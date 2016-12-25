@@ -33,6 +33,17 @@ Puppet::Type.newtype(:postconf_master) do
     defaultto :undef
 
     newvalues(:true, :false, :undef, :y, :n)
+
+    unmunge do |value|
+      case value
+      when :undef
+        '-'
+      when :true, :y
+        'y'
+      when :false, :n
+        'n'
+      end
+    end
   end
 
   newparam(:unprivileged) do
@@ -40,6 +51,17 @@ Puppet::Type.newtype(:postconf_master) do
     defaultto :undef
 
     newvalues(:true, :false, :undef, :y, :n)
+
+    unmunge do |value|
+      case value
+      when :undef
+        '-'
+      when :true, :y
+        'y'
+      when :false, :n
+        'n'
+      end
+    end
   end
 
   newparam(:chroot) do
@@ -47,6 +69,17 @@ Puppet::Type.newtype(:postconf_master) do
     defaultto :undef
 
     newvalues(:true, :false, :undef, :y, :n)
+
+    unmunge do |value|
+      case value
+      when :undef
+        '-'
+      when :true, :y
+        'y'
+      when :false, :n
+        'n'
+      end
+    end
   end
 
   newparam(:wakeup) do
@@ -54,6 +87,15 @@ Puppet::Type.newtype(:postconf_master) do
     defaultto :undef
 
     newvalues(:undef, %r{^\d+\??$})
+
+    unmunge do |value|
+      case value
+      when :undef
+        '-'
+      else
+        value
+      end
+    end
   end
 
   newparam(:process_limit) do
@@ -61,6 +103,15 @@ Puppet::Type.newtype(:postconf_master) do
     defaultto :undef
 
     newvalues(:undef, %r{^\d+$})
+
+    unmunge do |value|
+      case value
+      when :undef
+        '-'
+      else
+        value
+      end
+    end
   end
 
   newparam(:command) do
@@ -81,5 +132,18 @@ Puppet::Type.newtype(:postconf_master) do
     [
       [%r{^([a-zA-Z0-9]+)/([a-z]+)$}, [[:service], [:type]]]
     ]
+  end
+
+  def full_line
+    [
+      self[:service],
+      self[:type],
+      self[:private],
+      self[:unprivileged] || '-',
+      self[:chroot] || '-',
+      self[:wakeup] || '-',
+      self[:process_limit] || '-',
+      self[:command]
+    ].join(' ')
   end
 end
