@@ -25,7 +25,7 @@ Puppet::Type.newtype(:postconf_master) do
   newparam(:type, namevar: true) do
     desc 'The postconf master.cf type which should be managed.'
 
-    newvalues(:inet,:unix,:fifo,:pipe)
+    newvalues(:inet, :unix, :fifo, :pipe)
   end
 
   newparam(:private) do
@@ -79,7 +79,7 @@ Puppet::Type.newtype(:postconf_master) do
 
   def self.title_patterns
     [
-      [ %r{^([a-zA-Z0-9]+)/([a-z]+)$}, [[:service],[:type]] ],
+      [%r{^([a-zA-Z0-9]+)/([a-z]+)$}, [[:service], [:type]]]
     ]
   end
 end
