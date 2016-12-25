@@ -1,3 +1,6 @@
+require 'puppet/property/postconf_master_boolean'
+require 'puppet/property/postconf_master_string'
+
 Puppet::Type.newtype(:postconf_master) do
   @doc = "Create a new postconf master.cf entry.
 
@@ -28,90 +31,39 @@ Puppet::Type.newtype(:postconf_master) do
     newvalues(:inet, :unix, :fifo, :pipe)
   end
 
-  newparam(:private) do
+  newproperty(:private, parent: Puppet::Property::PostconfMasterBoolean) do
     desc 'Whether or not access is restricted to the mail system.'
     defaultto :undef
 
     newvalues(:true, :false, :undef, :y, :n)
-
-    unmunge do |value|
-      case value
-      when :undef
-        '-'
-      when :true, :y
-        'y'
-      when :false, :n
-        'n'
-      end
-    end
   end
 
-  newparam(:unprivileged) do
+  newproperty(:unprivileged, parent: Puppet::Property::PostconfMasterBoolean) do
     desc 'Whether the service runs with root privileges or as the owner of the  Postfix  system.'
     defaultto :undef
 
     newvalues(:true, :false, :undef, :y, :n)
-
-    unmunge do |value|
-      case value
-      when :undef
-        '-'
-      when :true, :y
-        'y'
-      when :false, :n
-        'n'
-      end
-    end
   end
 
-  newparam(:chroot) do
+  newproperty(:chroot, parent: Puppet::Property::PostconfMasterBoolean) do
     desc 'Whether or not the service  runs  chrooted  to  the  mail  queue directory.'
     defaultto :undef
 
     newvalues(:true, :false, :undef, :y, :n)
-
-    unmunge do |value|
-      case value
-      when :undef
-        '-'
-      when :true, :y
-        'y'
-      when :false, :n
-        'n'
-      end
-    end
   end
 
-  newparam(:wakeup) do
+  newproperty(:wakeup, parent: Puppet::Property::PostconfMasterString) do
     desc 'Automatically wake up the named service after the specified number of seconds.'
     defaultto :undef
 
     newvalues(:undef, %r{^\d+\??$})
-
-    unmunge do |value|
-      case value
-      when :undef
-        '-'
-      else
-        value
-      end
-    end
   end
 
-  newparam(:process_limit) do
+  newproperty(:process_limit, parent: Puppet::Property::PostconfMasterString) do
     desc 'The maximum number of processes that may  execute  this  service simultaneously.'
     defaultto :undef
 
     newvalues(:undef, %r{^\d+$})
-
-    unmunge do |value|
-      case value
-      when :undef
-        '-'
-      else
-        value
-      end
-    end
   end
 
   newparam(:command) do
