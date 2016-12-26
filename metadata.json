@@ -1,24 +1,39 @@
 {
   "name": "jiuka-postfix",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "Marius Rieder",
   "summary": "Configure the postfix mailserver",
   "license": "Apache-2.0",
   "source": "https://github.com/jiuka/puppet-postfix",
   "project_page": "https://github.com/jiuka/puppet-postfix",
   "issues_url": "https://github.com/jiuka/puppet-postfix/issues",
-  "tags": ["postfix", "postconf"],
+  "tags": [
+    "postfix",
+    "postconf"
+  ],
   "operatingsystem_support": [
     {
-      "operatingsystem":"RedHat",
-      "operatingsystemrelease":[ "7.0" ]
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7.0"
+      ]
     },
     {
       "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": [ "16.04", "14.04" ]
+      "operatingsystemrelease": [
+        "16.04",
+        "14.04"
+      ]
     }
- ],
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 3.8.7 < 5.0.0"
+    }
+  ],
   "dependencies": [
+
   ],
   "data_provider": null
 }
