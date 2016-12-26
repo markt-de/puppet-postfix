@@ -16,6 +16,7 @@ group :test do
   gem 'simplecov-console', require: false if RUBY_VERSION >= '2.0.0'
 end
 
-group :system_tests do
+group :development do
   gem 'beaker-rspec'
+  gem "puppet-blacksmith"
 end
