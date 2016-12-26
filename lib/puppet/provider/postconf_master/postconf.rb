@@ -2,6 +2,13 @@ Puppet::Type.type(:postconf_master).provide(:postconf) do
   commands postmulti_cmd: 'postmulti'
   commands postconf_cmd: 'postconf'
 
+  if command('postconf_cmd')
+    confine true: begin
+      postifx_version = postconf_cmd('-h', '-d', 'mail_version')
+      Puppet::Util::Package.versioncmp(postifx_version, '2.11') >= 0
+    end
+  end
+
   def self.instances
     postfix_instances.map do |instance, path|
       rpath = if instance == '-'
