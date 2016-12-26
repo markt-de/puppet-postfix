@@ -9,8 +9,15 @@ Puppet::Type.type(:postconf_master).provide(:postconf) do
               else
                 path
               end
-      postconf_master_hash(rpath).map do |_key, value|
+      postconf_master_hash(rpath).map do |key, value|
+        name = if instance == '-'
+                 key
+               else
+                 "#{path}:#{key}"
+               end
+
         new(
+          name: name,
           ensure: :present,
           service: value['service'],
           type: value['type'],

@@ -82,7 +82,8 @@ Puppet::Type.newtype(:postconf_master) do
 
   def self.title_patterns
     [
-      [%r{^([a-zA-Z0-9]+)/([a-z]+)$}, [[:service], [:type]]]
+      [%r{^([a-zA-Z0-9]+)/([a-z]+)$}, [[:service], [:type]]],
+      [%r{^(.*):([a-zA-Z0-9]+)/([a-z]+)$}, [[:config_dir], [:service], [:type]]]
     ]
   end
 
