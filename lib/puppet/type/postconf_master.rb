@@ -13,7 +13,10 @@ Puppet::Type.newtype(:postconf_master) do
 
   ensurable
 
-  newparam(:service, namevar: true) do
+  newproperty(:name, namevar: true) do
+  end
+
+  newproperty(:service, namevar: true) do
     desc 'The postconf master.cf service which should be managed.'
 
     validate do |value|
@@ -25,7 +28,7 @@ Puppet::Type.newtype(:postconf_master) do
     end
   end
 
-  newparam(:type, namevar: true) do
+  newproperty(:type, namevar: true) do
     desc 'The postconf master.cf type which should be managed.'
 
     newvalues(:inet, :unix, :fifo, :pipe)
@@ -66,7 +69,7 @@ Puppet::Type.newtype(:postconf_master) do
     newvalues(:undef, %r{^\d+$})
   end
 
-  newparam(:command) do
+  newproperty(:command) do
     desc 'The command to be executed.'
   end
 

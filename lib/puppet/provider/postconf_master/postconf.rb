@@ -59,6 +59,10 @@ Puppet::Type.type(:postconf_master).provide(:postconf) do
     end
   end
 
+  def exists?
+    @property_hash[:ensure] == :present
+  end
+
   def create
     opts = ['-M']
     opts += ['-c', resource[:config_dir]] if resource[:config_dir]
