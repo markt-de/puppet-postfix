@@ -12,11 +12,12 @@
     * [Beginning with postfix](#beginning-with-postfix)
 1. [Usage - Configuration options and additional functionality](#usage)
 1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
+1. [Limitations](#limitations)
+  * [Known Issues](#known-issues)
 
 ## Description
 
-Puppet module to manage your postfix installation. Manage postconf settings and
-postfix instances with native types.
+Puppet module to manage your postfix installation. Manage main.cf settings and master.cf entries by postconf backed native types. Both types include support for multiple postfix instances. The postfix instances can be managed with a native type too.
 
 ## Setup
 
@@ -66,6 +67,33 @@ the resource name.
   }
 ```
 
+#### postconf_master
+
+The `postconf_master` type enables you to manage the master.cf entries.
+
+```puppet
+  postconf_master { 'mytransport/unix':
+    command => 'smtp',
+  }
+```
+
+The `config_dir` param allows you to manage different postfix instances and the
+`service` and `type` param allows you to define the postconf_master service/type independently from
+the resource name.
+
+```puppet
+  postconf_master { 'mytransport/unix':
+    command => 'smtp',
+  }
+
+  postconf { 'foo:mytransport/unix':
+    service    => 'mytransport',
+    type       => 'unix',
+    config_dir => '/etc/postfix-foo',
+    command    => 'smtp',
+  }
+```
+
 #### postmulti
 
 The `postmulti` type allows you to create, de/activate and destroy postfix
@@ -79,3 +107,10 @@ As the postmulti the resource name must begin with `postfix-`.
 ```puppet
   postmulti { 'postfix-out': }
 ```
+
+## Limitations
+### Known Issues
+
+- The postfix version of el7 does not yet support postconf_master.
+
+- The `puppet resource` interfacte is not working on postconf_master doe to [PUP-3732](https://tickets.puppetlabs.com/browse/PUP-3732)
