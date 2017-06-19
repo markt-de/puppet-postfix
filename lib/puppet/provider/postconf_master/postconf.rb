@@ -151,7 +151,7 @@ Puppet::Type.type(:postconf_master).provide(:postconf) do
 
     pc_output = postconf_cmd(*opts).encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
 
-    pc_output.scan(%r{^(\w+)\/(\w+)\/(\w+) = (.*)$}).
+    pc_output.scan(%r{^(\S+)\/(\w+)\/(\w+) = (.*)$}).
       each_with_object({}) do |larray, hash|
         hash["#{larray[0]}/#{larray[1]}"] ||= {}
         hash["#{larray[0]}/#{larray[1]}"][larray[2]] = larray[3]

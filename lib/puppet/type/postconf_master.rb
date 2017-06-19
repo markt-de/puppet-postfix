@@ -18,20 +18,12 @@ Puppet::Type.newtype(:postconf_master) do
 
   newproperty(:service, namevar: true) do
     desc 'The postconf master.cf service which should be managed.'
-
-    validate do |value|
-      unless value =~ %r{^[a-zA-Z0-9]+$}
-        raise ArgumentError,
-              format('Invalid service %s is not a valid postconf master service name',
-                     value)
-      end
-    end
   end
 
   newproperty(:type, namevar: true) do
     desc 'The postconf master.cf type which should be managed.'
 
-    newvalues(:inet, :unix, :fifo, :pipe)
+    newvalues(:inet, :unix, :fifo, :pipe, :pass)
   end
 
   newproperty(:private, parent: Puppet::Property::PostconfMasterBoolean) do
@@ -79,14 +71,30 @@ Puppet::Type.newtype(:postconf_master) do
 
   validate do
     if (self[:ensure] == :present) && self[:command].nil?
-      raise 'Value is a required property.'
+      raise ArgumentError, 'Command is a required property.'
+    end
+
+    case self[:type]
+    when :inet
+      unless self[:service] =~ %r{^(?:(?:\[[a-zA-Z0-9.:]+\]|[a-zA-Z0-9.]+):)?[a-zA-Z0-9]+$}
+        raise ArgumentError,
+              format('Invalid service %s is not a valid postconf master service inet name',
+                     self[:service])
+      end
+    when :unix, :fifo, :pipe, :pass
+      unless self[:service] =~ %r{^[a-zA-Z0-9._/-]+}
+        raise ArgumentError,
+              format('Invalid service %s is not a valid postconf master service unix socket name',
+                     self[:service])
+      end
+    else
+      raise ArgumentError, format("Invalid type %s", self[:type])
     end
   end
 
   def self.title_patterns
     [
-      [%r{^([a-zA-Z0-9]+)/([a-z]+)$}, [[:service], [:type]]],
-      [%r{^(.*):([a-zA-Z0-9]+)/([a-z]+)$}, [[:config_dir], [:service], [:type]]]
+      [%r{^(.+)/([a-z]+)$}, [[:service], [:type]]],
     ]
   end
 

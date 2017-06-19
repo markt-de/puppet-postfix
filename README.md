@@ -86,7 +86,7 @@ the resource name.
     command => 'smtp',
   }
 
-  postconf { 'foo:mytransport/unix':
+  postconf_master { 'foo:mytransport/unix':
     service    => 'mytransport',
     type       => 'unix',
     config_dir => '/etc/postfix-foo',
