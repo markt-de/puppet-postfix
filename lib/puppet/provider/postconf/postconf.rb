@@ -39,7 +39,7 @@ Puppet::Type.type(:postconf).provide(:postconf) do
 
       next unless hash[resource[:config_dir] || 'DEFAULT'].key?(resource[:parameter])
       value = hash[resource[:config_dir] || 'DEFAULT'][resource[:parameter]]
-      value = value.split(%r{', +}) unless resource[:value].size == 1
+      value = split_grouped(value) unless !resource[:value] || resource[:value].size == 1
       resource.provider = new(
         parameter:  resource[:parameter],
         ensure:     :present,
@@ -82,6 +82,11 @@ Puppet::Type.type(:postconf).provide(:postconf) do
     else
       postconf_cmd(*args)
     end
+  end
+
+  # split strings at [, ] while keeping {}-groups, mimicking postfix' mystrtokq function
+  def self.split_grouped(s)
+    s.to_enum(:scan, /\G(?<match>(?<grouped>\{(?:[^{}]*|(?:\g<grouped>))*\})|[^, ]+)[, ]*/).map { |x| x[0] }
   end
 
   def self.postfix_instances
