@@ -1,6 +1,17 @@
 Puppet::Type.newtype(:postconf) do
   @doc = "Create a new postconf entry.
 
+   Puppet does not really support generating/prefetching resources with multiple
+   namevars, so this type represents the whole parameter identifier in the :parameter
+   property. This includes the postmulti instance.
+   Valid formats are:
+     * service/type
+     * instance::service/type
+
+    **Autorequires:** If Puppet is managing the postmulti instance for this entry,
+    it will be autorequired.
+
+
     Example:
 
         postconf { 'myhostname':
@@ -13,13 +24,7 @@ Puppet::Type.newtype(:postconf) do
   newparam(:parameter, namevar: true) do
     desc 'The postconf parameter which should be set.'
 
-    validate do |value|
-      unless value =~ %r{(^|:)[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*$}
-        raise ArgumentError,
-              format('Invalid value %s is not a valid postconf parameter name',
-                     value)
-      end
-    end
+    newvalues(%r{^([^/]+::)?[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*$})
   end
 
   newproperty(:value, array_matching: :all) do
@@ -46,13 +51,17 @@ Puppet::Type.newtype(:postconf) do
     end
   end
 
-  newproperty(:config_dir) do
-    desc 'Path to the postfix config_dir'
+  def instance_name
+    instance = self[:name].rpartition('::')[0]
+    return nil if instance.empty?
+    instance
   end
 
-  validate do
-    if (self[:ensure] == :present) && self[:value].nil?
-      raise 'Value is a required property.'
-    end
+  def parameter_name
+    self[:name].rpartition('::')[2]
+  end
+
+  autorequire(:postmulti) do
+    instance_name
   end
 end

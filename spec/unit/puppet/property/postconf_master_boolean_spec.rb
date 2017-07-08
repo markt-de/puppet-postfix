@@ -1,9 +1,9 @@
 require 'spec_helper'
 require 'puppet'
 
-require 'puppet/property/postconf_master_boolean'
+require 'puppet/type/postconf_master'
 
-describe Puppet::Property::PostconfMasterBoolean do
+describe PostconfMasterBoolean do
   subject { described_class.new(resource: resource) }
   let(:resource) { mock('resource') }
 

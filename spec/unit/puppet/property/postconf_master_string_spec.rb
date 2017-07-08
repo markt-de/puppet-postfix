@@ -1,9 +1,9 @@
 require 'spec_helper'
 require 'puppet'
 
-require 'puppet/property/postconf_master_string'
+require 'puppet/type/postconf_master'
 
-describe Puppet::Property::PostconfMasterString do
+describe PostconfMasterString do
   subject { described_class.new(resource: resource) }
   let(:resource) { mock('resource') }
 

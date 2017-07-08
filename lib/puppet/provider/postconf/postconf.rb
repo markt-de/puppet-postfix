@@ -1,6 +1,6 @@
-Puppet::Type.type(:postconf).provide(:postconf) do
-  commands postmulti_cmd: 'postmulti'
-  commands postconf_cmd: 'postconf'
+require 'puppet/provider/postconf'
+
+Puppet::Type.type(:postconf).provide(:postconf, parent: Puppet::Provider::Postconf) do
 
   def self.instances
     postfix_instances.map do |instance, path|
@@ -16,85 +16,33 @@ Puppet::Type.type(:postconf).provide(:postconf) do
         name = if instance == '-'
                  parameter
                else
-                 "#{instance}:#{parameter}"
+                 "#{instance}::#{parameter}"
                end
 
-        new(
+        prov = new(
           name: name,
           parameter: parameter,
           ensure: :present,
-          value: value,
-          config_dir: path
+          value: value
         )
+        prov.config_dir = path
+        prov
       end
     end.flatten
   end
 
-  def self.prefetch(resources)
-    hash = {}
-    resources.values.each do |resource|
-      unless hash.key?(resource[:config_dir] || 'DEFAULT')
-        hash[resource[:config_dir] || 'DEFAULT'] = postconf_hash(resource[:config_dir])
-      end
+  protected
 
-      next unless hash[resource[:config_dir] || 'DEFAULT'].key?(resource[:parameter])
-      value = hash[resource[:config_dir] || 'DEFAULT'][resource[:parameter]]
-      value = split_grouped(value) unless !resource[:value] || resource[:value].size == 1
-      resource.provider = new(
-        parameter:  resource[:parameter],
-        ensure:     :present,
-        value:      value,
-        config_dir: resource[:config_dir] || nil
-      )
-    end
-  end
-
-  def exists?
-    @property_hash[:ensure] == :present
-  end
-
-  def create
-    postconf("#{resource[:parameter]}=#{resource[:value].join(', ')}")
-    @property_hash[:ensure] = :present
-  end
-
-  def destroy
-    postconf('-X', resource[:parameter])
-    @property_hash.clear
-  end
-
-  mk_resource_methods
-
-  def value
-    @property_hash[:value]
-  end
-
-  def value=(value)
-    @property_hash[:value] = value
-    create
+  def entry_value
+    raise ArgumentError, 'Value is a required property.' if resource[:value].nil?
+    resource[:value].join(', ')
   end
 
   private
 
-  def postconf(*args)
-    if resource[:config_dir]
-      postconf_cmd('-c', resource[:config_dir], *args)
-    else
-      postconf_cmd(*args)
-    end
-  end
-
   # split strings at [, ] while keeping {}-groups, mimicking postfix' mystrtokq function
   def self.split_grouped(s)
-    s.to_enum(:scan, /\G(?<match>(?<grouped>\{(?:[^{}]*|(?:\g<grouped>))*\})|[^, ]+)[, ]*/).map { |x| x[0] }
-  end
-
-  def self.postfix_instances
-    postmulti_cmd('-l').split("\n").each_with_object({}) do |line, i|
-      line = line.split(%r{ +}, 4)
-      i[line[0]] = line[3]
-      i
-    end
+    s.to_enum(:scan, %r{\G(?<match>(?<grouped>\{(?:[^{}]*|(?:\g<grouped>))*\})|[^, ]+)[, ]*}).map { |x| x[0] }
   end
 
   def self.postconf_hash(path = nil)

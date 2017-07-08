@@ -68,7 +68,7 @@ class postfix (
   ### END mailx Configuration ###
 ) inherits ::postfix::params {
 
-  class { '::postfix::package':  } ->
-  class { '::postfix::service': }
+  class { '::postfix::package':  }
+  -> class { '::postfix::service': }
 
 }
