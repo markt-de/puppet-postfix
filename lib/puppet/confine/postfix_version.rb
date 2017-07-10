@@ -17,18 +17,8 @@ class Puppet::Confine::PostfixVersion < Puppet::Confine
   end
 
   def self.postfix_version
-    unless @postfix_version
-      begin
-        @postfix_version = Puppet::Util::Execution.execute(
-          [Puppet::Util.which('postconf'), '-h', '-d', 'mail_version'],
-          failonfail: true
-        ).chomp
-      rescue
-        @postfix_version = :absent
-        raise
-      end
-    end
-
-    @postfix_version
+    postfix_facts = ::Facter.value(:postfix)
+    return :absent if postfix_facts.nil?
+    postfix_facts[:version]
   end
 end
