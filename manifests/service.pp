@@ -29,12 +29,17 @@ class postfix::service {
   }
 
   if $::postfix::service_manage {
+    exec { 'restart postfix after packages install':
+      command     => regsubst($::postfix::params::restart_cmd, 'reload', 'restart'),
+      refreshonly => true,
+      subscribe   => Package['postfix'],
+    }
     service { 'postfix':
       ensure     => $service_ensure_real,
       name       => $::postfix::service_name,
       enable     => $service_enable,
       hasstatus  => true,
-      hasrestart => true,
+      restart   => $::postfix::params::restart_cmd,
     }
   }
 
