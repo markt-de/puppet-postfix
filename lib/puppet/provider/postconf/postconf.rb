@@ -1,4 +1,4 @@
-require 'puppet/provider/postconf'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'postconf'))
 
 Puppet::Type.type(:postconf).provide(:postconf, parent: Puppet::Provider::Postconf) do
 

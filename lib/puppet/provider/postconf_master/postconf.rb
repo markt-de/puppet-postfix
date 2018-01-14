@@ -1,4 +1,4 @@
-require 'puppet/provider/postconf'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'postconf'))
 
 Puppet::Type.type(:postconf_master).provide(:postconf, parent: Puppet::Provider::Postconf) do
   confine postfixversion: '2.11'

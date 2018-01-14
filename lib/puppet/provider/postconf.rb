@@ -1,4 +1,4 @@
-require 'puppet/confine/postfix_version'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'confine', 'postfix_version'))
 
 class Puppet::Provider::Postconf < Puppet::Provider
   def self.initvars
