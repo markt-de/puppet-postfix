@@ -1,17 +1,20 @@
 {
-  "name": "jiuka-postfix",
+  "name": "oxc-postfix",
   "version": "0.1.0",
-  "author": "Marius Rieder",
+  "author": "Bernhard Frauendienst",
   "summary": "Configure the postfix mailserver",
   "license": "Apache-2.0",
-  "source": "https://github.com/jiuka/puppet-postfix",
-  "project_page": "https://github.com/jiuka/puppet-postfix",
-  "issues_url": "https://github.com/jiuka/puppet-postfix/issues",
+  "source": "https://github.com/oxc/puppet-postfix",
+  "project_page": "https://github.com/oxc/puppet-postfix",
+  "issues_url": "https://github.com/oxc/puppet-postfix/issues",
   "tags": [
     "postfix",
     "postconf"
   ],
   "operatingsystem_support": [
+    {
+      "operatingsystem": "FreeBSD"
+    },
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
@@ -29,7 +32,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 3.8.7 < 5.0.0"
+      "version_requirement": ">= 4.9.0 < 6.0.0"
     }
   ],
   "dependencies": [
