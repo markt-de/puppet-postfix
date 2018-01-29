@@ -42,33 +42,26 @@
 # Authors
 # -------
 #
-# Author Name <author@domain.com>
+# Marius Rieder <marius.rieder@durchmesser.ch>
+# Bernhard Frauendienst <puppet@nospam.obeliks.de>
 #
 # Copyright
 # ---------
 #
-# Copyright 2016 Your name here, unless otherwise noted.
+# Copyright 2016 Marius Rieder <marius.rieder@durchmesser.ch>
+# Copyright 2017 Bernhard Frauendienst <puppet@nospam.obeliks.de>
 #
 class postfix (
-  ### START Package Configuration ###
-  $package_ensure                 = present,
-  $package_name                   = $::postfix::params::package_name,
-  ### END Package Configuration ###
-
-  ### START Service Configuation ###
-  $service_ensure                 = running,
-  $service_name                   = undef,
-  $service_manage                 = true,
-  ### END Service Configuration ###
-
-  ### START mailx Configuration ###
-  $mailx_manage = true,
-  $mailx_ensure = present,
-  $mailx_package = $::postfix::params::mailx_package,
-  ### END mailx Configuration ###
-) inherits ::postfix::params {
-
-  class { '::postfix::package':  }
-  -> class { '::postfix::service': }
-
+  Enum['installed', 'present', 'latest'] $mailx_ensure,
+  Boolean $mailx_manage,
+  String $mailx_package,
+  Enum['installed', 'present', 'latest'] $package_ensure,
+  String $package_name,
+  String $restart_cmd,
+  Enum['absent', 'running', 'stopped'] $service_ensure,
+  String $service_name,
+  Boolean $service_manage,
+) {
+  Class { '::postfix::package':  }
+  -> Class { '::postfix::service': }
 }

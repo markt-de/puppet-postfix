@@ -7,9 +7,7 @@
 
 1. [Description](#description)
 1. [Setup - The basics of getting started with postfix](#setup)
-    * [What postfix affects](#what-postfix-affects)
     * [Setup requirements](#setup-requirements)
-    * [Beginning with postfix](#beginning-with-postfix)
 1. [Usage - Configuration options and additional functionality](#usage)
 1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 1. [Limitations](#limitations)
@@ -24,12 +22,6 @@ Puppet module to manage your postfix installation. Manage main.cf settings and m
 ### Setup Requirements
 
 This module requires pluginsync to be enabled to sync the type/provider to the agent.
-
-### Beginning with postfix
-
-The very basic steps needed for a user to get the module up and running. This
-can include setup steps, if necessary, or it can be an example of the most
-basic use of the module.
 
 ## Usage
 
@@ -111,6 +103,6 @@ As the postmulti the resource name must begin with `postfix-`.
 ## Limitations
 ### Known Issues
 
-- The postfix version of el7 does not yet support postconf_master.
+- The postfix version of el7 does not support postconf_master. An alternative version is available from the [IUS Community Project](https://ius.io/).
 
-- The `puppet resource` interfacte is not working on postconf_master doe to [PUP-3732](https://tickets.puppetlabs.com/browse/PUP-3732)
+- The `puppet resource` interface is not working on postconf_master due to [PUP-3732](https://tickets.puppetlabs.com/browse/PUP-3732).

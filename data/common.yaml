@@ -1,0 +1,9 @@
+---
+postfix::mailx_package: 'mailx'
+postfix::mailx_ensure: present
+postfix::mailx_manage: true
+postfix::package_ensure: present
+postfix::package_name: 'postfix'
+postfix::service_ensure: running
+postfix::service_manage: true
+postfix::service_name: 'postfix'

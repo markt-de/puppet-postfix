@@ -1,0 +1,3 @@
+---
+postfix::mailx_package: 'mail/heirloom-mailx'
+postfix::restart_cmd: '/usr/sbin/service postfix reload'
