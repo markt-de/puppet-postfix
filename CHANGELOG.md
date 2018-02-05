@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## Release [0.2.0] - 2018-02-05
+First release as oxc-postfix, now requires Puppet 4.9
+
 ### Added
 - Support support for FreeBSD operating system
 
@@ -22,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Initial release
 
-[Unreleased]: https://github.com/oxc/puppet-postfix/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/oxc/puppet-postfix/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/oxc/puppet-postfix/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/oxc/puppet-postfix/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/oxc/puppet-postfix/compare/f7d8b52...v0.0.1
