@@ -1,8 +1,5 @@
 # postfix module for Puppet
 
-[![Build Status](https://travis-ci.org/jiuka/puppet-postfix.png?branch=master)](https://travis-ci.org/jiuka/puppet-postfix)
-[![Coverage Status](https://coveralls.io/repos/github/jiuka/puppet-postfix/badge.svg?branch=master)](https://coveralls.io/github/jiuka/puppet-postfix?branch=master)
-
 #### Table of Contents
 
 1. [Description](#description)
