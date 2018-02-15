@@ -31,11 +31,6 @@ class postfix::service inherits postfix {
   }
 
   if $::postfix::service_manage {
-    exec { 'restart postfix after packages install':
-      command     => regsubst($::postfix::restart_cmd, 'reload', 'restart'),
-      refreshonly => true,
-      subscribe   => Package['postfix'],
-    }
     service { 'postfix':
       ensure    => $service_ensure_real,
       name      => $::postfix::service_name,

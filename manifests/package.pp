@@ -17,8 +17,17 @@
 #
 class postfix::package inherits postfix {
   if ($postfix::package_manage) {
-    package { $postfix::package_name:
+    package { 'postfix':
       ensure => $postfix::package_ensure,
+      name   => $postfix::package_name,
+    }
+
+    if $::postfix::service_manage {
+      exec { 'restart postfix service after packages install':
+        command     => regsubst($::postfix::restart_cmd, 'reload', 'restart'),
+        refreshonly => true,
+        subscribe   => Package['postfix'],
+      }
     }
 
     # get a list of package names for all requested plugins
