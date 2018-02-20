@@ -40,6 +40,12 @@
 # * `plugins`
 # The list of plugins to install.
 #
+# * `purge_main`
+# Purge all unmanaged entries from main.cf if true.
+#
+# * `purge_master`
+# Purge all unmanaged entries from master.cf if true.
+#
 # * `main_config`
 # A hash of config key-value entries for main.cf
 #
@@ -76,6 +82,8 @@ class postfix (
   String $package_name,
   Hash $plugin,
   Array[String[1]] $plugins,
+  Variant[Boolean, Enum['true', 'false', 'noop']] $purge_main,
+  Variant[Boolean, Enum['true', 'false', 'noop']] $purge_master,
   String $restart_cmd,
   Enum['absent', 'running', 'stopped'] $service_ensure,
   String $service_name,

@@ -58,6 +58,15 @@ postfix::master_services:
 This will create `postconf` and `postconf_master` resources for each setting.
 The resource types can also be used directly as described below.
 
+By default, this module will warn about unmanaged config entries in any managed `main.cf`
+and `master.cf`, but not remove them. To enable purging of those resources, set purge_main
+and purge_master to true:
+
+```puppet
+postfix::purge_main: true
+postfix::purge_master: true
+```
+
 ## Reference
 
 ### Types

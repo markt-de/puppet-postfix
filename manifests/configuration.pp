@@ -1,6 +1,17 @@
 # @api private
 # This class handles postfix configuration. Avoid modifying private classes.
 class postfix::configuration inherits postfix {
+  each({
+    'postconf' => $postfix::purge_main,
+    'postconf_master' => $postfix::purge_master,
+  }) |$res, $purge| {
+    case $purge {
+      true, 'true', 'noop': {
+        resources { $res: purge => true, noop => $purge == 'noop' }
+      }
+    }
+  }
+
   $postfix::main_config.each |$key, $value| {
     $_value = $value ? {
       true    => 'yes',
