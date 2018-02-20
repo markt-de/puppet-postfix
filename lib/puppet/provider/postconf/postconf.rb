@@ -4,20 +4,12 @@ Puppet::Type.type(:postconf).provide(:postconf, parent: Puppet::Provider::Postco
 
   def self.instances
     postfix_instances.map do |instance, path|
-      pc_output = if instance == '-'
-                    postconf_cmd('-n').encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
-                  else
-                    postconf_cmd('-n', '-c', path).encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
-                  end
+      pc_output = postconf_multi(instance == '-' ? nil : path, '-n')
 
       pc_output.split("\n").map do |line|
         parameter, value = line.split(%r{ *= *}, 2)
 
-        name = if instance == '-'
-                 parameter
-               else
-                 "#{instance}::#{parameter}"
-               end
+        name = instance == '-' ? parameter : "#{instance}::#{parameter}"
 
         prov = new(
           name: name,

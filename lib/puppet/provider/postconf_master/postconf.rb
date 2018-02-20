@@ -5,17 +5,9 @@ Puppet::Type.type(:postconf_master).provide(:postconf, parent: Puppet::Provider:
 
   def self.instances
     postfix_instances.map do |instance, path|
-      rpath = if instance == '-'
-                nil
-              else
-                path
-              end
+      rpath = instance == '-' ? nil : path
       postconf_master_hash(rpath).map do |key, value|
-        name = if instance == '-'
-                 key
-               else
-                 "#{instance}::#{key}"
-               end
+        name = instance == '-' ? key : "#{instance}::#{key}"
 
         prov = new(
           name: name,
@@ -57,10 +49,7 @@ Puppet::Type.type(:postconf_master).provide(:postconf, parent: Puppet::Provider:
   private
 
   def self.postconf_master_hash(path = nil)
-    opts = ['-F']
-    opts += ['-c', path] if path
-
-    pc_output = postconf_cmd(*opts).encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+    pc_output = self.postconf_multi(path, '-F')
 
     pc_output.scan(%r{^(\S+\/\w+)\/(\w+) = (.*)$}).
       each_with_object({}) do |larray, hash|

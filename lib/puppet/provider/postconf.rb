@@ -59,6 +59,14 @@ class Puppet::Provider::Postconf < Puppet::Provider
 
   protected
 
+  def self.postconf_multi(config_dir, *args)
+    if config_dir
+      postconf_cmd('-c', config_dir, *args)
+    else
+      postconf_cmd(*args)
+    end.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+  end
+
   def write_entry
     if @property_flush[:ensure] == :absent
       postconf('-X', entry_key)
@@ -77,11 +85,7 @@ class Puppet::Provider::Postconf < Puppet::Provider
   end
 
   def postconf(*args)
-    if (conf = config_dir)
-      postconf_cmd('-c', conf, *args)
-    else
-      postconf_cmd(*args)
-    end
+    self.class.postconf_multi(config_dir, *args)
   end
 
   def config_dir
