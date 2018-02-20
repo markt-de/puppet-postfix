@@ -37,19 +37,4 @@ Puppet::Type.type(:postconf).provide(:postconf, parent: Puppet::Provider::Postco
     raise ArgumentError, 'Value is a required property.' if resource[:value].nil?
     resource[:value].join(', ')
   end
-
-  private
-
-  def self.postconf_hash(path = nil)
-    opts = ['-n']
-    opts += ['-c', path] if path
-
-    pc_output = postconf_cmd(*opts).encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
-
-    pc_output.split("\n").each_with_object({}) do |line, hash|
-      parameter, value = line.split(%r{ *= *}, 2)
-      hash[parameter] = value
-      hash
-    end
-  end
 end
