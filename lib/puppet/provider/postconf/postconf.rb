@@ -7,7 +7,12 @@ Puppet::Type.type(:postconf).provide(:postconf, parent: Puppet::Provider::Postco
       pc_output = postconf_multi(instance == '-' ? nil : path, '-n')
 
       pc_output.split("\n").map do |line|
-        parameter, value = line.split(%r{ *= *}, 2)
+        case line
+          # unfortunately we need to parse stderr warnings here to handle unused/unknown parameters
+          when %r{^\S+/postconf: warning: \S+/main.cf: unused parameter: ([^=]+?) *= *(.*)$} then parameter, value = $1, $2
+          when %r{^([^=]+?) *= *(.*)$} then parameter, value = $1, $2
+          else raise Error, "Unexpected output from postconf: $line"
+        end
 
         name = instance == '-' ? parameter : "#{instance}::#{parameter}"
 

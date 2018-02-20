@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Handle unused main.cf parameters that are unknown by postfix and not referenced
+  in any other parameter (#3).
 
 ## Release [0.2.1] - 2018-02-05
 Cosmetic release that removes outdated badges from README
