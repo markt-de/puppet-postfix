@@ -22,9 +22,41 @@ This module requires pluginsync to be enabled to sync the type/provider to the a
 
 ## Usage
 
-This section is where you describe how to customize, configure, and do the
-fancy stuff with your module here. It's especially helpful if you include usage
-examples and code samples for doing things with your module.
+The easiest way to use this module is to specify all desired configuration in Hiera.
+Here is a close-to-real-life example:
+
+```puppet
+postfix::main_config:
+  mynetworks:
+    - '10.40.0.0/24'
+    - '[::1]/128'
+  inet_interfaces: all
+  smtpd_use_tls: yes
+  smtpd_tls_cert_file: &postfix_cert /etc/postfix/ssl/postfix.crt
+  smtpd_tls_key_file: &postfix_key /etc/postfix/ssl/postfix.key
+  smtpd_sasl_auth_enable: no # only enable for mandatory tls ports
+  smtpd_sasl_type: dovecot
+  smtpd_sasl_path: private/auth
+  # sasl only encrypted
+  smtpd_tls_auth_only: yes
+  smtpd_tls_security_level: may
+  virtual_transport: 'lmtp:unix:private/dovecot-lmtp'
+  milter_protocol: 6
+  common_milters: >-
+    { inet:localhost:11332,
+    connect_timeout=10s,
+    default_action=accept }
+  smtpd_milters: '$common_milters'
+  non_smtpd_milters: '$common_milters'
+  milter_mail_macros: i {mail_addr} {client_addr} {client_name} {auth_authen}
+
+postfix::master_services:
+  smtps/inet: { ensure: present }
+  submission/inet: { ensure: present }
+```
+
+This will create `postconf` and `postconf_master` resources for each setting.
+The resource types can also be used directly as described below.
 
 ## Reference
 

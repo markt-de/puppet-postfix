@@ -40,6 +40,12 @@
 # * `plugins`
 # The list of plugins to install.
 #
+# * `main_config`
+# A hash of config key-value entries for main.cf
+#
+# * `master_config`
+# A hash of config key-value entries for master.cf
+#
 # Examples
 # --------
 #
@@ -74,7 +80,10 @@ class postfix (
   Enum['absent', 'running', 'stopped'] $service_ensure,
   String $service_name,
   Boolean $service_manage,
+  Hash[String, Any] $main_config,
+  Hash[String, Hash[String, Any]] $master_services,
 ) {
   Class { '::postfix::package':  }
+  -> Class { '::postfix::configuration': }
   -> Class { '::postfix::service': }
 }

@@ -7,6 +7,10 @@ postfix::package_manage: true
 postfix::package_name: 'postfix'
 postfix::plugin: {}
 postfix::plugins: []
+postfix::purge_main: noop
+postfix::purge_master: noop
 postfix::service_ensure: running
 postfix::service_manage: true
 postfix::service_name: 'postfix'
+postfix::main_config: {}
+postfix::master_services: {}

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add new parameter `$plugins` to specify a list of postfix plugins that should be installed ([#2])
 - Add new parameter `$plugin` to configure plugin package names ([#2])
 - Add new parameter `$package_manage` to control wether packages should be installed or not ([#2])
+- Add new parameters `$main_config` and `$master_services` to easily specify configuration via Hiera ([#4])
 
 ### Fixed
 - Handle unused main.cf parameters that are unknown by postfix and not referenced
@@ -46,6 +47,7 @@ First release as oxc-postfix, now requires Puppet 4.9
 [0.2.0]: https://github.com/oxc/puppet-postfix/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/oxc/puppet-postfix/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/oxc/puppet-postfix/compare/f7d8b52...v0.0.1
+[#4]: https://github.com/oxc/puppet-postfix/issues/4
 [#3]: https://github.com/oxc/puppet-postfix/issues/3
 [#2]: https://github.com/oxc/puppet-postfix/pull/2
 [#1]: https://github.com/oxc/puppet-postfix/pull/1
