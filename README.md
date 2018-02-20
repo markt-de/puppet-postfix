@@ -101,5 +101,3 @@ As the postmulti the resource name must begin with `postfix-`.
 ### Known Issues
 
 - The postfix version of el7 does not support postconf_master. An alternative version is available from the [IUS Community Project](https://ius.io/).
-
-- The `puppet resource` interface is not working on postconf_master due to [PUP-3732](https://tickets.puppetlabs.com/browse/PUP-3732).
