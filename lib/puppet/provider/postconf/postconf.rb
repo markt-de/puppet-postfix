@@ -40,11 +40,6 @@ Puppet::Type.type(:postconf).provide(:postconf, parent: Puppet::Provider::Postco
 
   private
 
-  # split strings at [, ] while keeping {}-groups, mimicking postfix' mystrtokq function
-  def self.split_grouped(s)
-    s.to_enum(:scan, %r{\G(?<match>(?<grouped>\{(?:[^{}]*|(?:\g<grouped>))*\})|[^, ]+)[, ]*}).map { |x| x[0] }
-  end
-
   def self.postconf_hash(path = nil)
     opts = ['-n']
     opts += ['-c', path] if path
