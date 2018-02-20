@@ -1,3 +1,6 @@
+*~
+doc/
+pkg/
 coverage/
 log/
 .vagrant/
