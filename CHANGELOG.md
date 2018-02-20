@@ -5,9 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Add new parameter `$plugins` to specify a list of postfix plugins that should be installed (#2)
+- Add new parameter `$plugin` to configure plugin package names (#2)
+- Add new parameter `$package_manage` to control wether packages should be installed or not (#2)
+
 ### Fixed
 - Handle unused main.cf parameters that are unknown by postfix and not referenced
   in any other parameter (#3).
+- Fix service logic: move exec `restart after package install` to class `postfix::package` (#2)
 
 ## Release [0.2.1] - 2018-02-05
 Cosmetic release that removes outdated badges from README

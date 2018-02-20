@@ -9,6 +9,10 @@
 # * `package_ensure`
 # The state the postfix package should be ensured.
 #
+# * `package_manage`
+# Whether to install the postfix and plugin packages.
+#
+# * `package_name`
 # * `package_name`
 # The name of the postfix package to install.
 #
@@ -29,6 +33,12 @@
 #
 # * `mailx_package`
 # The name of the mailx package.
+#
+# * `plugin`
+# Contains a package_name parameter for each plugin (if available).
+#
+# * `plugins`
+# The list of plugins to install.
 #
 # Examples
 # --------
@@ -56,7 +66,10 @@ class postfix (
   Boolean $mailx_manage,
   String $mailx_package,
   Enum['installed', 'present', 'latest'] $package_ensure,
+  Boolean $package_manage,
   String $package_name,
+  Hash $plugin,
+  Array[String[1]] $plugins,
   String $restart_cmd,
   Enum['absent', 'running', 'stopped'] $service_ensure,
   String $service_name,

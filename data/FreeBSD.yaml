@@ -1,3 +1,6 @@
 ---
 postfix::mailx_package: 'mail/heirloom-mailx'
+postfix::plugin:
+  sasl:
+    package_name: ['mail/postfix-sasl']
 postfix::restart_cmd: '/usr/sbin/service postfix reload'
