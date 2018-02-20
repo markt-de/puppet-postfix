@@ -25,7 +25,7 @@ This module requires pluginsync to be enabled to sync the type/provider to the a
 The easiest way to use this module is to specify all desired configuration in Hiera.
 Here is a close-to-real-life example:
 
-```puppet
+```yaml
 postfix::main_config:
   mynetworks:
     - '10.40.0.0/24'
@@ -62,7 +62,7 @@ By default, this module will warn about unmanaged config entries in any managed 
 and `master.cf`, but not remove them. To enable purging of those resources, set purge_main
 and purge_master to true:
 
-```puppet
+```yaml
 postfix::purge_main: true
 postfix::purge_master: true
 ```
