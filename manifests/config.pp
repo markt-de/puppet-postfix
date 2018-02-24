@@ -1,6 +1,6 @@
 # @api private
 # This class handles postfix configuration. Avoid modifying private classes.
-class postfix::configuration inherits postfix {
+class postfix::config inherits postfix {
   each({
     'postconf' => $postfix::purge_main,
     'postconf_master' => $postfix::purge_master,
