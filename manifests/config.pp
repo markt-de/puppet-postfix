@@ -6,8 +6,12 @@ class postfix::config inherits postfix {
     'postconf_master' => $postfix::purge_master,
   }) |$res, $purge| {
     case $purge {
-      true, 'true', 'noop': {
+      true, 'true', 'noop': { # lint:ignore:quoted_booleans
         resources { $res: purge => true, noop => $purge == 'noop' }
+      }
+      false, 'false': {} # lint:ignore:quoted_booleans
+      default: {
+        fail("Illegal value for purge: ${purge}")
       }
     }
   }
@@ -42,7 +46,7 @@ class postfix::config inherits postfix {
     }
     postconf_master { $key:
       command => $_command,
-      * => $_args,
+      *       => $_args,
     }
   }
 }

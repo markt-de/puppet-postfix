@@ -82,8 +82,8 @@ class postfix (
   String $package_name,
   Hash $plugin,
   Array[String[1]] $plugins,
-  Variant[Boolean, Enum['true', 'false', 'noop']] $purge_main,
-  Variant[Boolean, Enum['true', 'false', 'noop']] $purge_master,
+  Variant[Boolean, Enum['true', 'false', 'noop']] $purge_main, # lint:ignore:quoted_booleans
+  Variant[Boolean, Enum['true', 'false', 'noop']] $purge_master, # lint:ignore:quoted_booleans
   String $restart_cmd,
   Enum['absent', 'running', 'stopped'] $service_ensure,
   String $service_name,
