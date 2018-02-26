@@ -66,8 +66,6 @@ class Puppet::Provider::Postconf < Puppet::Provider
     end
   end
 
-  protected
-
   def self.postconf_multi(config_dir, *args)
     output = if config_dir
       postconf_cmd('-c', config_dir, *args)
@@ -76,6 +74,8 @@ class Puppet::Provider::Postconf < Puppet::Provider
     end
     return output.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '') unless output.nil?
   end
+
+  protected
 
   def write_entry
     if @property_flush[:ensure] == :absent
