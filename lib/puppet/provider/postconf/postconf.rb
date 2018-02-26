@@ -1,18 +1,15 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'postconf'))
 
 Puppet::Type.type(:postconf).provide(:postconf, parent: Puppet::Provider::Postconf) do
-
   def self.instances
     postfix_instances.map do |instance, path|
       pc_output = postconf_multi(instance == '-' ? nil : path, '-n')
 
       pc_output.split("\n").map do |line|
-        case line
-          # unfortunately we need to parse stderr warnings here to handle unused/unknown parameters
-          when %r{^\S+/postconf: warning: \S+/main.cf: unused parameter: ([^=]+?) *= *(.*)$} then parameter, value = $1, $2
-          when %r{^([^=]+?) *= *(.*)$} then parameter, value = $1, $2
-          else raise Error, "Unexpected output from postconf: $line"
-        end
+        # unfortunately we need to parse stderr warnings here to handle unused/unknown parameters
+        m = %r{^(?:\S+/postconf: warning: \S+/main.cf: unused parameter: )?([^=]+?) *= *(.*)$}.match(line)
+        raise Error, 'Unexpected output from postconf: $line' unless m
+        parameter, value = m[1..2]
 
         name = instance == '-' ? parameter : "#{instance}::#{parameter}"
 
