@@ -15,7 +15,7 @@ Puppet::Type.type(:postmulti).provide(:postmulti) do
 
   def self.prefetch(resources)
     pm = postfix_instances
-    resources.values.each do |resource|
+    resources.each_value do |resource|
       next unless pm.key?(resource[:name])
       resource.provider = new(
         name:   resource[:name],

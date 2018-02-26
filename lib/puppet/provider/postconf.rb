@@ -18,7 +18,7 @@ class Puppet::Provider::Postconf < Puppet::Provider
 
   def self.prefetch(resources)
     provs = instances
-    resources.keys.each do |name|
+    resources.each_key do |name|
       if (provider = provs.find { |p| p.name == name })
         resources[name].provider = provider
       end
