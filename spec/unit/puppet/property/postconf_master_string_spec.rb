@@ -7,32 +7,14 @@ describe PostconfMasterString do
   subject { described_class.new(resource: resource) }
   let(:resource) { mock('resource') }
 
-  describe '.unmunge' do
+  describe '.munge' do
     it 'munge :undef as -' do
-      expect(subject.unmunge(:undef)).to eq('-')
+      expect(subject.munge(:undef)).to eq('-')
     end
 
-    it 'munge "foo" as "foo"' do
-      expect(subject.unmunge('foo')).to eq('foo')
-    end
-  end
-
-  describe '.property_matches?' do
-    [
-      ['-', :undef],
-      %w(foo foo)
-    ].each do |current, desired|
-      it "matches #{current} to #{desired.inspect}" do
-        expect(subject.property_matches?(current, desired)).to eq(true)
-      end
-    end
-
-    [
-      ['-', 'foo'],
-      ['foo', '-']
-    ].each do |current, desired|
-      it "does not match #{current} to #{desired.inspect}" do
-        expect(subject.property_matches?(current, desired)).to eq(false)
+    ['foo', 'foo bar', '{ foo bar }', 'true', 'yes', 'false', 'no', 'y', 'n'].each do |arg|
+      it "munge #{arg.inspect} as #{arg.to_s.inspect}" do
+        expect(subject.munge(arg)).to eq(arg)
       end
     end
   end

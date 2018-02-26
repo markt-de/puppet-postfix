@@ -96,60 +96,37 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
 
   describe 'when creating a postconf resource' do
     it 'calls postconf to set the value' do
-      provider.expects(:postconf_cmd).with('-M', "#{param_name}=#{param_line}")
+      provider.class.expects(:postconf_cmd).with('-M', "#{param_name}=#{param_line}")
       provider.create
+      provider.flush
     end
   end
 
-  describe 'when deleting a postconf master resource' do
-    it 'calls postconf to unset the master entry' do
-      provider.expects(:postconf_cmd).with('-MX', param_name)
-      provider.destroy
+  context 'missing command' do
+    let(:params) do
+      {
+        title:    param_name,
+        chroot:   true,
+        provider: described_class.name
+      }
     end
-  end
 
-  describe 'when updating the private' do
-    it 'calls postconf to update the private field' do
-      provider.expects(:postconf_cmd).with('-F', "#{param_name}/private=foobar")
-      provider.private = 'foobar'
-    end
-  end
-
-  describe 'when updating the unprivileged' do
-    it 'calls postconf to update the unprivileged field' do
-      provider.expects(:postconf_cmd).with('-F', "#{param_name}/unprivileged=foobar")
-      provider.unprivileged = 'foobar'
-    end
-  end
-
-  describe 'when updating the chroot' do
-    it 'calls postconf to update the chroot field' do
-      provider.expects(:postconf_cmd).with('-F', "#{param_name}/chroot=foobar")
-      provider.chroot = 'foobar'
-    end
-  end
-
-  describe 'when updating the wakeup' do
-    it 'calls postconf to update the wakeup field' do
-      provider.expects(:postconf_cmd).with('-F', "#{param_name}/wakeup=foobar")
-      provider.wakeup = 'foobar'
-    end
-  end
-
-  describe 'when updating the process_limit' do
-    it 'calls postconf to update the process_limit field' do
-      provider.expects(:postconf_cmd).with('-F', "#{param_name}/process_limit=foobar")
-      provider.process_limit = 'foobar'
+    describe 'when creating a postconf resource' do
+      it 'raises an error' do
+        expect do
+          provider.create
+          provider.flush
+        end.to raise_error(ArgumentError, %r{required})
+      end
     end
   end
 
   context 'multiple postfix instances' do
     let(:params) do
       {
-        title:    param_name,
+        title:    "postfix-foobar::#{param_name}",
         command:  param_command,
         chroot:   true,
-        config_dir: '/etc/postfix-foobar',
         provider: described_class.name
       }
     end
@@ -176,7 +153,7 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
 
     before do
       described_class.stubs(:postmulti_cmd).with('-l').returns(postmulti_n.join("\n"))
-      described_class.stubs(:postconf_cmd).with('-F', '-c', '/etc/postfix-foobar').returns(postconf_foobar_F.join("\n"))
+      described_class.stubs(:postconf_cmd).with('-c', '/etc/postfix-foobar', '-F').returns(postconf_foobar_F.join("\n"))
       described_class.stubs(:postconf_cmd).with('-F').returns(postconf_F.join("\n"))
     end
 
@@ -192,15 +169,17 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
 
     describe 'when creating a postconf resource' do
       it 'calls postconf to set the value' do
-        provider.expects(:postconf_cmd).with('-M', '-c', '/etc/postfix-foobar', "#{param_name}=#{param_line}")
+        provider.class.expects(:postconf_cmd).with('-c', '/etc/postfix-foobar', '-M', "#{param_name}=#{param_line}")
         provider.create
+        provider.flush
       end
     end
 
     describe 'when deleting a postconf master resource' do
       it 'calls postconf to unset the master entry' do
-        provider.expects(:postconf_cmd).with('-MX', '-c', '/etc/postfix-foobar', param_name)
+        provider.class.expects(:postconf_cmd).with('-c', '/etc/postfix-foobar', '-M', '-X', param_name)
         provider.destroy
+        provider.flush
       end
     end
   end

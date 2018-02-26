@@ -1,0 +1,29 @@
+---
+# copied from common.yaml
+postfix::mailx_package: 'mailx'
+postfix::mailx_ensure: present
+postfix::mailx_manage: true
+postfix::package_ensure: present
+postfix::package_manage: true
+postfix::package_name: 'postfix'
+postfix::plugin: {}
+postfix::plugins: []
+postfix::purge_main: noop
+postfix::purge_master: noop
+postfix::service_ensure: running
+postfix::service_manage: true
+postfix::service_name: 'postfix'
+postfix::main_config: {}
+postfix::master_services: {}
+
+# copied from Debian.yaml
+postfix::plugin:
+  ldap:
+    package_name: ['postfix-ldap']
+  mysql:
+    package_name: ['postfix-mysql']
+  pcre:
+    package_name: ['postfix-pcre']
+  pgsql:
+    package_name: ['postfix-pgsql']
+postfix::restart_cmd: '/etc/init.d/postfix reload'

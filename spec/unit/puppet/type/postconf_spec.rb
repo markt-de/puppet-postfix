@@ -100,13 +100,6 @@ describe Puppet::Type.type(:postconf) do
       end
     end
 
-    it 'is a required property' do
-      expect do
-        described_class.new(name: pc_parameter,
-                            ensure: :present)
-      end.to raise_error(RuntimeError, %r{required})
-    end
-
     it 'is a ignored on ensure => absent' do
       expect do
         described_class.new(name: pc_parameter,
@@ -144,12 +137,6 @@ describe Puppet::Type.type(:postconf) do
       it 'resurns a string array as comma joined string' do
         expect(subject.is_to_s(%w(foo bar))).to eq('foo, bar')
       end
-    end
-  end
-
-  describe '=> config_dir' do
-    it 'is a property' do
-      expect(described_class.attrtype(:config_dir)).to eq(:property)
     end
   end
 end

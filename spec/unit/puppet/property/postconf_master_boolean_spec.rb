@@ -7,47 +7,22 @@ describe PostconfMasterBoolean do
   subject { described_class.new(resource: resource) }
   let(:resource) { mock('resource') }
 
-  describe '.unmunge' do
-    [:true, :y].each do |arg|
+  describe '.munge' do
+    [true, :true, 'true', :yes, 'yes', :y, 'y', 'TrUe', 'yEs', 'Y'].each do |arg|
       it "munge #{arg.inspect} as 'y'" do
-        expect(subject.unmunge(arg)).to eq('y')
+        expect(subject.munge(arg)).to eq('y')
       end
     end
 
-    [:false, :n].each do |arg|
+    [false, :false, 'false', :no, 'no', :n, 'n', 'FaLSE', 'nO', 'N'].each do |arg|
       it "munge #{arg.inspect} as 'n'" do
-        expect(subject.unmunge(arg)).to eq('n')
+        expect(subject.munge(arg)).to eq('n')
       end
     end
 
-    it 'munge :undef as -' do
-      expect(subject.unmunge(:undef)).to eq('-')
-    end
-  end
-
-  describe '.property_matches?' do
-    [
-      ['-', :undef],
-      ['y', :true],
-      ['y', :y],
-      ['n', :false],
-      ['n', :n]
-    ].each do |current, desired|
-      it "matches #{current} to #{desired.inspect}" do
-        expect(subject.property_matches?(current, desired)).to eq(true)
-      end
-    end
-
-    [
-      ['-', :true],
-      ['-', :false],
-      ['y', :false],
-      ['y', :f],
-      ['n', :true],
-      ['n', :t]
-    ].each do |current, desired|
-      it "does not match #{current} to #{desired.inspect}" do
-        expect(subject.property_matches?(current, desired)).to eq(false)
+    [nil, :undef, '-'].each do |arg|
+      it "munge #{arg.inspect} as '-'" do
+        expect(subject.munge(arg)).to eq('-')
       end
     end
   end

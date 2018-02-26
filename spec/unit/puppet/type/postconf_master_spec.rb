@@ -12,46 +12,46 @@ describe Puppet::Type.type(:postconf_master) do
   let(:pcm_name) { "#{pcm_service}/#{pcm_type}" }
   let(:pcm_line) { "#{pcm_service} #{pcm_type} - - - - - #{pcm_service}" }
 
-  describe 'service =>' do
+  describe 'service_name =>' do
     it 'accepts common service names' do
       expect do
-        described_class.new(title: pcm_name, service: pcm_service, command: pcm_service)
+        described_class.new(title: pcm_name, command: pcm_service)
       end.not_to raise_error
     end
 
     it 'rejects funny service names' do
       expect do
-        described_class.new(title: pcm_name, service: 'v3ry funny #name', command: pcm_service)
-      end.to raise_error(Puppet::Error, %r{Invalid service})
+        described_class.new(title: "v3ry funny #name/#{pcm_type}", command: pcm_service)
+      end.to raise_error(Puppet::Error, %r{Invalid value})
     end
 
     it 'is parsed from the title' do
-      expect(described_class.new(title: pcm_name, command: pcm_service)[:service]).to eq pcm_service
+      expect(described_class.new(title: pcm_name, command: pcm_service).service_name).to eq pcm_service
     end
   end
 
-  describe 'type =>' do
+  describe 'service_type =>' do
     [:inet, :unix, :fifo, :pipe].each do |t|
       it "accepts #{t}" do
         expect do
-          described_class.new(title: pcm_name, type: t, command: pcm_service)
+          described_class.new(title: "#{pcm_service}/#{t}", command: pcm_service)
         end.not_to raise_error
       end
     end
 
     it 'rejects foobar' do
       expect do
-        described_class.new(title: pcm_name, type: 'foobar', command: pcm_service)
+        described_class.new(title: "#{pcm_service}/foobar", command: pcm_service)
       end.to raise_error(Puppet::Error, %r{Invalid value})
     end
 
     it 'is parsed from the title' do
-      expect(described_class.new(title: pcm_name, command: pcm_service)[:type]).to eq pcm_type
+       expect(described_class.new(title: pcm_name, command: pcm_service).service_type).to eq pcm_type
     end
   end
 
   describe 'private =>' do
-    [:true, :false, :undef, :y, :n].each do |priv|
+    [true, false, :true, :false, 'true', 'false', :undef, :y, 'y', :n, 'n', '-'].each do |priv|
       it "accepts #{priv}" do
         expect do
           described_class.new(title: pcm_name, private: priv, command: pcm_service)
@@ -69,13 +69,13 @@ describe Puppet::Type.type(:postconf_master) do
       expect(described_class.new(title: pcm_name, command: pcm_service)[:private]).to eq '-'
     end
 
-    [:true, :y].each do |priv|
+    [true, :true, 'true', :y, 'y'].each do |priv|
       it "#{priv} returns y" do
         expect(described_class.new(title: pcm_name, private: priv, command: pcm_service)[:private]).to eq 'y'
       end
     end
 
-    [:false, :n].each do |priv|
+    [false, :false, 'false', :n, 'n'].each do |priv|
       it "#{priv} returns n" do
         expect(described_class.new(title: pcm_name, private: priv, command: pcm_service)[:private]).to eq 'n'
       end
@@ -83,10 +83,10 @@ describe Puppet::Type.type(:postconf_master) do
   end
 
   describe 'unprivileged =>' do
-    [:true, :false, :undef, :y, :n].each do |priv|
-      it "accepts #{priv}" do
+    [true, false, :true, :false, 'true', 'false', :undef, :y, 'y', :n, 'n', '-'].each do |unpriv|
+      it "accepts #{unpriv}" do
         expect do
-          described_class.new(title: pcm_name, unprivileged: priv, command: pcm_service)
+          described_class.new(title: pcm_name, unprivileged: unpriv, command: pcm_service)
         end.not_to raise_error
       end
     end
@@ -101,21 +101,21 @@ describe Puppet::Type.type(:postconf_master) do
       expect(described_class.new(title: pcm_name, command: pcm_service)[:unprivileged]).to eq '-'
     end
 
-    [:true, :y].each do |priv|
-      it "#{priv} returns y" do
-        expect(described_class.new(title: pcm_name, unprivileged: priv, command: pcm_service)[:unprivileged]).to eq 'y'
+    [true, :true, 'true', :y, 'y'].each do |unpriv|
+      it "#{unpriv} returns y" do
+        expect(described_class.new(title: pcm_name, unprivileged: unpriv, command: pcm_service)[:unprivileged]).to eq 'y'
       end
     end
 
-    [:false, :n].each do |priv|
-      it "#{priv} returns n" do
-        expect(described_class.new(title: pcm_name, unprivileged: priv, command: pcm_service)[:unprivileged]).to eq 'n'
+    [false, :false, 'false', :n, 'n'].each do |unpriv|
+      it "#{unpriv} returns n" do
+        expect(described_class.new(title: pcm_name, unprivileged: unpriv, command: pcm_service)[:unprivileged]).to eq 'n'
       end
     end
   end
 
   describe 'chroot =>' do
-    [:true, :false, :undef, :y, :n].each do |chroot|
+    [true, false, :true, :false, 'true', 'false', :undef, :y, 'y', :n, 'n', '-'].each do |chroot|
       it "accepts #{chroot}" do
         expect do
           described_class.new(title: pcm_name, chroot: chroot, command: pcm_service)
@@ -133,13 +133,13 @@ describe Puppet::Type.type(:postconf_master) do
       expect(described_class.new(title: pcm_name, command: pcm_service)[:chroot]).to eq '-'
     end
 
-    [:true, :y].each do |chroot|
+    [true, :true, 'true', :y, 'y'].each do |chroot|
       it "#{chroot} returns y" do
         expect(described_class.new(title: pcm_name, chroot: chroot, command: pcm_service)[:chroot]).to eq 'y'
       end
     end
 
-    [:false, :n].each do |chroot|
+    [false, :false, 'false', :n, 'n'].each do |chroot|
       it "#{chroot} returns n" do
         expect(described_class.new(title: pcm_name, chroot: chroot, command: pcm_service)[:chroot]).to eq 'n'
       end
@@ -199,22 +199,10 @@ describe Puppet::Type.type(:postconf_master) do
       end
     end
 
-    it 'is a required parameter' do
-      expect do
-        described_class.new(title: pcm_name, ensure: :present)
-      end.to raise_error(RuntimeError, %r{required})
-    end
-
     it 'is a ignored on ensure => absent' do
       expect do
         described_class.new(title: pcm_name, ensure: :absent)
       end.not_to raise_error
-    end
-  end
-
-  describe '.full_line' do
-    it 'returns the full line syntax as in master.cf' do
-      expect(subject.full_line).to eq 'submission inet - - - - - submission'
     end
   end
 end
