@@ -115,7 +115,7 @@ Puppet::Type.newtype(:postconf_master) do
   end
 
   def service_type
-    service.rpartition('/')[2]
+    service.rpartition('/')[2].to_sym
   end
 
   autorequire(:postmulti) do
