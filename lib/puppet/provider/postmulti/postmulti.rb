@@ -2,15 +2,15 @@ Puppet::Type.type(:postmulti).provide(:postmulti) do
   commands postmulti_cmd: 'postmulti'
 
   def self.instances
-    postfix_instances.map do |instance, opts|
+    postfix_instances.map { |instance, opts|
       next if instance == '-'
 
       new(
         name: instance,
         group: opts[:group],
-        ensure: opts[:active] == 'y' ? :active : :inactive
+        ensure: (opts[:active] == 'y') ? :active : :inactive,
       )
-    end.compact
+    }.compact
   end
 
   def self.prefetch(resources)
@@ -20,7 +20,7 @@ Puppet::Type.type(:postmulti).provide(:postmulti) do
       resource.provider = new(
         name:   resource[:name],
         group:  pm[resource[:name]][:group],
-        ensure: pm[resource[:name]][:active] == 'y' ? :active : :inactive
+        ensure: (pm[resource[:name]][:active] == 'y') ? :active : :inactive,
       )
     end
   end
@@ -74,7 +74,7 @@ Puppet::Type.type(:postmulti).provide(:postmulti) do
       i[line[0]] = {
         group: line[1],
         active: line[2],
-        path: line[3]
+        path: line[3],
       }
       i
     end

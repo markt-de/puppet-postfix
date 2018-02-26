@@ -3,9 +3,9 @@ Facter.add(:postfix) do
     confine exists: 'postconf', for_binary: true
 
     configs = {
-      :mail_version => :version,
-      :config_directory => :default_config_directory,
-      :data_directory => :default_data_directory,
+      mail_version: :version,
+      config_directory: :default_config_directory,
+      data_directory: :default_data_directory,
     }
 
     facts = {}
@@ -16,4 +16,3 @@ Facter.add(:postfix) do
     facts
   end
 end
-

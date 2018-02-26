@@ -67,11 +67,12 @@ class Puppet::Provider::Postconf < Puppet::Provider
   end
 
   def self.postconf_multi(config_dir, *args)
-    output = if config_dir
-      postconf_cmd('-c', config_dir, *args)
-    else
-      postconf_cmd(*args)
-    end
+    output =
+      if config_dir
+        postconf_cmd('-c', config_dir, *args)
+      else
+        postconf_cmd(*args)
+      end
     return output.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '') unless output.nil?
   end
 

@@ -24,9 +24,7 @@ Puppet::Type.newtype(:postconf_master) do
   class PostconfMasterBoolean < Puppet::Property
     def unsafe_munge(value)
       # downcase strings
-      if value.respond_to? :downcase
-        value = value.downcase
-      end
+      value = value.downcase if value.respond_to? :downcase
 
       case value
       when :undef, '-', nil
@@ -63,7 +61,7 @@ Puppet::Type.newtype(:postconf_master) do
           [a-zA-Z0-9]+/inet                          # (named/numeric) port and inet type
         |
           [a-zA-Z0-9._/-]+/(unix|fifo|pipe|pass)     # all other services can have socket paths
-        )$}mx
+        )$}mx,
     )
   end
 

@@ -4,10 +4,10 @@ Puppet::Type.type(:postconf_master).provide(:postconf, parent: Puppet::Provider:
   confine postfixversion: '2.11'
 
   def self.instances
-    postfix_instances.map do |instance, path|
-      rpath = instance == '-' ? nil : path
+    postfix_instances.map { |instance, path|
+      rpath = (instance == '-') ? nil : path
       postconf_master_hash(rpath).map do |key, value|
-        name = instance == '-' ? key : "#{instance}::#{key}"
+        name = (instance == '-') ? key : "#{instance}::#{key}"
 
         prov = new(
           name: name,
@@ -17,12 +17,12 @@ Puppet::Type.type(:postconf_master).provide(:postconf, parent: Puppet::Provider:
           chroot: value[:chroot],
           wakeup: value[:wakeup],
           process_limit: value[:process_limit],
-          command: value[:command]
+          command: value[:command],
         )
         prov.config_dir = rpath
         prov
       end
-    end.flatten
+    }.flatten
   end
 
   protected
@@ -42,20 +42,19 @@ Puppet::Type.type(:postconf_master).provide(:postconf, parent: Puppet::Provider:
       resource[:chroot] || '-',
       resource[:wakeup] || '-',
       resource[:process_limit] || '-',
-      resource[:command]
+      resource[:command],
     ].join(' ')
   end
 
   private
 
   def self.postconf_master_hash(path = nil)
-    pc_output = self.postconf_multi(path, '-F')
+    pc_output = postconf_multi(path, '-F')
 
-    pc_output.scan(%r{^(\S+\/\w+)\/(\w+) = (.*)$}).
-      each_with_object({}) do |larray, hash|
-        hash[larray[0]] ||= {}
-        hash[larray[0]][larray[1].to_sym] = larray[2]
-        hash
-      end
+    pc_output.scan(%r{^(\S+\/\w+)\/(\w+) = (.*)$}).each_with_object({}) do |larray, hash|
+      hash[larray[0]] ||= {}
+      hash[larray[0]][larray[1].to_sym] = larray[2]
+      hash
+    end
   end
 end
