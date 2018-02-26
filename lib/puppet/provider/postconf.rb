@@ -8,7 +8,7 @@ class Puppet::Provider::Postconf < Puppet::Provider
     commands postconf_cmd: 'postconf'
   end
 
-  attr_accessor :config_dir
+  attr_writer :config_dir
 
   # Always make the resource methods.
   def self.resource_type=(resource)
@@ -57,6 +57,15 @@ class Puppet::Provider::Postconf < Puppet::Provider
     end
   end
 
+  def config_dir
+    instance = resource.instance_name
+    if instance.nil?
+      nil
+    else
+      @config_dir ||= self.class.postfix_instances[instance]
+    end
+  end
+
   protected
 
   def self.postconf_multi(config_dir, *args)
@@ -87,14 +96,5 @@ class Puppet::Provider::Postconf < Puppet::Provider
 
   def postconf(*args)
     self.class.postconf_multi(config_dir, *args)
-  end
-
-  def config_dir
-    instance = resource.instance_name
-    if instance.nil?
-      nil
-    else
-      @config_dir ||= self.class.postfix_instances[instance]
-    end
   end
 end
