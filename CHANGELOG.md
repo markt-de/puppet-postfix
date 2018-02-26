@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add new parameter `$plugin` to configure plugin package names ([#2])
 - Add new parameter `$package_manage` to control wether packages should be installed or not ([#2])
 - Add new parameters `$main_config` and `$master_services` to easily specify configuration via Hiera ([#4])
+- Add CLI script to convert an existing master.cf to hiera YAML ([#4])
 - Add new parameters `$purge_main` and `$purge_master` to remove unmanaged entries (default: warn about unmanaged entries) ([#5])
 
 ### Fixed

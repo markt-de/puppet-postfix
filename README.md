@@ -27,10 +27,26 @@ Here is a close-to-real-life example:
 
 ```yaml
 postfix::main_config:
+  alias_database: hash:/etc/aliases
+  alias_maps: hash:/etc/aliases
+  append_dot_mydomain: no
+  biff: no
+  inet_protocols: all
+  inet_interfaces: all
+  mydestination: '$myhostname, localdomain, localhost'
+  myorigin: '$mydomain'
   mynetworks:
     - '10.40.0.0/24'
+    - '127.0.0.0/8'
+    - '[::ffff:127.0.0.0]/104'
     - '[::1]/128'
-  inet_interfaces: all
+  readme_directory: no
+  recipient_delimiter: +
+  smtpd_banner: '$myhostname ESMTP $mail_name'
+  smtpd_relay_restrictions:
+    - permit_mynetworks
+    - permit_sasl_authenticated
+    - defer_unauth_destination
   smtpd_use_tls: yes
   smtpd_tls_cert_file: &postfix_cert /etc/postfix/ssl/postfix.crt
   smtpd_tls_key_file: &postfix_key /etc/postfix/ssl/postfix.key
@@ -51,12 +67,28 @@ postfix::main_config:
   milter_mail_macros: i {mail_addr} {client_addr} {client_name} {auth_authen}
 
 postfix::master_services:
+  # merged with the defaults defined in data/modules/postfix.yaml
   smtps/inet: { ensure: present }
   submission/inet: { ensure: present }
 ```
 
 This will create `postconf` and `postconf_master` resources for each setting.
 The resource types can also be used directly as described below.
+
+### Generating default master.cf entries
+
+In order to generate the default `postconf_master` hiera entries needed to run postfix,
+you can use the provided master2hierayaml.rb script:
+
+```sh
+scripts/master2hierayaml.rb /usr/share/doc/postfix/defaults/master.cf > data/modules/postfix.yaml
+```
+
+It will try to parse active as well as commented entries and lines, and output warnings
+to stderr if it fails to do so. However, check the output carefully, otherwise you might
+end up with a non-working mail system.
+
+### Purging unmanaged entries
 
 By default, this module will warn about unmanaged config entries in any managed `main.cf`
 and `master.cf`, but not remove them. To enable purging of those resources, set purge_main
