@@ -9,7 +9,7 @@ unless RUBY_VERSION =~ %r{^1.9}
   SimpleCov.formatters = [
     SimpleCov::Formatter::HTMLFormatter,
     SimpleCov::Formatter::Console,
-    Coveralls::SimpleCov::Formatter
+    Coveralls::SimpleCov::Formatter,
   ]
   SimpleCov.start do
     add_filter '/spec'
@@ -20,10 +20,10 @@ end
 RSpec.configure do |c|
   default_facts = {
     puppetversion: Puppet.version,
-    facterversion: Facter.version
+    facterversion: Facter.version,
   }
-  default_facts.merge!(YAML.load(File.read(File.expand_path('../default_facts.yml', __FILE__)))) if File.exist?(File.expand_path('../default_facts.yml', __FILE__))
-  default_facts.merge!(YAML.load(File.read(File.expand_path('../default_module_facts.yml', __FILE__)))) if File.exist?(File.expand_path('../default_module_facts.yml', __FILE__))
+  default_facts.merge!(YAML.safe_load(File.read(File.expand_path('../default_facts.yml', __FILE__)))) if File.exist?(File.expand_path('../default_facts.yml', __FILE__))
+  default_facts.merge!(YAML.safe_load(File.read(File.expand_path('../default_module_facts.yml', __FILE__)))) if File.exist?(File.expand_path('../default_module_facts.yml', __FILE__))
   c.default_facts = default_facts
   c.hiera_config = File.expand_path(File.join(__FILE__, '../fixtures/hiera.yaml'))
 end

@@ -8,7 +8,7 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
     {
       title:    param_name,
       value:    param_value,
-      provider: described_class.name
+      provider: described_class.name,
     }
   end
 
@@ -22,7 +22,7 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
 
   let(:postmulti_n) do
     [
-      '-               -               y         /etc/postfix'
+      '-               -               y         /etc/postfix',
     ]
   end
 
@@ -37,11 +37,11 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
       'inet_protocols = ipv4',
       'mailbox_size_limit = 0',
       'mydestination = $myhostname, berlin.durchmesser.ch, localhost.durchmesser.ch, localhost',
-      'relayhost ='
+      'relayhost =',
     ]
   end
 
-  before do
+  before(:each) do
     described_class.stubs(:postmulti_cmd).with('-l').returns(postmulti_n.join("\n"))
     described_class.stubs(:postconf_cmd).with('-n').returns(postconf_n.join("\n"))
   end
@@ -96,8 +96,8 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
     let(:params) do
       {
         title:    'myhostname',
-        value:    %w(foo bar),
-        provider: described_class.name
+        value:    %w[foo bar],
+        provider: described_class.name,
       }
     end
 
@@ -114,16 +114,16 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
     let(:params) do
       {
         title:    'myfoobar',
-        provider: described_class.name
+        provider: described_class.name,
       }
     end
 
     describe 'when creating a postconf resource' do
       it 'raises an error' do
-        expect do
+        expect {
           provider.create
           provider.flush
-        end.to raise_error(ArgumentError, %r{required})
+        }.to raise_error(ArgumentError, %r{required})
       end
     end
   end
@@ -133,14 +133,14 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
       {
         title:      'postfix-foobar::myhostname',
         value:      'foo.bar',
-        provider:   described_class.name
+        provider:   described_class.name,
       }
     end
 
     let(:postmulti_n) do
       [
         '-               -               y         /etc/postfix',
-        'postfix-foobar  -               n         /etc/postfix-foobar'
+        'postfix-foobar  -               n         /etc/postfix-foobar',
       ]
     end
 
@@ -148,11 +148,11 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
       [
         'alias_database = hash:/etc/aliases',
         'alias_maps = hash:/etc/aliases',
-        'append_dot_mydomain = no'
+        'append_dot_mydomain = no',
       ]
     end
 
-    before do
+    before(:each) do
       described_class.stubs(:postmulti_cmd).with('-l').returns(postmulti_n.join("\n"))
       described_class.stubs(:postconf_cmd).with('-c', '/etc/postfix-foobar', '-n').returns(postconf_foobar_n.join("\n"))
       described_class.stubs(:postconf_cmd).with('-n').returns(postconf_n.join("\n"))

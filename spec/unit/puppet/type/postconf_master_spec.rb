@@ -14,15 +14,15 @@ describe Puppet::Type.type(:postconf_master) do
 
   describe 'service_name =>' do
     it 'accepts common service names' do
-      expect do
+      expect {
         described_class.new(title: pcm_name, command: pcm_service)
-      end.not_to raise_error
+      }.not_to raise_error
     end
 
     it 'rejects funny service names' do
-      expect do
+      expect {
         described_class.new(title: "v3ry funny #name/#{pcm_type}", command: pcm_service)
-      end.to raise_error(Puppet::Error, %r{Invalid value})
+      }.to raise_error(Puppet::Error, %r{Invalid value})
     end
 
     it 'is parsed from the title' do
@@ -33,36 +33,36 @@ describe Puppet::Type.type(:postconf_master) do
   describe 'service_type =>' do
     [:inet, :unix, :fifo, :pipe].each do |t|
       it "accepts #{t}" do
-        expect do
+        expect {
           described_class.new(title: "#{pcm_service}/#{t}", command: pcm_service)
-        end.not_to raise_error
+        }.not_to raise_error
       end
     end
 
     it 'rejects foobar' do
-      expect do
+      expect {
         described_class.new(title: "#{pcm_service}/foobar", command: pcm_service)
-      end.to raise_error(Puppet::Error, %r{Invalid value})
+      }.to raise_error(Puppet::Error, %r{Invalid value})
     end
 
     it 'is parsed from the title' do
-       expect(described_class.new(title: pcm_name, command: pcm_service).service_type).to eq pcm_type
+      expect(described_class.new(title: pcm_name, command: pcm_service).service_type).to eq pcm_type
     end
   end
 
   describe 'private =>' do
     [true, false, :true, :false, 'true', 'false', :undef, :y, 'y', :n, 'n', '-'].each do |priv|
       it "accepts #{priv}" do
-        expect do
+        expect {
           described_class.new(title: pcm_name, private: priv, command: pcm_service)
-        end.not_to raise_error
+        }.not_to raise_error
       end
     end
 
     it 'rejects yolo' do
-      expect do
+      expect {
         described_class.new(title: pcm_name, private: 'yolo', command: pcm_service)
-      end.to raise_error(Puppet::Error, %r{Invalid value})
+      }.to raise_error(Puppet::Error, %r{Invalid value})
     end
 
     it 'defaults to undef' do
@@ -85,16 +85,16 @@ describe Puppet::Type.type(:postconf_master) do
   describe 'unprivileged =>' do
     [true, false, :true, :false, 'true', 'false', :undef, :y, 'y', :n, 'n', '-'].each do |unpriv|
       it "accepts #{unpriv}" do
-        expect do
+        expect {
           described_class.new(title: pcm_name, unprivileged: unpriv, command: pcm_service)
-        end.not_to raise_error
+        }.not_to raise_error
       end
     end
 
     it 'rejects yolo' do
-      expect do
+      expect {
         described_class.new(title: pcm_name, unprivileged: 'yolo', command: pcm_service)
-      end.to raise_error(Puppet::Error, %r{Invalid value})
+      }.to raise_error(Puppet::Error, %r{Invalid value})
     end
 
     it 'defaults to undef' do
@@ -117,16 +117,16 @@ describe Puppet::Type.type(:postconf_master) do
   describe 'chroot =>' do
     [true, false, :true, :false, 'true', 'false', :undef, :y, 'y', :n, 'n', '-'].each do |chroot|
       it "accepts #{chroot}" do
-        expect do
+        expect {
           described_class.new(title: pcm_name, chroot: chroot, command: pcm_service)
-        end.not_to raise_error
+        }.not_to raise_error
       end
     end
 
     it 'rejects yolo' do
-      expect do
+      expect {
         described_class.new(title: pcm_name, chroot: 'yolo', command: pcm_service)
-      end.to raise_error(Puppet::Error, %r{Invalid value})
+      }.to raise_error(Puppet::Error, %r{Invalid value})
     end
 
     it 'defaults to undef' do
@@ -149,16 +149,16 @@ describe Puppet::Type.type(:postconf_master) do
   describe 'wakeup =>' do
     [:undef, 0, 10, 200, '1', '11', '201', '100?'].each do |wakeup|
       it "accepts #{wakeup}" do
-        expect do
+        expect {
           described_class.new(title: pcm_name, wakeup: wakeup, command: pcm_service)
-        end.not_to raise_error
+        }.not_to raise_error
       end
     end
 
     it 'rejects ?10' do
-      expect do
+      expect {
         described_class.new(title: pcm_name, wakeup: '?10', command: pcm_service)
-      end.to raise_error(Puppet::Error, %r{Invalid value})
+      }.to raise_error(Puppet::Error, %r{Invalid value})
     end
 
     it 'defaults to undef' do
@@ -169,16 +169,16 @@ describe Puppet::Type.type(:postconf_master) do
   describe 'process_limit =>' do
     [:undef, 0, 10, 200, '1', '11', '201'].each do |process_limit|
       it "accepts #{process_limit}" do
-        expect do
+        expect {
           described_class.new(title: pcm_name, process_limit: process_limit, command: pcm_service)
-        end.not_to raise_error
+        }.not_to raise_error
       end
     end
 
     it 'rejects yolo' do
-      expect do
+      expect {
         described_class.new(title: pcm_name, process_limit: 'yolo', command: pcm_service)
-      end.to raise_error(Puppet::Error, %r{Invalid value})
+      }.to raise_error(Puppet::Error, %r{Invalid value})
     end
 
     it 'defaults to undef' do
@@ -190,19 +190,19 @@ describe Puppet::Type.type(:postconf_master) do
     [
       'smtp',
       'smtpd -o syslog_name=postfix/submissionsmtpd -o syslog_name=postfix/submission',
-      'pipe flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py ${nexthop} ${user}pipe flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py ${nexthop} ${user}'
+      'pipe flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py ${nexthop} ${user}pipe flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py ${nexthop} ${user}',
     ].each do |command|
       it "accepts #{command}" do
-        expect do
+        expect {
           described_class.new(title: pcm_name, command: command)
-        end.not_to raise_error
+        }.not_to raise_error
       end
     end
 
     it 'is a ignored on ensure => absent' do
-      expect do
+      expect {
         described_class.new(title: pcm_name, ensure: :absent)
-      end.not_to raise_error
+      }.not_to raise_error
     end
   end
 end

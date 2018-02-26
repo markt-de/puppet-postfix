@@ -9,6 +9,7 @@ describe 'postfix' do
 
     context 'w/o mailx management' do
       let(:params) { { mailx_manage: false } }
+
       it { is_expected.not_to contain_package('mailx') }
     end
   end

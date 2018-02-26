@@ -4,7 +4,7 @@ describe Puppet::Type.type(:postmulti).provider(:postmulti) do
   let(:params) do
     {
       title:    'postfix-foo',
-      provider: described_class.name
+      provider: described_class.name,
     }
   end
 
@@ -19,11 +19,11 @@ describe Puppet::Type.type(:postmulti).provider(:postmulti) do
   let(:postmulti_n) do
     [
       '-               -               y         /etc/postfix',
-      'postfix-foo     bar             n         /etc/postfix-foo'
+      'postfix-foo     bar             n         /etc/postfix-foo',
     ]
   end
 
-  before do
+  before(:each) do
     described_class.stubs(:postmulti_cmd).with('-l').returns(postmulti_n.join("\n"))
   end
 
@@ -54,7 +54,7 @@ describe Puppet::Type.type(:postmulti).provider(:postmulti) do
         {
           title:    'postfix-foo',
           group:    'bar',
-          provider: described_class.name
+          provider: described_class.name,
         }
       end
 

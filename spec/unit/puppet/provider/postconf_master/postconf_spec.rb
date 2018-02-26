@@ -12,7 +12,7 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
       title:    param_name,
       command:  param_command,
       chroot:   true,
-      provider: described_class.name
+      provider: described_class.name,
     }
   end
 
@@ -26,7 +26,7 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
 
   let(:postmulti_n) do
     [
-      '-               -               y         /etc/postfix'
+      '-               -               y         /etc/postfix',
     ]
   end
 
@@ -55,11 +55,11 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
       'maildrop/unix/chroot = n',
       'maildrop/unix/wakeup = -',
       'maildrop/unix/process_limit = -',
-      'maildrop/unix/command = pipe flags=DRhu user=vmail argv=/usr/bin/maildrop -d ${recipient}'
+      'maildrop/unix/command = pipe flags=DRhu user=vmail argv=/usr/bin/maildrop -d ${recipient}',
     ]
   end
 
-  before do
+  before(:each) do
     described_class.stubs(:postmulti_cmd).with('-l').returns(postmulti_n.join("\n"))
     described_class.stubs(:postconf_cmd).with('-F').returns(postconf_F.join("\n"))
   end
@@ -107,16 +107,16 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
       {
         title:    param_name,
         chroot:   true,
-        provider: described_class.name
+        provider: described_class.name,
       }
     end
 
     describe 'when creating a postconf resource' do
       it 'raises an error' do
-        expect do
+        expect {
           provider.create
           provider.flush
-        end.to raise_error(ArgumentError, %r{required})
+        }.to raise_error(ArgumentError, %r{required})
       end
     end
   end
@@ -127,14 +127,14 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
         title:    "postfix-foobar::#{param_name}",
         command:  param_command,
         chroot:   true,
-        provider: described_class.name
+        provider: described_class.name,
       }
     end
 
     let(:postmulti_n) do
       [
         '-               -               y         /etc/postfix',
-        'postfix-foobar  -               n         /etc/postfix-foobar'
+        'postfix-foobar  -               n         /etc/postfix-foobar',
       ]
     end
 
@@ -147,11 +147,11 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
         'smtp/inet/chroot = y',
         'smtp/inet/wakeup = -',
         'smtp/inet/process_limit = -',
-        'smtp/inet/command = smtpd'
+        'smtp/inet/command = smtpd',
       ]
     end
 
-    before do
+    before(:each) do
       described_class.stubs(:postmulti_cmd).with('-l').returns(postmulti_n.join("\n"))
       described_class.stubs(:postconf_cmd).with('-c', '/etc/postfix-foobar', '-F').returns(postconf_foobar_F.join("\n"))
       described_class.stubs(:postconf_cmd).with('-F').returns(postconf_F.join("\n"))

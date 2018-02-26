@@ -8,20 +8,20 @@ describe Puppet::Type.type(:postconf) do
   describe '=> ensure' do
     [:present, :absent].each do |value|
       it "should support #{value} as a value to ensure" do
-        expect do
+        expect {
           described_class.new(name: pc_parameter,
                               ensure: value,
                               value: pc_value)
-        end.not_to raise_error
+        }.not_to raise_error
       end
     end
 
     it 'does not support other values' do
-      expect do
+      expect {
         described_class.new(name: pc_parameter,
                             ensure: pc_value,
                             value: pc_value)
-      end.to raise_error(Puppet::Error, %r{Invalid value})
+      }.to raise_error(Puppet::Error, %r{Invalid value})
     end
 
     it 'defaults to present' do
@@ -40,23 +40,23 @@ describe Puppet::Type.type(:postconf) do
     end
 
     describe 'insane looking parameter' do
-      %w(2bounce_notice_recipient myhostname virtual_transport smtp_tls_CApath).each do |value|
+      %w[2bounce_notice_recipient myhostname virtual_transport smtp_tls_CApath].each do |value|
         it 'accepts sane looking parameter names' do
-          expect do
+          expect {
             described_class.new(name: value,
                                 value: pc_value)
-          end.not_to raise_error
+          }.not_to raise_error
         end
       end
     end
 
     describe 'insane looking parameter' do
-      %w(2bounce__recipient 2bounce_notice_ _notice_recipient).each do |value|
+      %w[2bounce__recipient 2bounce_notice_ _notice_recipient].each do |value|
         it "should reject #{value} as value to parameter" do
-          expect do
+          expect {
             described_class.new(name: value,
                                 value: pc_value)
-          end.to raise_error(Puppet::Error, %r{Invalid value})
+          }.to raise_error(Puppet::Error, %r{Invalid value})
         end
       end
     end
@@ -68,43 +68,43 @@ describe Puppet::Type.type(:postconf) do
     end
 
     it 'accepts a string' do
-      expect do
+      expect {
         described_class.new(name:  pc_parameter,
                             value: 'string')
-      end.not_to raise_error
+      }.not_to raise_error
     end
 
     it 'accepts a array of strings' do
-      expect do
+      expect {
         described_class.new(name:  pc_parameter,
-                            value: %w(string foo bar))
-      end.not_to raise_error
+                            value: %w[string foo bar])
+      }.not_to raise_error
     end
 
     it 'accepts a number' do
-      expect do
+      expect {
         described_class.new(name:  pc_parameter,
                             value: 42)
-      end.not_to raise_error
+      }.not_to raise_error
     end
 
     [
       {},
-      ['foo', {}]
+      ['foo', {}],
     ].each do |value|
       it 'rejects "#{value}"' do
-        expect do
+        expect {
           described_class.new(name:  pc_parameter,
                               value: value)
-        end.to raise_error(Puppet::Error, %r{Invalid value})
+        }.to raise_error(Puppet::Error, %r{Invalid value})
       end
     end
 
     it 'is a ignored on ensure => absent' do
-      expect do
+      expect {
         described_class.new(name: pc_parameter,
                             ensure: :absent)
-      end.not_to raise_error
+      }.not_to raise_error
     end
 
     describe '.should_to_s' do
@@ -119,7 +119,7 @@ describe Puppet::Type.type(:postconf) do
       end
 
       it 'resurns a string array as comma joined string' do
-        expect(subject.should_to_s(%w(foo bar))).to eq('foo, bar')
+        expect(subject.should_to_s(%w[foo bar])).to eq('foo, bar')
       end
     end
 
@@ -135,7 +135,7 @@ describe Puppet::Type.type(:postconf) do
       end
 
       it 'resurns a string array as comma joined string' do
-        expect(subject.is_to_s(%w(foo bar))).to eq('foo, bar')
+        expect(subject.is_to_s(%w[foo bar])).to eq('foo, bar')
       end
     end
   end
