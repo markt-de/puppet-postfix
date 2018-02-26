@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add CLI script to convert an existing master.cf to hiera YAML ([#4])
 - Add new parameters `$purge_main` and `$purge_master` to remove unmanaged entries (default: warn about unmanaged entries) ([#5])
 
+### Changed
+- Boolean properties in `postconf_master` now accept more values
+
 ### Fixed
 - Handle unused main.cf parameters that are unknown by postfix and not referenced
   in any other parameter ([#3]).

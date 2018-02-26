@@ -22,13 +22,18 @@ Puppet::Type.newtype(:postconf_master) do
   ensurable
 
   class PostconfMasterBoolean < Puppet::Property
-    def munge(value)
+    def unsafe_munge(value)
+      # downcase strings
+      if value.respond_to? :downcase
+        value = value.downcase
+      end
+
       case value
       when :undef, '-', nil
         '-'
-      when 'true', 'y'
+      when true, :true, 'true', :yes, 'yes', :y, 'y'
         'y'
-      when 'false', 'n'
+      when false, :false, 'false', :no, 'no', :n, 'n'
         'n'
       else
         raise ArgumentError, "Invalid value #{value.inspect}. Valid values are true, false, y, n, -."
@@ -37,7 +42,7 @@ Puppet::Type.newtype(:postconf_master) do
   end
 
   class PostconfMasterString < Puppet::Property
-    def munge(value)
+    def unsafe_munge(value)
       case value
       when :undef
         '-'
