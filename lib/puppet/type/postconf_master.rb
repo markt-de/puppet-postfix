@@ -31,9 +31,9 @@ Puppet::Type.newtype(:postconf_master) do
       case value
       when :undef, '-', nil
         '-'
-      when true, :true, 'true', :yes, 'yes', :y, 'y'
+      when true, :true, 'true', :yes, 'yes', :y, 'y' # rubocop:disable Lint/BooleanSymbol
         'y'
-      when false, :false, 'false', :no, 'no', :n, 'n'
+      when false, :false, 'false', :no, 'no', :n, 'n' # rubocop:disable Lint/BooleanSymbol
         'n'
       else
         raise ArgumentError, "Invalid value #{value.inspect}. Valid values are true, false, y, n, -."
