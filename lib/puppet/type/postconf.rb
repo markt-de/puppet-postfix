@@ -34,11 +34,11 @@ Puppet::Type.newtype(:postconf) do
       is_to_s(is) == should_to_s(@should)
     end
 
-    # rubocop:disable Style/PredicateName
+    # rubocop:disable Naming/PredicateName
     def is_to_s(currentvalue)
       [currentvalue].flatten.join(', ')
     end
-    # rubocop:enable Style/PredicateName
+    # rubocop:enable Naming/PredicateName
 
     def should_to_s(newvalue)
       [newvalue].flatten.join(', ')
