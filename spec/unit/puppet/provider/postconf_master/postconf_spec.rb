@@ -84,7 +84,7 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
       expect(resource.provider.command).to eq(param_command)
     end
 
-    context 'unset parameter' do
+    context 'with unset parameter' do
       let(:param_name) { 'foobar/unix' }
 
       it 'does not prefetch a value' do
@@ -102,7 +102,7 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
     end
   end
 
-  context 'missing command' do
+  context 'with missing command' do
     let(:params) do
       {
         title:    param_name,
@@ -121,7 +121,7 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
     end
   end
 
-  context 'multiple postfix instances' do
+  context 'with multiple postfix instances' do
     let(:params) do
       {
         title:    "postfix-foobar::#{param_name}",

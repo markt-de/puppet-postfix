@@ -66,7 +66,7 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
       expect(resource.provider.value).to eq(param_value)
     end
 
-    context 'unset parameter' do
+    context 'with unset parameter' do
       let(:param_name) { 'myfoobar' }
 
       it 'does not prefetch a value' do
@@ -92,7 +92,7 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
     end
   end
 
-  context 'array values' do
+  context 'with array values' do
     let(:params) do
       {
         title:    'myhostname',
@@ -110,7 +110,7 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
     end
   end
 
-  context 'missing value' do
+  context 'with missing value' do
     let(:params) do
       {
         title:    'myfoobar',
@@ -128,7 +128,7 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
     end
   end
 
-  context 'multiple postfix instances' do
+  context 'with multiple postfix instances' do
     let(:params) do
       {
         title:      'postfix-foobar::myhostname',
