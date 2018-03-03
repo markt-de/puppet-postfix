@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Boolean properties in `postconf_master` now accept more values
+- Add stdlib dependency for unique() function on Puppet 4.x ([#2])
 
 ### Fixed
 - Handle unused main.cf parameters that are unknown by postfix and not referenced
