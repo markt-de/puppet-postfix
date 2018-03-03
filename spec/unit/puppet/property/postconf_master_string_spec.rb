@@ -4,18 +4,18 @@ require 'puppet'
 require 'puppet/type/postconf_master'
 
 describe PostconfMasterString do
-  subject { described_class.new(resource: resource) }
+  subject(:property) { described_class.new(resource: resource) }
 
   let(:resource) { mock('resource') }
 
   describe '.munge' do
     it 'munge :undef as -' do
-      expect(subject.munge(:undef)).to eq('-')
+      expect(property.munge(:undef)).to eq('-')
     end
 
     ['foo', 'foo bar', '{ foo bar }', 'true', 'yes', 'false', 'no', 'y', 'n'].each do |arg|
       it "munge #{arg.inspect} as #{arg.to_s.inspect}" do
-        expect(subject.munge(arg)).to eq(arg)
+        expect(property.munge(arg)).to eq(arg)
       end
     end
   end

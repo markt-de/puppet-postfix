@@ -108,34 +108,34 @@ describe Puppet::Type.type(:postconf) do
     end
 
     describe '.should_to_s' do
-      subject { described_class.new(name: pc_parameter, value: pc_value).property(:value) }
+      subject(:value) { described_class.new(name: pc_parameter, value: pc_value).property(:value) }
 
       it 'resurns a sting as is' do
-        expect(subject.should_to_s('foo')).to eq('foo')
+        expect(value.should_to_s('foo')).to eq('foo')
       end
 
       it 'resurns a singel string array as string' do
-        expect(subject.should_to_s(['foo'])).to eq('foo')
+        expect(value.should_to_s(['foo'])).to eq('foo')
       end
 
       it 'resurns a string array as comma joined string' do
-        expect(subject.should_to_s(%w[foo bar])).to eq('foo, bar')
+        expect(value.should_to_s(%w[foo bar])).to eq('foo, bar')
       end
     end
 
     describe '.is_to_s' do
-      subject { described_class.new(name: pc_parameter, value: pc_value).property(:value) }
+      subject(:value) { described_class.new(name: pc_parameter, value: pc_value).property(:value) }
 
       it 'resurns a sting as is' do
-        expect(subject.is_to_s('foo')).to eq('foo')
+        expect(value.is_to_s('foo')).to eq('foo')
       end
 
       it 'resurns a singel string array as string' do
-        expect(subject.is_to_s(['foo'])).to eq('foo')
+        expect(value.is_to_s(['foo'])).to eq('foo')
       end
 
       it 'resurns a string array as comma joined string' do
-        expect(subject.is_to_s(%w[foo bar])).to eq('foo, bar')
+        expect(value.is_to_s(%w[foo bar])).to eq('foo, bar')
       end
     end
   end

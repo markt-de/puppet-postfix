@@ -71,62 +71,62 @@ describe Puppet::Type.type(:postmulti) do
   end
 
   describe '.retrive' do
-    subject { described_class.new(name: name) }
+    subject(:resource) { described_class.new(name: name) }
 
     let(:provider) { mock 'provider' }
 
     it 'returns the ensure value from the provider' do
       provider.stubs(:ensure).returns(:FOOBAR)
-      subject.stubs(:provider).returns(provider)
+      resource.stubs(:provider).returns(provider)
 
-      expect(subject.property(:ensure).retrieve).to eq(:FOOBAR)
+      expect(resource.property(:ensure).retrieve).to eq(:FOOBAR)
     end
 
     it 'w/o a providers it is absent' do
-      subject.stubs(:provider).returns(nil)
+      resource.stubs(:provider).returns(nil)
 
-      expect(subject.property(:ensure).retrieve).to eq(:absent)
+      expect(resource.property(:ensure).retrieve).to eq(:absent)
     end
   end
 
   describe '.create' do
-    subject { described_class.new(name: name) }
+    subject(:resource) { described_class.new(name: name) }
 
     let(:provider) { mock 'provider' }
 
     it 'creates the resource' do
-      subject.stubs(:provider).returns(provider)
+      resource.stubs(:provider).returns(provider)
       provider.expects(:create)
 
-      subject.create
+      resource.create
     end
   end
 
   describe '.activate' do
-    subject { described_class.new(name: name) }
+    subject(:resource) { described_class.new(name: name) }
 
     let(:provider) { mock 'provider' }
 
     it 'activates the resource' do
-      subject.stubs(:provider).returns(provider)
-      subject.stubs(:create)
+      resource.stubs(:provider).returns(provider)
+      resource.stubs(:create)
       provider.expects(:activate)
 
-      subject.activate
+      resource.activate
     end
   end
 
   describe '.deactivate' do
-    subject { described_class.new(name: name) }
+    subject(:resource) { described_class.new(name: name) }
 
     let(:provider) { mock 'provider' }
 
     it 'deactivated the resource' do
-      subject.stubs(:provider).returns(provider)
+      resource.stubs(:provider).returns(provider)
       provider.stubs(:create)
       provider.expects(:deactivate)
 
-      subject.deactivate
+      resource.deactivate
     end
   end
 end
