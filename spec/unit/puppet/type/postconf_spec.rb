@@ -92,7 +92,7 @@ describe Puppet::Type.type(:postconf) do
       {},
       ['foo', {}],
     ].each do |value|
-      it 'rejects "#{value}"' do
+      it "rejects \"#{value}\"" do
         expect {
           described_class.new(name:  pc_parameter,
                               value: value)
