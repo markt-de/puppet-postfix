@@ -2,11 +2,11 @@ require 'spec_helper_acceptance'
 
 describe 'type postconf' do
   let(:manifest) do
-    <<-EOS
+    <<-MANIFEST
       postconf { 'myhostname':
         value => 'foo.bar',
       }
-    EOS
+    MANIFEST
   end
 
   it 'runs without errors' do
@@ -26,11 +26,11 @@ describe 'type postconf' do
 
   describe 'use a array as value' do
     let(:manifest) do
-      <<-EOS
+      <<-MANIFEST
         postconf { 'authorized_flush_users':
           value => ['foo', 'bar'],
         }
-      EOS
+      MANIFEST
     end
 
     it 'runs without errors' do
@@ -51,7 +51,7 @@ describe 'type postconf' do
 
   describe 'use a different config directory' do
     let(:manifest) do
-      <<-EOS
+      <<-MANIFEST
         file {
           '/tmp/postfix-foo':
             ensure => directory;
@@ -63,7 +63,7 @@ describe 'type postconf' do
           value      => 'foo.bar',
           config_dir => '/tmp/postfix-foo',
         }
-      EOS
+      MANIFEST
     end
 
     it 'runs without errors' do

@@ -2,12 +2,12 @@ require 'spec_helper_acceptance'
 
 describe 'type postconf_master' do
   let(:manifest) do
-    <<-EOS
+    <<-MANIFEST
       postconf_master { 'rspec/unix':
         ensure  => present,
         command => 'foobar',
       }
-    EOS
+    MANIFEST
   end
 
   it 'runs without errors' do
@@ -27,13 +27,13 @@ describe 'type postconf_master' do
 
   describe 'update the chroot' do
     let(:manifest) do
-      <<-EOS
+      <<-MANIFEST
         postconf_master { 'rspec/unix':
           ensure  => present,
           command => 'foobar',
           chroot  => true,
         }
-      EOS
+      MANIFEST
     end
 
     it 'runs without errors' do

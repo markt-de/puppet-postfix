@@ -2,11 +2,11 @@ require 'spec_helper_acceptance'
 
 describe 'type multi' do
   let(:manifest) do
-    <<-EOS
+    <<-MANIFEST
       postmulti { 'postfix-foo':
         group => 'bar'
       }
-    EOS
+    MANIFEST
   end
 
   it 'runs without errors' do

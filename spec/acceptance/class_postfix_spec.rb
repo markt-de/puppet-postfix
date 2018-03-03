@@ -2,9 +2,9 @@ require 'spec_helper_acceptance'
 
 describe 'class ::postfix' do
   let(:manifest) do
-    <<-EOS
+    <<-MANIFEST
       include postfix
-    EOS
+    MANIFEST
   end
 
   it 'runs without errors' do
