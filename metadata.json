@@ -1,6 +1,6 @@
 {
   "name": "oxc-postfix",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "author": "Bernhard Frauendienst",
   "summary": "Configure the postfix mailserver",
   "license": "Apache-2.0",
