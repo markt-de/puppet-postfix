@@ -17,15 +17,17 @@ matrix:
   - rvm: 2.1
     env: PUPPET_VERSION="~> 4.9" CHECK=test
   - rvm: 2.1
-    env: PUPPET_VERSION="~> 5.3" CHECK=test
+    env: PUPPET_VERSION="~> 5.4" CHECK=test
   - rvm: 2.1
-    env: PUPPET_VERSION="~> 5.3" CHECK=rubocop
+    env: PUPPET_VERSION="~> 5.4" CHECK=rubocop
   - rvm: 2.2
-    env: PUPPET_VERSION="~> 5.3" CHECK=test
+    env: PUPPET_VERSION="~> 5.4" CHECK=test
   - rvm: 2.3
-    env: PUPPET_VERSION="~> 5.3" CHECK=test
+    env: PUPPET_VERSION="~> 5.4" CHECK=test
   - rvm: 2.4
-    env: PUPPET_VERSION="~> 5.3" CHECK=rubocop
+    env: PUPPET_VERSION="~> 4.9" CHECK=test
   - rvm: 2.4
-    env: PUPPET_VERSION="~> 5.3" CHECK=test
+    env: PUPPET_VERSION="~> 5.4" CHECK=test
+  - rvm: 2.4
+    env: PUPPET_VERSION="~> 5.4" CHECK=rubocop
 
