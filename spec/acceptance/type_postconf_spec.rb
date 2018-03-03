@@ -78,7 +78,7 @@ describe 'type postconf' do
     end
 
     it 'runs a second time without changes' do
-      apply_manifest(manifest, catch_failures: true)
+      apply_manifest(manifest, catch_changes: true)
     end
   end
 end
