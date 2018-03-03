@@ -9,6 +9,7 @@ group :test do
   gem 'puppetlabs_spec_helper', '>= 2.6'
   gem 'rspec-puppet', '~> 2.6'
   gem 'rspec-puppet-facts', require: false
+  gem 'rubocop-rspec'
   gem 'metadata-json-lint'
   gem 'json_pure', '<= 2.0.1', require: false if RUBY_VERSION < '2.0.0'
   gem 'coveralls', require: false
