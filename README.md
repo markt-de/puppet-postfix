@@ -1,5 +1,7 @@
 # postfix module for Puppet
 
+[![Build Status](https://travis-ci.org/oxc/puppet-postfix.svg?branch=master)](https://travis-ci.org/oxc/puppet-postfix)
+
 #### Table of Contents
 
 1. [Description](#description)
