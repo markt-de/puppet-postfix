@@ -1,6 +1,7 @@
 # postfix module for Puppet
 
 [![Build Status](https://travis-ci.org/oxc/puppet-postfix.svg?branch=master)](https://travis-ci.org/oxc/puppet-postfix)
+[![Coverage Status](https://coveralls.io/repos/github/oxc/puppet-postfix/badge.svg?branch=master)](https://coveralls.io/github/oxc/puppet-postfix?branch=master)
 
 #### Table of Contents
 
