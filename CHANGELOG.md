@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Handle unused main.cf parameters that are unknown by postfix and not referenced
   in any other parameter ([#3]).
 - Fix service logic: move exec `restart after package install` to class `postfix::package` ([#2])
+- Fix rspec unit tests
+- Fix lots of rubocop-reported logic and style issues
 
 ## Release [0.2.1] - 2018-02-05
 Cosmetic release that removes outdated badges from README
