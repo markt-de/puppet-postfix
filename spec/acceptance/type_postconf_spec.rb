@@ -37,7 +37,7 @@ describe 'type postconf' do
       apply_manifest(manifest, catch_failures: true)
     end
 
-    it 'sets the myhostname value' do
+    it 'sets the authorized_flush_users value' do
       apply_manifest(manifest, catch_failures: true)
       shell('postconf authorized_flush_users') do |r|
         expect(r.stdout).to match(%r{authorized_flush_users += +foo[, ]+bar})
