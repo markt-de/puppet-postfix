@@ -1,6 +1,7 @@
 Facter.add(:postfix) do
-  confine exists: 'postconf', for_binary: true
   setcode do
+    confine exists: 'postconf', for_binary: true
+
     configs = {
       mail_version: :version,
       config_directory: :default_config_directory,
