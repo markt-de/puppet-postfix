@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## Release [1.0.1] - 2018-09-27
+This release fixes support for systems where postfix is not installed, and
+bumps stdlib version compatibility.
+
 ### Added
 - Support for puppetlabs/stdlib 5
 - Support for Ubuntu 18.04
@@ -60,7 +65,8 @@ First release as oxc-postfix, now requires Puppet 4.9
 
 * Initial release
 
-[Unreleased]: https://github.com/oxc/puppet-postfix/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/oxc/puppet-postfix/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/oxc/puppet-postfix/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/oxc/puppet-postfix/compare/v0.2.1...v1.0.0
 [0.2.1]: https://github.com/oxc/puppet-postfix/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/oxc/puppet-postfix/compare/v0.1.0...v0.2.0
