@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Support for puppetlabs/stdlib 5
+- Support for Ubuntu 18.04
 
 ### Fixed
 - Make postfix fact not cause trouble on systems where postfix is not installed ([#6])
