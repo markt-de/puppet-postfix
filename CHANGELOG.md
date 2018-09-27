@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Support for puppetlabs/stdlib 5
+
 ### Fixed
 - Make postfix fact not cause trouble on systems where postfix is not installed ([#6])
 
