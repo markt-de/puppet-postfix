@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Make postfix fact not cause trouble on systems where postfix is not installed ([#6])
 
 ## Release [1.0.0] - 2018-03-03
 First stable release
@@ -60,6 +62,7 @@ First release as oxc-postfix, now requires Puppet 4.9
 [0.2.0]: https://github.com/oxc/puppet-postfix/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/oxc/puppet-postfix/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/oxc/puppet-postfix/compare/f7d8b52...v0.0.1
+[#6]: https://github.com/oxc/puppet-postfix/pull/6
 [#5]: https://github.com/oxc/puppet-postfix/issues/5
 [#4]: https://github.com/oxc/puppet-postfix/issues/4
 [#3]: https://github.com/oxc/puppet-postfix/issues/3
