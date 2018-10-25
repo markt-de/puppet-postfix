@@ -93,5 +93,5 @@ class postfix (
 ) {
   Class { '::postfix::package':  }
   -> Class { '::postfix::config': }
-  -> Class { '::postfix::service': }
+  ~> Class { '::postfix::service': }
 }
