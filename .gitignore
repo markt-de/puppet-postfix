@@ -2,6 +2,7 @@
 doc/
 pkg/
 coverage/
+spec/fixtures/
 log/
 .vagrant/
 .bundle/
