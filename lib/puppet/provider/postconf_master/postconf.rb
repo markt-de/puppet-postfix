@@ -1,7 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'postconf'))
 
 Puppet::Type.type(:postconf_master).provide(:postconf, parent: Puppet::Provider::Postconf) do
-  confine postfixversion: '2.11'
 
   def self.instances
     postfix_instances.map { |instance, path|
