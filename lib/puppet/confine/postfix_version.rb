@@ -17,8 +17,9 @@ class Puppet::Confine::PostfixVersion < Puppet::Confine
   end
 
   def self.postfix_version
-    postfix_facts = ::Facter.value(:postfix)
+    postfix_facts = Facter.value(:postfix)
     return :absent if postfix_facts.nil?
-    postfix_facts[:version]
+    postfix_version = postfix_facts[:version]
+    postfix_version.nil? ? :absent : postfix_version
   end
 end
