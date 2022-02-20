@@ -5,10 +5,16 @@ Puppet::Type.type(:postconf).provide(:postconf, parent: Puppet::Provider::Postco
     postfix_instances.map { |instance, path|
       pc_output = postconf_multi((instance == '-') ? nil : path, '-n')
 
-      pc_output.split("\n").map do |line|
+      pc_output.split("\n").map { |line|
         # unfortunately we need to parse stderr warnings here to handle unused/unknown parameters
         m = %r{^(?:\S+/postconf: warning: \S+/main.cf: unused parameter: )?([^=]+?) *= *(.*)$}.match(line)
-        raise Error, 'Unexpected output from postconf: $line' unless m
+        unless m
+          if %r{^\S+/postconf: warning: }.match(line)
+            warn(line)
+            next
+          end
+          raise Puppet::Error, "Unexpected output from postconf: #{line}"
+        end
         parameter, value = m[1..2]
 
         name = (instance == '-') ? parameter : "#{instance}::#{parameter}"
@@ -21,7 +27,7 @@ Puppet::Type.type(:postconf).provide(:postconf, parent: Puppet::Provider::Postco
         )
         prov.config_dir = path
         prov
-      end
+      }.compact
     }.flatten
   end
 
