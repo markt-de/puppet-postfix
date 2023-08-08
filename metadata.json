@@ -1,12 +1,12 @@
 {
-  "name": "oxc-postfix",
+  "name": "markt-postfix",
   "version": "1.0.2",
-  "author": "Bernhard Frauendienst",
+  "author": "markt.de",
   "summary": "Configure the postfix mailserver",
   "license": "Apache-2.0",
-  "source": "https://github.com/oxc/puppet-postfix",
-  "project_page": "https://github.com/oxc/puppet-postfix",
-  "issues_url": "https://github.com/oxc/puppet-postfix/issues",
+  "source": "https://github.com/markt-de/puppet-postfix",
+  "project_page": "https://github.com/markt-de/puppet-postfix",
+  "issues_url": "https://github.com/markt-de/puppet-postfix/issues",
   "tags": [
     "postfix",
     "postconf"
@@ -38,6 +38,5 @@
   ],
   "dependencies": [
     {"name":"puppetlabs/stdlib","version_requirement":">= 3.0.0 < 6.0.0"}
-  ],
-  "data_provider": null
+  ]
 }

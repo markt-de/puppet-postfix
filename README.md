@@ -1,7 +1,8 @@
-# postfix module for Puppet
+# puppet-postfix
 
-[![Build Status](https://travis-ci.org/oxc/puppet-postfix.svg?branch=master)](https://travis-ci.org/oxc/puppet-postfix)
-[![Coverage Status](https://coveralls.io/repos/github/oxc/puppet-postfix/badge.svg?branch=master)](https://coveralls.io/github/oxc/puppet-postfix?branch=master)
+[![Build Status](https://github.com/markt-de/puppet-postfix/actions/workflows/ci.yaml/badge.svg)](https://github.com/markt-de/puppet-postfix/actions/workflows/ci.yaml)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/markt/postfix.svg)](https://forge.puppetlabs.com/markt/postfix)
+[![Puppet Forge](https://img.shields.io/puppetforge/dt/markt/postfix.svg)](https://forge.puppetlabs.com/markt/postfix)
 
 #### Table of Contents
 
