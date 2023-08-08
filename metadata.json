@@ -2,7 +2,7 @@
   "name": "markt-postfix",
   "version": "1.0.2",
   "author": "markt.de",
-  "summary": "Configure the postfix mailserver",
+  "summary": "Configure the Postfix mailserver",
   "license": "Apache-2.0",
   "source": "https://github.com/markt-de/puppet-postfix",
   "project_page": "https://github.com/markt-de/puppet-postfix",
@@ -10,32 +10,39 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 3.0.0 < 6.0.0"
+      "version_requirement": ">= 8.0.0 < 10.0.0"
     }
   ],
   "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "11"
+      ]
+    },
     {
       "operatingsystem": "FreeBSD"
     },
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "7.0"
+        "7.0",
+        "8.0",
+        "9.0"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "18.04",
-        "16.04",
-        "14.04"
+        "20.04",
+        "22.04"
       ]
     }
   ],
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.9.0 < 6.0.0"
+      "version_requirement": ">= 7.0.0 < 9.0.0"
     }
   ],
   "tags": [
