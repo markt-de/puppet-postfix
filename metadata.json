@@ -7,9 +7,11 @@
   "source": "https://github.com/markt-de/puppet-postfix",
   "project_page": "https://github.com/markt-de/puppet-postfix",
   "issues_url": "https://github.com/markt-de/puppet-postfix/issues",
-  "tags": [
-    "postfix",
-    "postconf"
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.0.0 < 6.0.0"
+    }
   ],
   "operatingsystem_support": [
     {
@@ -36,7 +38,11 @@
       "version_requirement": ">= 4.9.0 < 6.0.0"
     }
   ],
-  "dependencies": [
-    {"name":"puppetlabs/stdlib","version_requirement":">= 3.0.0 < 6.0.0"}
-  ]
+  "tags": [
+    "postfix",
+    "postconf"
+  ],
+  "pdk-version": "3.0.0",
+  "template-url": "pdk-default#3.0.0",
+  "template-ref": "tags/3.0.0-0-g056e50d"
 }
