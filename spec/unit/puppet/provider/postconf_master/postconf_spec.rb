@@ -60,8 +60,8 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
   end
 
   before(:each) do
-    described_class.stubs(:postmulti_cmd).with('-l').returns(postmulti_n.join("\n"))
-    described_class.stubs(:postconf_cmd).with('-F').returns(postconf_F.join("\n"))
+    allow(described_class).to receive(:postmulti_cmd).with('-l').and_return(postmulti_n.join("\n"))
+    allow(described_class).to receive(:postconf_cmd).with('-F').and_return(postconf_F.join("\n"))
   end
 
   describe 'instances' do
@@ -96,7 +96,7 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
 
   describe 'when creating a postconf resource' do
     it 'calls postconf to set the value' do
-      provider.class.expects(:postconf_cmd).with('-M', "#{param_name}=#{param_line}")
+      expect(provider.class).to receive(:postconf_cmd).with('-M', "#{param_name}=#{param_line}")
       provider.create
       provider.flush
     end
@@ -152,9 +152,9 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
     end
 
     before(:each) do
-      described_class.stubs(:postmulti_cmd).with('-l').returns(postmulti_n.join("\n"))
-      described_class.stubs(:postconf_cmd).with('-c', '/etc/postfix-foobar', '-F').returns(postconf_foobar_F.join("\n"))
-      described_class.stubs(:postconf_cmd).with('-F').returns(postconf_F.join("\n"))
+      allow(described_class).to receive(:postmulti_cmd).with('-l').and_return(postmulti_n.join("\n"))
+      allow(described_class).to receive(:postconf_cmd).with('-c', '/etc/postfix-foobar', '-F').and_return(postconf_foobar_F.join("\n"))
+      allow(described_class).to receive(:postconf_cmd).with('-F').and_return(postconf_F.join("\n"))
     end
 
     describe 'instances' do
@@ -169,7 +169,7 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
 
     describe 'when creating a postconf resource' do
       it 'calls postconf to set the value' do
-        provider.class.expects(:postconf_cmd).with('-c', '/etc/postfix-foobar', '-M', "#{param_name}=#{param_line}")
+        expect(provider.class).to receive(:postconf_cmd).with('-c', '/etc/postfix-foobar', '-M', "#{param_name}=#{param_line}")
         provider.create
         provider.flush
       end
@@ -177,7 +177,7 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
 
     describe 'when deleting a postconf master resource' do
       it 'calls postconf to unset the master entry' do
-        provider.class.expects(:postconf_cmd).with('-c', '/etc/postfix-foobar', '-M', '-X', param_name)
+        expect(provider.class).to receive(:postconf_cmd).with('-c', '/etc/postfix-foobar', '-M', '-X', param_name)
         provider.destroy
         provider.flush
       end

@@ -6,7 +6,7 @@ require 'puppet/type/postconf_master'
 describe PostconfMasterBoolean do
   subject(:property) { described_class.new(resource: resource) }
 
-  let(:resource) { mock('resource') }
+  let(:resource) { double('resource') }
 
   describe '.munge' do
     [true, :true, 'true', :yes, 'yes', :y, 'y', 'TrUe', 'yEs', 'Y'].each do |arg|

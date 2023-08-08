@@ -6,7 +6,7 @@ require 'puppet/type/postconf_master'
 describe PostconfMasterString do
   subject(:property) { described_class.new(resource: resource) }
 
-  let(:resource) { mock('resource') }
+  let(:resource) { double('resource') }
 
   describe '.munge' do
     it 'munge :undef as -' do

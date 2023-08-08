@@ -24,7 +24,7 @@ describe Puppet::Type.type(:postmulti).provider(:postmulti) do
   end
 
   before(:each) do
-    described_class.stubs(:postmulti_cmd).with('-l').returns(postmulti_n.join("\n"))
+    allow(described_class).to receive(:postmulti_cmd).with('-l').and_return(postmulti_n.join("\n"))
   end
 
   describe 'instances' do
@@ -45,7 +45,7 @@ describe Puppet::Type.type(:postmulti).provider(:postmulti) do
 
   describe 'when creating a postconf resource' do
     it 'calls postmulti to create the instance' do
-      provider.expects(:postmulti_cmd).with('-e', 'create', '-I', 'postfix-foo')
+      expect(provider.class).to receive(:postmulti_cmd).with('-e', 'create', '-I', 'postfix-foo')
       provider.create
     end
 
@@ -59,7 +59,7 @@ describe Puppet::Type.type(:postmulti).provider(:postmulti) do
       end
 
       it 'calls postmulti to create the instance' do
-        provider.expects(:postmulti_cmd).with('-e', 'create', '-I', 'postfix-foo', '-G', 'bar')
+        expect(provider.class).to receive(:postmulti_cmd).with('-e', 'create', '-I', 'postfix-foo', '-G', 'bar')
         provider.create
       end
     end
@@ -67,30 +67,30 @@ describe Puppet::Type.type(:postmulti).provider(:postmulti) do
 
   describe 'when activating a postconf resource' do
     it 'calls postmulti to activate the instance' do
-      provider.stubs(:postmulti_cmd).with('-e', 'create', '-I', 'postfix-foo')
-      provider.expects(:postmulti_cmd).with('-e', 'enable', '-i', 'postfix-foo')
+      allow(provider.class).to receive(:postmulti_cmd).with('-e', 'create', '-I', 'postfix-foo')
+      expect(provider.class).to receive(:postmulti_cmd).with('-e', 'enable', '-i', 'postfix-foo')
       provider.activate
     end
   end
 
   describe 'when deactivating a postconf resource' do
     it 'calls postmulti to activate the instance' do
-      provider.stubs(:postmulti_cmd).with('-e', 'create', '-I', 'postfix-foo')
-      provider.expects(:postmulti_cmd).with('-e', 'disable', '-i', 'postfix-foo')
+      allow(provider.class).to receive(:postmulti_cmd).with('-e', 'create', '-I', 'postfix-foo')
+      expect(provider.class).to receive(:postmulti_cmd).with('-e', 'disable', '-i', 'postfix-foo')
       provider.deactivate
     end
   end
 
   describe 'when deleting a postconf resource' do
     it 'calls postconf to unset the parameter' do
-      provider.expects(:postmulti_cmd).with('-e', 'destroy', '-i', 'postfix-foo')
+      expect(provider.class).to receive(:postmulti_cmd).with('-e', 'destroy', '-i', 'postfix-foo')
       provider.destroy
     end
   end
 
   describe 'when updating the group' do
     it 'calls postconf to update the group' do
-      provider.expects(:postmulti_cmd).with('-e', 'assign', '-i', 'postfix-foo', '-G', 'bar')
+      expect(provider.class).to receive(:postmulti_cmd).with('-e', 'assign', '-i', 'postfix-foo', '-G', 'bar')
       provider.group = 'bar'
     end
   end
