@@ -7,22 +7,16 @@
 #### Table of Contents
 
 1. [Description](#description)
-1. [Setup - The basics of getting started with postfix](#setup)
-    * [Setup requirements](#setup-requirements)
-1. [Usage - Configuration options and additional functionality](#usage)
-1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
+1. [Usage](#usage)
+    * [Types](#types)
+1. [Reference](#reference)
 1. [Limitations](#limitations)
-  * [Known Issues](#known-issues)
+1. [Development](#development)
+    - [Contributing](#contributing)
 
 ## Description
 
-Puppet module to manage your postfix installation. Manage main.cf settings and master.cf entries by postconf backed native types. Both types include support for multiple postfix instances. The postfix instances can be managed with a native type too.
-
-## Setup
-
-### Setup Requirements
-
-This module requires pluginsync to be enabled to sync the type/provider to the agent.
+An extremely flexible Puppet module to manage Postfix installation. Manage main.cf settings and master.cf entries by postconf backed native types. Both types include support for multiple Postfix instances. The Postfix instances can be managed with a native type too.
 
 ## Usage
 
@@ -103,11 +97,7 @@ postfix::purge_main: true
 postfix::purge_master: true
 ```
 
-## Reference
-
 ### Types
-
-#### postconf
 
 The `postconf` type enables you to set or rest postconf parameters.
 
@@ -132,8 +122,6 @@ the resource name.
     value      => 'foo.bar',
   }
 ```
-
-#### postconf_master
 
 The `postconf_master` type enables you to manage the master.cf entries.
 
@@ -160,8 +148,6 @@ the resource name.
   }
 ```
 
-#### postmulti
-
 The `postmulti` type allows you to create, de/activate and destroy postfix
 postmulti instances with pupppet.
 
@@ -174,7 +160,16 @@ As the postmulti the resource name must begin with `postfix-`.
   postmulti { 'postfix-out': }
 ```
 
-## Limitations
-### Known Issues
+## Reference
 
-- The postfix version of el7 does not support postconf_master. An alternative version is available from the [IUS Community Project](https://ius.io/).
+Classes and parameters are documented in [REFERENCE.md](REFERENCE.md).
+
+## Limitations
+
+The postfix version of RHEL7 does not support postconf_master. An alternative version is available from the [IUS Community Project](https://ius.io/).
+
+## Development
+
+### Contributing
+
+Please use the GitHub issues functionality to report any bugs or requests for new features. Feel free to fork and submit pull requests for potential contributions.

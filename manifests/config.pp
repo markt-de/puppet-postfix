@@ -1,5 +1,5 @@
+# @summary This class handles postfix configuration.
 # @api private
-# This class handles postfix configuration. Avoid modifying private classes.
 class postfix::config inherits postfix {
   each({
     'postconf' => $postfix::purge_main,
@@ -24,6 +24,7 @@ class postfix::config inherits postfix {
     }
     postconf { $key: value => $_value }
   }
+
   $postfix::master_services.each |$key, $args| {
     $_args = delete($args, [command, options])
     if $args[options] {

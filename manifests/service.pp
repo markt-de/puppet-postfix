@@ -1,20 +1,5 @@
-# Class: postfix::service
-# ===========================
-#
-# Internal class: Manages the postfix service. 
-#
-# Authors
-# -------
-#
-# Marius Rieder <marius.rieder@durchmesser.ch>
-# Bernhard Frauendienst <puppet@nospam.obeliks.de>
-#
-# Copyright
-# ---------
-#
-# Copyright 2016 Marius Rieder <marius.rieder@durchmesser.ch>
-# Copyright 2017 Bernhard Frauendienst <puppet@nospam.obeliks.de>
-#
+# @summary Manages the postfix service. 
+# @api private
 class postfix::service inherits postfix {
 
   $service_enable = $::postfix::service_ensure ? {

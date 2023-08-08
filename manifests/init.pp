@@ -1,77 +1,55 @@
-# Class: postfix
-# ===========================
+# @summary This class installs and configures the postfix service.
 #
-# This class installs and configures the postfix service.
+# @param package_ensure
+#   The state the postfix package should be ensured.
 #
-# Parameters
-# ----------
+# @param package_manage
+#   Whether to install the postfix and plugin packages.
 #
-# * `package_ensure`
-# The state the postfix package should be ensured.
+# @param package_name
+#   The name of the postfix package to install.
 #
-# * `package_manage`
-# Whether to install the postfix and plugin packages.
+# @param service_ensure
+#   The state of the postfix service which should be ensured.
 #
-# * `package_name`
-# * `package_name`
-# The name of the postfix package to install.
+# @param service_name
+#   The name of the postfix service.
 #
-# * `service_ensure`
-# The state of the postfix service which should be ensured.
+# @param service_manage
+#   Should the postfix service be managed at all.
 #
-# * `service_name`
-# The name of the postfix service.
+# @param mailx_manage
+#   Should the mailx package me managed.
 #
-# * `service_manage`
-# Should the postfix service be managed at all.
+# @param mailx_ensure
+#   The state of the mailx package to ensure.
 #
-# * `mailx_manage`
-# Should the mailx package me managed.
+# @param mailx_package
+#   The name of the mailx package.
 #
-# * `mailx_ensure`
-# The state of the mailx package to ensure.
+# @param plugin
+#   Contains a package_name parameter for each plugin (if available).
 #
-# * `mailx_package`
-# The name of the mailx package.
+# @param plugins
+#   The list of plugins to install.
 #
-# * `plugin`
-# Contains a package_name parameter for each plugin (if available).
+# @param purge_main
+#   Purge all unmanaged entries from main.cf if true.
 #
-# * `plugins`
-# The list of plugins to install.
+# @param purge_master
+#   Purge all unmanaged entries from master.cf if true.
 #
-# * `purge_main`
-# Purge all unmanaged entries from main.cf if true.
+# @param main_config
+#   A hash of config key-value entries for main.cf
 #
-# * `purge_master`
-# Purge all unmanaged entries from master.cf if true.
+# @param master_config
+#   A hash of config key-value entries for master.cf
 #
-# * `main_config`
-# A hash of config key-value entries for main.cf
-#
-# * `master_config`
-# A hash of config key-value entries for master.cf
-#
-# Examples
-# --------
-#
-# @example
+# @example Basic usage
 #    class { 'postfix':
 #      service_manage => false,
 #      mailx_ensure   => absent
 #    }
-#
-# Authors
-# -------
-#
-# Marius Rieder <marius.rieder@durchmesser.ch>
-# Bernhard Frauendienst <puppet@nospam.obeliks.de>
-#
-# Copyright
-# ---------
-#
-# Copyright 2016 Marius Rieder <marius.rieder@durchmesser.ch>
-# Copyright 2017 Bernhard Frauendienst <puppet@nospam.obeliks.de>
 #
 class postfix (
   Enum['installed', 'present', 'latest'] $mailx_ensure,

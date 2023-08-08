@@ -1,20 +1,5 @@
-# Class: postfix::package
-# ===========================
-#
-# Internal class: Manages the postfix packages.
-#
-# Authors
-# -------
-#
-# Marius Rieder <marius.rieder@durchmesser.ch>
-# Bernhard Frauendienst <puppet@nospam.obeliks.de>
-#
-# Copyright
-# ---------
-#
-# Copyright 2016 Marius Rieder <marius.rieder@durchmesser.ch>
-# Copyright 2017 Bernhard Frauendienst <puppet@nospam.obeliks.de>
-#
+# @summary Manages the postfix packages.
+# @api private
 class postfix::package inherits postfix {
   if ($postfix::package_manage) {
     package { 'postfix':
