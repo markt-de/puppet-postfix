@@ -21,7 +21,7 @@ describe Puppet::Type.type(:postmulti) do
 
   describe '=> ensure' do
     [:present, :absent, :active, :inactive].each do |value|
-      it "should support #{value} as a value to ensure" do
+      it "supports #{value} as a value to ensure" do
         expect {
           described_class.new(name: name,
                               ensure: value)

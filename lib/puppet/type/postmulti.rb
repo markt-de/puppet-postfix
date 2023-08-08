@@ -1,3 +1,4 @@
+# @summary Type to manage postmulti instances.
 Puppet::Type.newtype(:postmulti) do
   @doc = "Manage postfix instances.
 
@@ -40,7 +41,7 @@ Puppet::Type.newtype(:postmulti) do
   newparam(:name, namevar: true) do
     desc "Name of the postmulti instance. Must must start with 'postfix-'"
     validate do |value|
-      unless value =~ %r{^postfix\-}
+      unless value =~ %r{^postfix\-} # rubocop:disable all
         raise ArgumentError,
               'Invalid name: %{name}. ' \
                      'New instance name must start with "postfix-"' % { name: value }

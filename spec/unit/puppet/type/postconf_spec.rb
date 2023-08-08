@@ -7,7 +7,7 @@ describe Puppet::Type.type(:postconf) do
 
   describe '=> ensure' do
     [:present, :absent].each do |value|
-      it "should support #{value} as a value to ensure" do
+      it "supports #{value} as a value to ensure" do
         expect {
           described_class.new(name: pc_parameter,
                               ensure: value,
@@ -40,7 +40,7 @@ describe Puppet::Type.type(:postconf) do
     end
 
     describe 'insane looking parameter' do
-      %w[2bounce_notice_recipient myhostname virtual_transport smtp_tls_CApath].each do |value|
+      ['2bounce_notice_recipient', 'myhostname', 'virtual_transport', 'smtp_tls_CApath'].each do |value|
         it 'accepts sane looking parameter names' do
           expect {
             described_class.new(name: value,
@@ -51,8 +51,8 @@ describe Puppet::Type.type(:postconf) do
     end
 
     describe 'insane looking parameter' do
-      %w[2bounce__recipient 2bounce_notice_ _notice_recipient].each do |value|
-        it "should reject #{value} as value to parameter" do
+      ['2bounce__recipient', '2bounce_notice_', '_notice_recipient'].each do |value|
+        it "rejects #{value} as value to parameter" do
           expect {
             described_class.new(name: value,
                                 value: pc_value)
@@ -77,7 +77,7 @@ describe Puppet::Type.type(:postconf) do
     it 'accepts a array of strings' do
       expect {
         described_class.new(name:  pc_parameter,
-                            value: %w[string foo bar])
+                            value: ['string', 'foo', 'bar'])
       }.not_to raise_error
     end
 
@@ -119,7 +119,7 @@ describe Puppet::Type.type(:postconf) do
       end
 
       it 'returns a string array as comma joined string' do
-        expect(value.should_to_s(%w[foo bar])).to eq('foo, bar')
+        expect(value.should_to_s(['foo', 'bar'])).to eq('foo, bar')
       end
     end
 
@@ -135,7 +135,7 @@ describe Puppet::Type.type(:postconf) do
       end
 
       it 'returns a string array as comma joined string' do
-        expect(value.is_to_s(%w[foo bar])).to eq('foo, bar')
+        expect(value.is_to_s(['foo', 'bar'])).to eq('foo, bar')
       end
     end
   end

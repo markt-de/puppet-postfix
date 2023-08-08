@@ -1,3 +1,4 @@
+# @summary Type to manage postconf parameters.
 Puppet::Type.newtype(:postconf) do
   @doc = "Create a new postconf entry.
 

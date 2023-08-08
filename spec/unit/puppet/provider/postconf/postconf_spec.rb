@@ -96,7 +96,7 @@ describe Puppet::Type.type(:postconf).provider(:postconf) do
     let(:params) do
       {
         title:    'myhostname',
-        value:    %w[foo bar],
+        value:    ['foo', 'bar'],
         provider: described_class.name,
       }
     end

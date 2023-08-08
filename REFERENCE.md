@@ -43,6 +43,36 @@ class { 'postfix':
 
 The following parameters are available in the `postfix` class.
 
+##### `mailx_ensure`
+
+Data type: `Enum['installed', 'present', 'latest']`
+
+The state of the mailx package to ensure.
+
+##### `mailx_manage`
+
+Data type: `Boolean`
+
+Should the mailx package me managed.
+
+##### `mailx_package`
+
+Data type: `String`
+
+The name of the mailx package.
+
+##### `main_config`
+
+Data type: `Hash[String, Any]`
+
+A hash of config key-value entries for main.cf
+
+##### `master_services`
+
+Data type: `Hash[String, Hash[String, Any]]`
+
+A hash of config key-value entries for master.cf
+
 ##### `package_ensure`
 
 Data type: `Enum['installed', 'present', 'latest']`
@@ -60,42 +90,6 @@ Whether to install the postfix and plugin packages.
 Data type: `String`
 
 The name of the postfix package to install.
-
-##### `service_ensure`
-
-Data type: `Enum['absent', 'running', 'stopped']`
-
-The state of the postfix service which should be ensured.
-
-##### `service_name`
-
-Data type: `String`
-
-The name of the postfix service.
-
-##### `service_manage`
-
-Data type: `Boolean`
-
-Should the postfix service be managed at all.
-
-##### `mailx_manage`
-
-Data type: `Boolean`
-
-Should the mailx package me managed.
-
-##### `mailx_ensure`
-
-Data type: `Enum['installed', 'present', 'latest']`
-
-The state of the mailx package to ensure.
-
-##### `mailx_package`
-
-Data type: `String`
-
-The name of the mailx package.
 
 ##### `plugin`
 
@@ -121,27 +115,30 @@ Data type: `Variant[Boolean, Enum['true', 'false', 'noop']]`
 
 Purge all unmanaged entries from master.cf if true.
 
-##### `main_config`
-
-Data type: `Hash[String, Any]`
-
-A hash of config key-value entries for main.cf
-
-##### `master_config`
-
-A hash of config key-value entries for master.cf
-
 ##### `restart_cmd`
 
 Data type: `String`
 
+The command that should be used to restart the Postfix service upon
+configuration changes.
 
+##### `service_ensure`
 
-##### `master_services`
+Data type: `Enum['absent', 'running', 'stopped']`
 
-Data type: `Hash[String, Hash[String, Any]]`
+The state of the postfix service which should be ensured.
 
+##### `service_name`
 
+Data type: `String`
+
+The name of the postfix service.
+
+##### `service_manage`
+
+Data type: `Boolean`
+
+Should the postfix service be managed at all.
 
 ## Resource types
 

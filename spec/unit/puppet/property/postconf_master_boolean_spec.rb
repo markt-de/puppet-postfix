@@ -9,13 +9,13 @@ describe PostconfMasterBoolean do
   let(:resource) { mock('resource') }
 
   describe '.munge' do
-    [true, :true, 'true', :yes, 'yes', :y, 'y', 'TrUe', 'yEs', 'Y'].each do |arg| # rubocop:disable Lint/BooleanSymbol
+    [true, :true, 'true', :yes, 'yes', :y, 'y', 'TrUe', 'yEs', 'Y'].each do |arg|
       it "munge #{arg.inspect} as 'y'" do
         expect(property.munge(arg)).to eq('y')
       end
     end
 
-    [false, :false, 'false', :no, 'no', :n, 'n', 'FaLSE', 'nO', 'N'].each do |arg| # rubocop:disable Lint/BooleanSymbol
+    [false, :false, 'false', :no, 'no', :n, 'n', 'FaLSE', 'nO', 'N'].each do |arg|
       it "munge #{arg.inspect} as 'n'" do
         expect(property.munge(arg)).to eq('n')
       end

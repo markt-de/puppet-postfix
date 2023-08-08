@@ -1,5 +1,20 @@
 # @summary This class installs and configures the postfix service.
 #
+# @param mailx_ensure
+#   The state of the mailx package to ensure.
+#
+# @param mailx_manage
+#   Should the mailx package me managed.
+#
+# @param mailx_package
+#   The name of the mailx package.
+#
+# @param main_config
+#   A hash of config key-value entries for main.cf
+#
+# @param master_services
+#   A hash of config key-value entries for master.cf
+#
 # @param package_ensure
 #   The state the postfix package should be ensured.
 #
@@ -8,24 +23,6 @@
 #
 # @param package_name
 #   The name of the postfix package to install.
-#
-# @param service_ensure
-#   The state of the postfix service which should be ensured.
-#
-# @param service_name
-#   The name of the postfix service.
-#
-# @param service_manage
-#   Should the postfix service be managed at all.
-#
-# @param mailx_manage
-#   Should the mailx package me managed.
-#
-# @param mailx_ensure
-#   The state of the mailx package to ensure.
-#
-# @param mailx_package
-#   The name of the mailx package.
 #
 # @param plugin
 #   Contains a package_name parameter for each plugin (if available).
@@ -39,11 +36,18 @@
 # @param purge_master
 #   Purge all unmanaged entries from master.cf if true.
 #
-# @param main_config
-#   A hash of config key-value entries for main.cf
+# @param restart_cmd
+#   The command that should be used to restart the Postfix service upon
+#   configuration changes.
 #
-# @param master_config
-#   A hash of config key-value entries for master.cf
+# @param service_ensure
+#   The state of the postfix service which should be ensured.
+#
+# @param service_name
+#   The name of the postfix service.
+#
+# @param service_manage
+#   Should the postfix service be managed at all.
 #
 # @example Basic usage
 #    class { 'postfix':
@@ -69,7 +73,7 @@ class postfix (
   Hash[String, Any] $main_config,
   Hash[String, Hash[String, Any]] $master_services,
 ) {
-  Class { '::postfix::package':  }
-  -> Class { '::postfix::config': }
-  ~> Class { '::postfix::service': }
+  Class { 'postfix::package': }
+  -> Class { 'postfix::config': }
+  ~> Class { 'postfix::service': }
 }

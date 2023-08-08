@@ -21,6 +21,7 @@ Puppet::Type.newtype(:postconf_master) do
 
   ensurable
 
+  # @summary Manage master.cf boolean entries.
   class PostconfMasterBoolean < Puppet::Property
     def unsafe_munge(value)
       # downcase strings
@@ -29,9 +30,9 @@ Puppet::Type.newtype(:postconf_master) do
       case value
       when :undef, '-', nil
         '-'
-      when true, :true, 'true', :yes, 'yes', :y, 'y' # rubocop:disable Lint/BooleanSymbol
+      when true, :true, 'true', :yes, 'yes', :y, 'y'
         'y'
-      when false, :false, 'false', :no, 'no', :n, 'n' # rubocop:disable Lint/BooleanSymbol
+      when false, :false, 'false', :no, 'no', :n, 'n'
         'n'
       else
         raise ArgumentError, "Invalid value #{value.inspect}. Valid values are true, false, y, n, -."
@@ -39,6 +40,7 @@ Puppet::Type.newtype(:postconf_master) do
     end
   end
 
+  # @summary Manage master.cf string entries.
   class PostconfMasterString < Puppet::Property
     def unsafe_munge(value)
       case value

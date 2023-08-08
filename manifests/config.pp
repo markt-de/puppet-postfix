@@ -2,8 +2,8 @@
 # @api private
 class postfix::config inherits postfix {
   each({
-    'postconf' => $postfix::purge_main,
-    'postconf_master' => $postfix::purge_master,
+      'postconf' => $postfix::purge_main,
+      'postconf_master' => $postfix::purge_master,
   }) |$res, $purge| {
     case $purge {
       true, 'true', 'noop': { # lint:ignore:quoted_booleans

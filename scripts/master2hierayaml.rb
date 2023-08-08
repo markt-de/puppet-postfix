@@ -48,7 +48,7 @@ IO.foreach(ARGV[0]) do |line|
       STDERR.puts("Entry #{name} already exists, using '#{candidate}'. This is an invalid service name on purpose, please pick which one you want.")
       name = candidate
     end
-    c.delete_if { |k, v| %w[private unprivileged chroot wakeup process_limit].include?(k) && (v == '-') }
+    c.delete_if { |k, v| ['private', 'unprivileged', 'chroot', 'wakeup', 'process_limit'].include?(k) && (v == '-') }
     cur = entries[name]
     cur['ensure'] = c.delete('comment') ? 'absent' : 'present'
     cur.merge!(c)

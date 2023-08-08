@@ -30,7 +30,7 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
     ]
   end
 
-  let(:postconf_F) do
+  let(:postconf_F) do # rubocop:disable all
     [
       'smtp/inet/service = smtp',
       'smtp/inet/type = inet',
@@ -138,7 +138,7 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
       ]
     end
 
-    let(:postconf_foobar_F) do
+    let(:postconf_foobar_F) do # rubocop:disable all
       [
         'smtp/inet/service = smtp',
         'smtp/inet/type = inet',
