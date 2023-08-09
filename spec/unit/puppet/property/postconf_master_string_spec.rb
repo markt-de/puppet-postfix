@@ -6,7 +6,7 @@ require 'puppet/type/postconf_master'
 describe PostconfMasterString do
   subject(:property) { described_class.new(resource: resource) }
 
-  let(:resource) { double('resource') }
+  let(:resource) { double('resource') } # rubocop:disable RSpec/VerifiedDoubles
 
   describe '.munge' do
     it 'munge :undef as -' do

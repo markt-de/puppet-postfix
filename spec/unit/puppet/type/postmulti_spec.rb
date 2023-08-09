@@ -49,7 +49,7 @@ describe Puppet::Type.type(:postmulti) do
     end
 
     it 'for absent calls destroy on the provider' do
-      provider = double('provider')
+      provider = double('provider') # rubocop:disable RSpec/VerifiedDoubles
       expect(provider).to receive(:destroy)
 
       resource = described_class.new(name: name, ensure: :absent)
@@ -73,17 +73,17 @@ describe Puppet::Type.type(:postmulti) do
   describe '.retrive' do
     subject(:resource) { described_class.new(name: name) }
 
-    let(:provider) { double('provider') }
+    let(:provider) { double('provider') } # rubocop:disable RSpec/VerifiedDoubles
 
     it 'returns the ensure value from the provider' do
       allow(provider).to receive(:ensure).and_return(:FOOBAR)
-      allow(resource).to receive(:provider).and_return(provider)
+      allow(resource).to receive(:provider).and_return(provider) # rubocop:disable RSpec/SubjectStub
 
       expect(resource.property(:ensure).retrieve).to eq(:FOOBAR)
     end
 
     it 'w/o a providers it is absent' do
-      allow(resource).to receive(:provider).and_return(nil)
+      allow(resource).to receive(:provider).and_return(nil) # rubocop:disable RSpec/SubjectStub
 
       expect(resource.property(:ensure).retrieve).to eq(:absent)
     end
@@ -92,10 +92,10 @@ describe Puppet::Type.type(:postmulti) do
   describe '.create' do
     subject(:resource) { described_class.new(name: name) }
 
-    let(:provider) { double('provider') }
+    let(:provider) { double('provider') } # rubocop:disable RSpec/VerifiedDoubles
 
     it 'creates the resource' do
-      allow(resource).to receive(:provider).and_return(provider)
+      allow(resource).to receive(:provider).and_return(provider) # rubocop:disable RSpec/SubjectStub
       expect(provider).to receive(:create)
 
       resource.create
@@ -105,11 +105,11 @@ describe Puppet::Type.type(:postmulti) do
   describe '.activate' do
     subject(:resource) { described_class.new(name: name) }
 
-    let(:provider) { double('provider') }
+    let(:provider) { double('provider') } # rubocop:disable RSpec/VerifiedDoubles
 
     it 'activates the resource' do
-      allow(resource).to receive(:provider).and_return(provider)
-      allow(resource).to receive(:create)
+      allow(resource).to receive(:provider).and_return(provider) # rubocop:disable RSpec/SubjectStub
+      allow(resource).to receive(:create) # rubocop:disable RSpec/SubjectStub
       expect(provider).to receive(:activate)
 
       resource.activate
@@ -119,10 +119,10 @@ describe Puppet::Type.type(:postmulti) do
   describe '.deactivate' do
     subject(:resource) { described_class.new(name: name) }
 
-    let(:provider) { double('provider') }
+    let(:provider) { double('provider') } # rubocop:disable RSpec/VerifiedDoubles
 
     it 'deactivated the resource' do
-      allow(resource).to receive(:provider).and_return(provider)
+      allow(resource).to receive(:provider).and_return(provider) # rubocop:disable RSpec/SubjectStub
       allow(provider).to receive(:create)
       expect(provider).to receive(:deactivate)
 

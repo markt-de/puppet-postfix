@@ -6,7 +6,7 @@ require 'puppet/type/postconf_master'
 describe PostconfMasterBoolean do
   subject(:property) { described_class.new(resource: resource) }
 
-  let(:resource) { double('resource') }
+  let(:resource) { double('resource') } # rubocop:disable RSpec/VerifiedDoubles
 
   describe '.munge' do
     [true, :true, 'true', :yes, 'yes', :y, 'y', 'TrUe', 'yEs', 'Y'].each do |arg|
