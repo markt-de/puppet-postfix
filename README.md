@@ -107,9 +107,22 @@ The `postconf` type enables you to set or rest postconf parameters.
   }
 ```
 
+The `postmulti` type allows you to create, de/activate and destroy postfix
+postmulti instances with pupppet.
+
+By default `ensure` is set to `active` but can be set to `inactive` or `absent`
+respectively to deactivate or remove an postmulti instance.
+
+When using postmulti the resource name must begin with `postfix-`:
+
+```puppet
+  postmulti { 'postfix-foo': }
+```
+
 Using the `::` syntax in resource titles allows you to manage different postfix instances.
-the resource name. In the following example the `foo::myhostname` postconf resource would internally
-set the Postfix configuration directory to `/etc/postfix-foo` and configure the parameter in this instance.
+In the following example the `foo::myhostname` postconf resource would internally
+set the Postfix configuration directory to `/etc/postfix-foo` and configure the parameter
+in this instance.
 
 ```puppet
   postconf { 'foo::myhostname':
@@ -139,18 +152,6 @@ the resource name. Using the `::` syntax in resource titles again allows you to 
     type       => 'unix',
     command    => 'smtp',
   }
-```
-
-The `postmulti` type allows you to create, de/activate and destroy postfix
-postmulti instances with pupppet.
-
-By default `ensure` is set to `active` but can be set to `inactive` or `absent`
-respectively to deactivate or remove an postmulti instance.
-
-As the postmulti the resource name must begin with `postfix-`.
-
-```puppet
-  postmulti { 'postfix-out': }
 ```
 
 ## Reference

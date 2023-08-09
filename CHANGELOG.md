@@ -5,8 +5,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+This module has a new home, so it's time to make a new major release.
+
+### Added
+- Add GitHub Actions
+
 ### Changed
+- Update OS support, module dependency and Puppet version
 - Remove the confine on EOL postfix version for postconf_master provider ([#9])
+- Convert documentation to Puppet Strings
+- Convert module to PDK
+
+### Fixed
+- Fix undefined method `scan' for nil:NilClass ([#13])
+- Gracefully handle warnings from postconf output
+- Fix for specifying custom instance directory
+- Fix for multi instance support with the `postmulti` resource
+- Fix documentation regarding multi instance support and the `config_dir` parameter
+- Fix unit/acceptance tests
 
 ## Release [1.0.2] - 2018-10-28
 This release fixes postfix reloading on config changes.
@@ -82,6 +98,7 @@ First release as oxc-postfix, now requires Puppet 4.9
 [0.2.0]: https://github.com/oxc/puppet-postfix/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/oxc/puppet-postfix/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/oxc/puppet-postfix/compare/f7d8b52...v0.0.1
+[#13]: https://github.com/oxc/puppet-postfix/issues/13
 [#9]: https://github.com/oxc/puppet-postfix/issues/9
 [#7]: https://github.com/oxc/puppet-postfix/issues/7
 [#6]: https://github.com/oxc/puppet-postfix/pull/6
