@@ -63,7 +63,19 @@ class Puppet::Provider::Postconf < Puppet::Provider
     if instance.nil?
       nil
     else
-      @config_dir ||= self.class.postfix_instances[instance]
+      # Use the correct config_dir for this instance (if available).
+      # This should usually work if `postmulti` was used to create
+      # the instance.
+      instance_config_dir = self.class.postfix_instances[instance]
+      @config_dir ||= if instance_config_dir.nil?
+                        # Fallback to value from default instance and add
+                        # instance name to the path. This prevents accidential
+                        # configuration changes to the main instance.
+                        self.class.postfix_instances['-'] << "-#{instance}"
+                      else
+                        # Use the configured directory.
+                        self.class.postfix_instances[instance]
+                      end
     end
   end
 

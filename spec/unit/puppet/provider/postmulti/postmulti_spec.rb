@@ -45,6 +45,7 @@ describe Puppet::Type.type(:postmulti).provider(:postmulti) do
 
   describe 'when creating a postconf resource' do
     it 'calls postmulti to create the instance' do
+      expect(provider.class).to receive(:postmulti_cmd).with('-e', 'init')
       expect(provider.class).to receive(:postmulti_cmd).with('-e', 'create', '-I', 'postfix-foo')
       provider.create
     end
@@ -59,6 +60,7 @@ describe Puppet::Type.type(:postmulti).provider(:postmulti) do
       end
 
       it 'calls postmulti to create the instance' do
+        expect(provider.class).to receive(:postmulti_cmd).with('-e', 'init')
         expect(provider.class).to receive(:postmulti_cmd).with('-e', 'create', '-I', 'postfix-foo', '-G', 'bar')
         provider.create
       end
@@ -68,6 +70,7 @@ describe Puppet::Type.type(:postmulti).provider(:postmulti) do
   describe 'when activating a postconf resource' do
     it 'calls postmulti to activate the instance' do
       allow(provider.class).to receive(:postmulti_cmd).with('-e', 'create', '-I', 'postfix-foo')
+      expect(provider.class).to receive(:postmulti_cmd).with('-e', 'init')
       expect(provider.class).to receive(:postmulti_cmd).with('-e', 'enable', '-i', 'postfix-foo')
       provider.activate
     end
@@ -76,6 +79,7 @@ describe Puppet::Type.type(:postmulti).provider(:postmulti) do
   describe 'when deactivating a postconf resource' do
     it 'calls postmulti to activate the instance' do
       allow(provider.class).to receive(:postmulti_cmd).with('-e', 'create', '-I', 'postfix-foo')
+      expect(provider.class).to receive(:postmulti_cmd).with('-e', 'init')
       expect(provider.class).to receive(:postmulti_cmd).with('-e', 'disable', '-i', 'postfix-foo')
       provider.deactivate
     end

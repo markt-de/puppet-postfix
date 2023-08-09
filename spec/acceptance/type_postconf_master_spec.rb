@@ -16,7 +16,7 @@ describe 'type postconf_master' do
 
   it 'creates a new master.cf entry' do
     apply_manifest(manifest, catch_failures: true)
-    shell('postconf -M rspec') do |r|
+    run_shell('postconf -M rspec') do |r|
       expect(r.stdout).to match(%r{foobar$})
     end
   end
@@ -42,7 +42,7 @@ describe 'type postconf_master' do
 
     it 'creates a new master.cf entry' do
       apply_manifest(manifest, catch_failures: true)
-      shell('postconf -M rspec') do |r|
+      run_shell('postconf -M rspec') do |r|
         expect(r.stdout).to match(%r{ +y +- +- +foobar$})
       end
     end

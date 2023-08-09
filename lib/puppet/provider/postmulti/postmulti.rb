@@ -30,6 +30,9 @@ Puppet::Type.type(:postmulti).provide(:postmulti) do
   end
 
   def create
+    # Postfix refuses to create an instance if 'init' was not run first.
+    # So to ensure that the instance can be created, always run 'init'.
+    postmulti_cmd('-e', 'init')
     if resource[:group]
       postmulti_cmd('-e', 'create', '-I', resource[:name], '-G', resource[:group])
     else

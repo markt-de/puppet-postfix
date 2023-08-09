@@ -14,7 +14,7 @@ describe 'type multi' do
   end
 
   it 'creates the instance' do
-    shell('postmulti -l') do |r|
+    run_shell('postmulti -l') do |r|
       expect(r.stdout).to match(%r{^postfix-foo})
     end
   end

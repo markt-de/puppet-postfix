@@ -47,7 +47,8 @@
   ],
   "tags": [
     "postfix",
-    "postconf"
+    "postconf",
+    "postmulti"
   ],
   "pdk-version": "3.0.0",
   "template-url": "pdk-default#3.0.0",
