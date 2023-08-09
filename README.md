@@ -107,19 +107,14 @@ The `postconf` type enables you to set or rest postconf parameters.
   }
 ```
 
-The `config_dir` param allows you to manage different postfix instances and the
-`parameter` param allows you to define the postconf parameter independently from
-the resource name.
+Using the `::` syntax in resource titles allows you to manage different postfix instances.
+the resource name. In the following example the `foo::myhostname` postconf resource would internally
+set the Postfix configuration directory to `/etc/postfix-foo` and configure the parameter in this instance.
 
 ```puppet
-  postconf { 'myhostname':
-    value => 'foo.bar',
-  }
-
-  postconf { 'foo:myhostname':
-    parameter  => 'myhostname',
-    config_dir => '/etc/postfix-foo',
-    value      => 'foo.bar',
+  postconf { 'foo::myhostname':
+    parameter => 'myhostname',
+    value     => 'foo.bar',
   }
 ```
 
@@ -131,19 +126,17 @@ The `postconf_master` type enables you to manage the master.cf entries.
   }
 ```
 
-The `config_dir` param allows you to manage different postfix instances and the
-`service` and `type` param allows you to define the postconf_master service/type independently from
-the resource name.
+The `service` and `type` params allow you to define the postconf_master service/type independently from
+the resource name. Using the `::` syntax in resource titles again allows you to manage different postfix instances.
 
 ```puppet
   postconf_master { 'mytransport/unix':
     command => 'smtp',
   }
 
-  postconf_master { 'foo:mytransport/unix':
+  postconf_master { 'foo::mytransport/unix':
     service    => 'mytransport',
     type       => 'unix',
-    config_dir => '/etc/postfix-foo',
     command    => 'smtp',
   }
 ```
