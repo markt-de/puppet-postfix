@@ -90,21 +90,21 @@ First release as oxc-postfix, now requires Puppet 4.9
 
 * Initial release
 
-[Unreleased]: https://github.com/oxc/puppet-postfix/compare/v2.0.0...HEAD
-[2.0.0]: https://github.com/oxc/puppet-postfix/compare/v1.0.2...v2.0.0
-[1.0.2]: https://github.com/oxc/puppet-postfix/compare/v1.0.1...v1.0.2
-[1.0.1]: https://github.com/oxc/puppet-postfix/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/oxc/puppet-postfix/compare/v0.2.1...v1.0.0
-[0.2.1]: https://github.com/oxc/puppet-postfix/compare/v0.2.0...v0.2.1
-[0.2.0]: https://github.com/oxc/puppet-postfix/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/oxc/puppet-postfix/compare/v0.0.1...v0.1.0
-[0.0.1]: https://github.com/oxc/puppet-postfix/compare/f7d8b52...v0.0.1
-[#13]: https://github.com/oxc/puppet-postfix/issues/13
-[#9]: https://github.com/oxc/puppet-postfix/issues/9
-[#7]: https://github.com/oxc/puppet-postfix/issues/7
-[#6]: https://github.com/oxc/puppet-postfix/pull/6
-[#5]: https://github.com/oxc/puppet-postfix/issues/5
-[#4]: https://github.com/oxc/puppet-postfix/issues/4
-[#3]: https://github.com/oxc/puppet-postfix/issues/3
-[#2]: https://github.com/oxc/puppet-postfix/pull/2
-[#1]: https://github.com/oxc/puppet-postfix/pull/1
+[Unreleased]: https://github.com/markt-de/puppet-postfix/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/markt-de/puppet-postfix/compare/v1.0.2...v2.0.0
+[1.0.2]: https://github.com/markt-de/puppet-postfix/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/markt-de/puppet-postfix/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/markt-de/puppet-postfix/compare/v0.2.1...v1.0.0
+[0.2.1]: https://github.com/markt-de/puppet-postfix/compare/v0.2.0...v0.2.1
+[0.2.0]: https://github.com/markt-de/puppet-postfix/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/markt-de/puppet-postfix/compare/v0.0.1...v0.1.0
+[0.0.1]: https://github.com/markt-de/puppet-postfix/compare/f7d8b52...v0.0.1
+[#13]: https://github.com/markt-de/puppet-postfix/issues/13
+[#9]: https://github.com/markt-de/puppet-postfix/issues/9
+[#7]: https://github.com/markt-de/puppet-postfix/issues/7
+[#6]: https://github.com/markt-de/puppet-postfix/pull/6
+[#5]: https://github.com/markt-de/puppet-postfix/issues/5
+[#4]: https://github.com/markt-de/puppet-postfix/issues/4
+[#3]: https://github.com/markt-de/puppet-postfix/issues/3
+[#2]: https://github.com/markt-de/puppet-postfix/pull/2
+[#1]: https://github.com/markt-de/puppet-postfix/pull/1
