@@ -16,7 +16,7 @@
 #   A hash of config key-value entries for master.cf
 #
 # @param package_ensure
-#   The state the postfix package should be ensured.
+#   The state or version the postfix package should be ensured.
 #
 # @param package_manage
 #   Whether to install the postfix and plugin packages.
@@ -59,7 +59,7 @@ class postfix (
   Enum['installed', 'present', 'latest'] $mailx_ensure,
   Boolean $mailx_manage,
   String $mailx_package,
-  Enum['installed', 'present', 'latest'] $package_ensure,
+  Variant[String,Enum['installed', 'present', 'latest']] $package_ensure,
   Boolean $package_manage,
   String $package_name,
   Hash $plugin,
