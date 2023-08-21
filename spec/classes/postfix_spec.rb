@@ -31,6 +31,12 @@ describe 'postfix' do
 
         it { is_expected.not_to contain_service('postfix') }
       end
+
+      context 'with version string' do
+        let(:params) { { package_ensure: '1.2.3-4.el5' } }
+
+        it { is_expected.to contain_package('postfix').with_ensure('1.2.3-4.el5') }
+      end
     end
   end
 end
