@@ -1,6 +1,6 @@
 {
   "name": "markt-postfix",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "author": "markt.de",
   "summary": "Configure the Postfix mailserver",
   "license": "Apache-2.0",
@@ -26,9 +26,9 @@
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "7.0",
-        "8.0",
-        "9.0"
+        "7",
+        "8",
+        "9"
       ]
     },
     {
