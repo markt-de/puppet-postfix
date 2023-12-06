@@ -62,7 +62,7 @@ Puppet::Type.newtype(:postconf_master) do
           (( \[[a-zA-Z0-9.:]+\] | [a-zA-Z0-9.]+ ):)? # optional interface address for inet types
           [a-zA-Z0-9]+/inet                          # (named/numeric) port and inet type
         |
-          [a-zA-Z0-9._/-]+/(unix|fifo|pipe|pass)     # all other services can have socket paths
+          [a-zA-Z0-9._/-]+/(unix|fifo|pipe|pass|unix-dgram)     # all other services can have socket paths
         )$}mx,
     )
   end

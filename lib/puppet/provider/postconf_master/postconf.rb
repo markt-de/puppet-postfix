@@ -49,7 +49,7 @@ Puppet::Type.type(:postconf_master).provide(:postconf, parent: Puppet::Provider:
   def self.postconf_master_hash(path = nil)
     pc_output = postconf_multi(path, '-F')
 
-    pc_output.scan(%r{^(\S+\/\w+)\/(\w+) = (.*)$}).each_with_object({}) do |larray, hash|
+    pc_output.scan(%r{^(\S+\/[\w-]+)\/(\w+) = (.*)$}).each_with_object({}) do |larray, hash|
       hash[larray[0]] ||= {}
       hash[larray[0]][larray[1].to_sym] = larray[2]
       hash

@@ -31,7 +31,7 @@ describe Puppet::Type.type(:postconf_master) do
   end
 
   describe 'service_type =>' do
-    [:inet, :unix, :fifo, :pipe].each do |t|
+    [:inet, :unix, :fifo, :pipe, 'unix-dgram'].each do |t|
       it "accepts #{t}" do
         expect {
           described_class.new(title: "#{pcm_service}/#{t}", command: pcm_service)

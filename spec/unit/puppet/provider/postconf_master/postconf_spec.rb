@@ -56,6 +56,14 @@ describe Puppet::Type.type(:postconf_master).provider(:postconf) do
       'maildrop/unix/wakeup = -',
       'maildrop/unix/process_limit = -',
       'maildrop/unix/command = pipe flags=DRhu user=vmail argv=/usr/bin/maildrop -d ${recipient}',
+      'postlog/unix-dgram/service = postlog',
+      'postlog/unix-dgram/type = unix-dgram',
+      'postlog/unix-dgram/private = n',
+      'postlog/unix-dgram/unprivileged = -',
+      'postlog/unix-dgram/chroot = n',
+      'postlog/unix-dgram/wakeup = -',
+      'postlog/unix-dgram/process_limit = 1',
+      'postlog/unix-dgram/command = postlogd',
     ]
   end
 
